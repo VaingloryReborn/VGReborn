@@ -31,9 +31,9 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
   const getStatusDisplay = (status: string) => {
     const s = status.toLowerCase();
     if (s === "offline")
-      return { text: "离线", color: "text-slate-400", dot: "bg-slate-500" };
+      return { text: "游戏离线", color: "text-slate-400", dot: "bg-slate-500" };
     if (s === "online")
-      return { text: "在线", color: "text-emerald-400", dot: "bg-emerald-500" };
+      return { text: "游戏在线", color: "text-emerald-400", dot: "bg-emerald-500" };
     if (s === "matching")
       return { text: "匹配中", color: "text-amber-400", dot: "bg-amber-500" };
     if (s === "gaming")

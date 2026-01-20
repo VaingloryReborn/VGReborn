@@ -7,7 +7,7 @@
     "start": "node dist/index.js",
     "dev": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
     "deploy": "pm2 deploy production",
-    "deploy:setup": "pm2 deploy production setup"
+    "deploy:setup": "pm2 deploy mitm-monitor/ecosystem.config.js production update"
   },
   "keywords": [],
   "author": "",

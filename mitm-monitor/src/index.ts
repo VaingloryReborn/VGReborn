@@ -166,6 +166,26 @@ async function updateUser(
   if (!patch || Object.keys(patch).length === 0) {
     return;
   }
+
+  const hasChanges = Object.keys(patch).some((key) => {
+    const newVal = patch[key];
+    const oldVal = user[key];
+
+    if (
+      typeof newVal === "object" &&
+      newVal !== null &&
+      typeof oldVal === "object" &&
+      oldVal !== null
+    ) {
+      return JSON.stringify(newVal) !== JSON.stringify(oldVal);
+    }
+    return newVal !== oldVal;
+  });
+
+  if (!hasChanges) {
+    return;
+  }
+
   const { error } = await supabase
     .from("profiles")
     .update(patch)

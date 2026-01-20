@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                 prev
                   ? {
                       ...prev,
-                      status: newData.state || prev.status,
+                      state: newData.state || prev.state,
                       name: newData.handle || prev.name,
                     }
                   : null,
@@ -115,7 +115,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                   prev
                     ? {
                         ...prev,
-                        status: newData.state || prev.status,
+                        state: newData.state || prev.state,
                         name: newData.handle || prev.name,
                       }
                     : null,
