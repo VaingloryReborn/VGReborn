@@ -196,6 +196,9 @@ async function updateUser(
       `[updateUser] Error updating profile for user ${user.id}:`,
       error,
     );
+  } else {
+    // Update local user object to reflect changes
+    Object.assign(user, patch);
   }
 }
 
