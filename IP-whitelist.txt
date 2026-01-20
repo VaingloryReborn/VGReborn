@@ -1,0 +1,10 @@
+AllowedIPs = 34.160.58.175/32,34.160.208.252/32,34.146.101.181/32,35.233.231.76/32,104.19.223.79/32,35.221.124.59/32,185.199.108.153/32 # 0.0.0.0/0
+
+
+- 34.160.58.175  (preauth.superevil.net)
+- 34.160.208.252  (platformUrl, rpc.kindred-live.net)
+- 34.146.101.181  (Ping Server)
+- 35.233.231.76 (notifyUrl, Lobby/Push Service)
+- 35.221.124.59 (Game Server)
+- 104.19.223.79  (mitm.it)
+- 185.199.108.153  (whatismyipaddress.com)

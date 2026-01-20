@@ -1,0 +1,19 @@
+{
+  "name": "vgreborn-monorepo",
+  "private": true,
+  "workspaces": [
+    "web",
+    "mitm-monitor",
+    "supabase"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace=web",
+    "dev:monitor": "npm run dev --workspace=mitm-monitor",
+    "dev:all": "concurrently \"npm run dev:web\" \"npm run dev:monitor\"",
+    "build": "npm run build --workspaces",
+    "install:all": "npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

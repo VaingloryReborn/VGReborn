@@ -1,0 +1,6 @@
+project_id = "create-wg-config"
+
+[functions]
+[functions.create-wg-config]
+verify_jwt = true
+

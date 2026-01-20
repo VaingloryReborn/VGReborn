@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGReborn - 虚荣社区版匹配平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto+Sans+SC', sans-serif;
+            background-color: #0f111a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-gradient {
+            background: linear-gradient(to bottom right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-right: 0.2em;
+            margin-right: -0.2em;
+            display: inline-block;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0f111a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+        .banner-fade-in {
+            animation: bannerFadeIn 1.5s ease-out forwards;
+        }
+
+        @keyframes bannerFadeIn {
+            from { opacity: 0; transform: scale(1.05); filter: blur(10px); }
+            to { opacity: 1; transform: scale(1); filter: blur(0px); }
+        }
+
+        .bg-banner-mask {
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react/": "https://esm.sh/react@19.0.0/",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.48.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "name": "VGReborn - Vainglory Community Edition Platform",
+  "description": "A responsive third-party matchmaking platform for Vainglory CE, featuring real-time stats, room management, and player reputation systems.",
+  "requestFramePermissions": []
+}

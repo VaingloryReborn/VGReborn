@@ -1,0 +1,25 @@
+{
+  "name": "mitm-monitor",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
+    "deploy": "pm2 deploy production",
+    "deploy:setup": "pm2 deploy production setup"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^25.0.9",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^1.35.7"
+  }
+}
