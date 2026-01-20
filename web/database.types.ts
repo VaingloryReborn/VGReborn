@@ -4,65 +4,70 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
 export interface Database {
   public: {
     Tables: {
       profiles: {
         Row: {
-          id: string
-          updated_at: string | null
-          handle: string | null
-          country: string | null
-          region: string | null
-          player_uuid: string | null
-          session_token: string | null
-          state: string | null
-          get_player_info: Json | null
-          query_pending_match: Json[] | null
-          lobby: string | null
-          player_handle: string | null
-        }
+          id: string;
+          updated_at: string | null;
+          handle: string | null;
+          country: string | null;
+          region: string | null;
+          player_uuid: string | null;
+          session_token: string | null;
+          state: string | null;
+          get_player_info: Json | null;
+          query_pending_match: Json[] | null;
+          lobby: string | null;
+          player_handle: string | null;
+        };
         Insert: {
-          id: string
-          updated_at?: string | null
-          handle?: string | null
-          country?: string | null
-          region?: string | null
-          player_uuid?: string | null
-          session_token?: string | null
-          state?: string | null
-          get_player_info?: Json | null
-          query_pending_match?: Json[] | null
-          lobby?: string | null
-          player_handle?: string | null
-        }
+          id: string;
+          updated_at?: string | null;
+          handle?: string | null;
+          country?: string | null;
+          region?: string | null;
+          player_uuid?: string | null;
+          session_token?: string | null;
+          state?: string | null;
+          get_player_info?: Json | null;
+          query_pending_match?: Json[] | null;
+          lobby?:
+            | "5v5_pvp_ranked"
+            | "5v5_pvp_casual"
+            | "3v3_pvp_ranked"
+            | "3v3_pvp_casual"
+            | null;
+          player_handle?: string | null;
+        };
         Update: {
-          id?: string
-          updated_at?: string | null
-          handle?: string | null
-          country?: string | null
-          region?: string | null
-          player_uuid?: string | null
-          session_token?: string | null
-          state?: string | null
-          get_player_info?: Json | null
-          query_pending_match?: Json[] | null
-          lobby?: string | null
-          player_handle?: string | null
-        }
-      }
+          id?: string;
+          updated_at?: string | null;
+          handle?: string | null;
+          country?: string | null;
+          region?: string | null;
+          player_uuid?: string | null;
+          session_token?: string | null;
+          state?: string | null;
+          get_player_info?: Json | null;
+          query_pending_match?: Json[] | null;
+          lobby?: string | null;
+          player_handle?: string | null;
+        };
+      };
       // Add other tables here if needed (e.g. wg_peers)
-    }
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
-  }
+      [_ in never]: never;
+    };
+  };
 }
