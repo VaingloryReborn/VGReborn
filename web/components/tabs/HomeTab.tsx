@@ -1,14 +1,79 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Info } from 'lucide-react';
-import { MOCK_STATS, VG_BACKGROUND } from '../../constants';
+import { VG_BACKGROUND } from '../../constants';
 import MatchStatCard from '../MatchStatCard';
+import { supabase } from '../../supabase';
+import { MatchStats } from '../../types';
 
 interface HomeTabProps {
   onJoinClick: () => void;
 }
 
+const INITIAL_STATS: MatchStats = {
+  onlineTotal: 0,
+  idleCount: 0,
+  gaming3v3: 0,
+  matching3v3: 0,
+  matching5v5Ranked: 0,
+  gaming5v5: 0,
+  matchingBrawl: 0,
+  gamingBrawl: 0,
+  matchingBlitz: 0,
+  gamingBlitz: 0,
+};
+
 const HomeTab: React.FC<HomeTabProps> = ({ onJoinClick }) => {
+  const [stats, setStats] = useState<MatchStats>(INITIAL_STATS);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const { data } = await supabase
+        .from('profiles')
+        .select('state, region'); // Fetch region if we want to filter by region later
+
+      if (data) {
+        const newStats = { ...INITIAL_STATS };
+        data.forEach((profile) => {
+          const s = profile.state;
+          if (s && s !== 'offline') {
+            newStats.onlineTotal++;
+            // Currently backend only sets "online", so we treat it as idle/generic online
+            if (s === 'online') newStats.idleCount++;
+            else if (s === 'matching') newStats.matching5v5Ranked++; // Example mapping if backend supported it
+            else if (s === 'gaming') newStats.gaming5v5++; // Example mapping
+            // Add more logic here when backend supports detailed states
+          }
+        });
+        setStats(newStats);
+      }
+    };
+
+    fetchStats();
+
+    // Realtime subscription for global stats
+    const channel = supabase
+      .channel('public:profiles_global_stats')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'profiles',
+        },
+        () => {
+          // Re-fetch all stats on any change
+          // For a small number of users this is fine. For large scale, we need a better approach (e.g. Edge Functions or materialized views)
+          fetchStats();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
   return (
     <div className="pb-24 animate-in fade-in duration-700">
       <div className="relative h-[240px] w-full flex flex-col items-center justify-center overflow-hidden">
@@ -48,16 +113,16 @@ const HomeTab: React.FC<HomeTabProps> = ({ onJoinClick }) => {
             实时战场数据
           </h2>
           <div className="grid grid-cols-2 gap-3">
-            <MatchStatCard label="总计在线" value={MOCK_STATS.onlineTotal} color="cyan" />
-            <MatchStatCard label="空闲人数" value={MOCK_STATS.idleCount} color="green" />
-            <MatchStatCard label="3v3 排位匹配中" value={MOCK_STATS.matching3v3} color="orange" />
-            <MatchStatCard label="3v3 游戏中" value={MOCK_STATS.gaming3v3} color="red" />
-            <MatchStatCard label="5v5 排位匹配中" value={MOCK_STATS.matching5v5Ranked} color="orange" />
-            <MatchStatCard label="5v5 游戏中" value={MOCK_STATS.gaming5v5} color="red" />
-            <MatchStatCard label="大乱斗匹配中" value={MOCK_STATS.matchingBrawl} color="orange" />
-            <MatchStatCard label="大乱斗游戏中" value={MOCK_STATS.gamingBrawl} color="red" />
-            <MatchStatCard label="闪电战匹配中" value={MOCK_STATS.matchingBlitz} color="orange" />
-            <MatchStatCard label="闪电战游戏中" value={MOCK_STATS.gamingBlitz} color="red" />
+            <MatchStatCard label="总计在线" value={stats.onlineTotal} color="cyan" />
+            <MatchStatCard label="空闲人数" value={stats.idleCount} color="green" />
+            <MatchStatCard label="3v3 排位匹配中" value={stats.matching3v3} color="orange" />
+            <MatchStatCard label="3v3 游戏中" value={stats.gaming3v3} color="red" />
+            <MatchStatCard label="5v5 排位匹配中" value={stats.matching5v5Ranked} color="orange" />
+            <MatchStatCard label="5v5 游戏中" value={stats.gaming5v5} color="red" />
+            <MatchStatCard label="大乱斗匹配中" value={stats.matchingBrawl} color="orange" />
+            <MatchStatCard label="大乱斗游戏中" value={stats.gamingBrawl} color="red" />
+            <MatchStatCard label="闪电战匹配中" value={stats.matchingBlitz} color="orange" />
+            <MatchStatCard label="闪电战游戏中" value={stats.gamingBlitz} color="red" />
           </div>
         </div>
 
