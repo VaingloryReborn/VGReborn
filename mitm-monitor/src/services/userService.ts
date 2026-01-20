@@ -141,12 +141,12 @@ export function markUserActive(userId: string, user: Record<string, any>) {
 export function startOfflineMonitor() {
   setInterval(async () => {
     const now = Date.now();
-    const TIMEOUT_MS = 60 * 1000;
+    const TIMEOUT_MS = 2 * 60 * 1000;
 
     for (const [userId, lastSeen] of lastActiveMap) {
       if (now - lastSeen > TIMEOUT_MS) {
         const user = activeUserRefs.get(userId);
-        if (user && user.state !== "offline") {
+        if (user && user.state !== "offline" && user.state !== "playing") {
           console.log(
             `[Timeout] User ${userId} inactive for >1min. Setting offline.`,
           );

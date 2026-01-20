@@ -33,15 +33,18 @@ export async function handleAction(
       await updateUser(user, { state: "online" });
       return;
     }
+    if (returnValue?.state === "playing") {
+      await updateUser(user, { state: "gaming" });
+      return;
+    }
   } else if (action === "joinLobby") {
     const patch: Record<string, unknown> = { state: "matching" };
-    const reqBody = entry.req_body as Record<string, unknown> | null | undefined;
+    const reqBody = entry.req_body as
+      | Record<string, unknown>
+      | null
+      | undefined;
 
-    if (
-      reqBody &&
-      Array.isArray(reqBody.params) &&
-      reqBody.params.length > 1
-    ) {
+    if (reqBody && Array.isArray(reqBody.params) && reqBody.params.length > 1) {
       try {
         const param1 = reqBody.params[1];
         if (typeof param1 === "string") {

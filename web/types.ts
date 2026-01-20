@@ -42,8 +42,8 @@ export interface MatchStats {
   matching5v5Ranked: number;
   matching3v3: number;
   gaming5v5: number;
-  matchingBrawl: number;
-  gamingBrawl: number;
+  matchingAral: number;
+  gamingAral: number;
   matchingBlitz: number;
   gamingBlitz: number;
 }
