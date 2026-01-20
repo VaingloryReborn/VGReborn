@@ -28,8 +28,9 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
     return "text-rose-400";
   };
 
-  const getStatusDisplay = (status: string) => {
-    const s = status.toLowerCase();
+  const getStatusDisplay = (user: Player) => {
+    const s = user.state.toLowerCase();
+    const lobby = user.lobby;
     if (s === "offline")
       return { text: "游戏离线", color: "text-slate-400", dot: "bg-slate-500" };
     if (s === "online")
@@ -39,12 +40,40 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         dot: "bg-emerald-500",
       };
     if (s === "matching")
-      return { text: "匹配中", color: "text-amber-400", dot: "bg-amber-500" };
+      return {
+        text: `匹配中 (${getLobbyName(lobby)})`,
+        color: "text-amber-400",
+        dot: "bg-amber-500",
+      };
     if (s === "gaming")
-      return { text: "游戏中", color: "text-white", dot: "bg-red-600" };
+      return {
+        text: `游戏中 (${getLobbyName(lobby)})`,
+        color: "text-white",
+        dot: "bg-red-600",
+      };
     if (s === "recording")
-      return { text: "结算中", color: "text-white", dot: "bg-red-600" };
+      return {
+        text: `结算中 (${getLobbyName(lobby)})`,
+        color: "text-white",
+        dot: "bg-red-600",
+      };
     return { text: status, color: "text-emerald-400", dot: "bg-emerald-500" };
+  };
+
+  const getLobbyName = (lobby?: string | null) => {
+    if (!lobby) return "未知模式";
+    const map: Record<string, string> = {
+      "5v5_pvp_ranked": "5v5排位",
+      "5v5_pvp_casual": "5v5匹配",
+      "3v3_pvp_ranked": "3v3排位",
+      "3v3_pvp_casual": "3v3匹配",
+      "casual_aral": "大乱斗",
+      "blitz_pvp_ranked": "闪电战",
+      "5v5_bots_solo": "5v5人机",
+      "blitz_bots_solo": "闪电战人机",
+      "solo_bots": "3v3人机",
+    };
+    return map[lobby] || lobby;
   };
 
   const getRegionName = (region?: string) => {
@@ -60,7 +89,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
   };
 
   const statusInfo = user
-    ? getStatusDisplay(user.state)
+    ? getStatusDisplay(user)
     : { text: "", color: "", dot: "" };
 
   if (isAuthLoading) {
@@ -101,11 +130,11 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
 
         <div className="flex items-center gap-5 mb-8">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-red-800 to-red-950 flex items-center justify-center text-2xl font-black text-white border-2 border-white/10 rotate-3 shadow-lg shadow-red-900/30">
-            {user.name.charAt(0)}
+            {user.handle?.charAt(0)}
           </div>
           <div>
             <h2 className="text-2xl font-black text-white mb-1 tracking-tight">
-              {user.name}
+              {user.handle}
             </h2>
             <div className="flex items-center gap-2">
               <span

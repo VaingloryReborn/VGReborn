@@ -33,9 +33,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           ...prev!,
           ...MOCK_USER, // keep defaults
           id: userId,
-          name: data.handle || prev?.name || "指挥官",
+          handle: data.handle || prev?.handle || "指挥官",
           state: data.state,
           region: data.region,
+          lobby: data.lobby,
+          player_handle: data.player_handle,
         }));
       }
     };
@@ -71,8 +73,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                   ? {
                       ...prev,
                       state: newData.state || prev.state,
-                      name: newData.handle || prev.name,
+                      handle: newData.handle || prev.handle,
                       region: newData.region || prev.region,
+                      lobby: newData.lobby || prev.lobby,
+                      player_handle: newData.player_handle || prev.player_handle,
                     }
                   : null,
               );
@@ -118,7 +122,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                     ? {
                         ...prev,
                         state: newData.state || prev.state,
-                        name: newData.handle || prev.name,
+                        handle: newData.handle || prev.handle,
+                        lobby: newData.lobby || prev.lobby,
+                        player_handle: newData.player_handle || prev.player_handle,
                       }
                     : null,
                 );

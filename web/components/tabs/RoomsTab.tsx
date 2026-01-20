@@ -82,7 +82,7 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
                   </div>
                   <div>
                     <div className="font-bold flex items-center gap-1.5 text-white">
-                      {member.name}
+                      {member.handle}
                       {member.id === selectedRoom.ownerId && (
                         <ShieldCheck className="w-3 h-3 text-yellow-500" />
                       )}
@@ -96,7 +96,7 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  {member.state === "accepted" && (
+                  {member.state === "matching" && (
                     <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
                       已准备
                     </span>

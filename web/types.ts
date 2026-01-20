@@ -1,5 +1,16 @@
 export type ReputationLevel = "优" | "一般" | "差";
 
+export type Lobby =
+  | "5v5_pvp_ranked"
+  | "5v5_pvp_casual"
+  | "3v3_pvp_ranked"
+  | "3v3_pvp_casual"
+  | "casual_aral"
+  | "blitz_pvp_ranked"
+  | "5v5_bots_solo"
+  | "blitz_bots_solo"
+  | "solo_bots"
+  | null;
 export type RankTier =
   | "初出茅庐"
   | "逐步成长"
@@ -14,12 +25,14 @@ export type RankTier =
 
 export interface Player {
   id: string;
-  name: string;
+  handle: string;
   level: number;
   reputation: ReputationLevel;
   state: "online" | "offline" | "matching" | "gaming" | "recording";
   rankTier: RankTier;
   region?: string;
+  lobby?: Lobby;
+  player_handle?: string | null;
 }
 
 export interface MatchStats {

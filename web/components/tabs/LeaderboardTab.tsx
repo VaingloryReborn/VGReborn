@@ -30,7 +30,7 @@ const LeaderboardTab: React.FC = () => {
                  <span className="text-slate-600 not-italic">{index + 1}</span>}
               </div>
               <div className="min-w-0">
-                <div className="font-bold text-white text-[10px] truncate">{player.name}</div>
+                <div className="font-bold text-white text-[10px] truncate">{player.handle}</div>
                 <div className="text-[8px] text-slate-500 uppercase tracking-tighter truncate">LV.{player.level}</div>
               </div>
             </div>

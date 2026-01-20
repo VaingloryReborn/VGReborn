@@ -1,3 +1,5 @@
+import { Lobby } from "./types";
+
 export type Json =
   | string
   | number
@@ -21,7 +23,7 @@ export interface Database {
           state: string | null;
           get_player_info: Json | null;
           query_pending_match: Json[] | null;
-          lobby: string | null;
+          lobby?: Lobby;
           player_handle: string | null;
         };
         Insert: {
@@ -35,12 +37,7 @@ export interface Database {
           state?: string | null;
           get_player_info?: Json | null;
           query_pending_match?: Json[] | null;
-          lobby?:
-            | "5v5_pvp_ranked"
-            | "5v5_pvp_casual"
-            | "3v3_pvp_ranked"
-            | "3v3_pvp_casual"
-            | null;
+          lobby?: Lobby;
           player_handle?: string | null;
         };
         Update: {
@@ -54,7 +51,7 @@ export interface Database {
           state?: string | null;
           get_player_info?: Json | null;
           query_pending_match?: Json[] | null;
-          lobby?: string | null;
+          lobby?: Lobby;
           player_handle?: string | null;
         };
       };
