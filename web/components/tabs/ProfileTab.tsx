@@ -33,11 +33,17 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
     if (s === "offline")
       return { text: "游戏离线", color: "text-slate-400", dot: "bg-slate-500" };
     if (s === "online")
-      return { text: "游戏在线", color: "text-emerald-400", dot: "bg-emerald-500" };
+      return {
+        text: "游戏在线",
+        color: "text-emerald-400",
+        dot: "bg-emerald-500",
+      };
     if (s === "matching")
       return { text: "匹配中", color: "text-amber-400", dot: "bg-amber-500" };
     if (s === "gaming")
-      return { text: "游戏中", color: "text-blue-400", dot: "bg-blue-500" };
+      return { text: "游戏中", color: "text-white", dot: "bg-red-600" };
+    if (s === "recording")
+      return { text: "结算中", color: "text-white", dot: "bg-red-600" };
     return { text: status, color: "text-emerald-400", dot: "bg-emerald-500" };
   };
 
@@ -137,7 +143,9 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
             <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-widest font-bold">
               服务器
             </p>
-            <p className="text-base font-black text-slate-100">{getRegionName(user.region)}</p>
+            <p className="text-base font-black text-slate-100">
+              {getRegionName(user.region)}
+            </p>
           </div>
         </div>
       </div>

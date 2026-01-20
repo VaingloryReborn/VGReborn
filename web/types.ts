@@ -17,7 +17,7 @@ export interface Player {
   name: string;
   level: number;
   reputation: ReputationLevel;
-  state: "online" | "offline" | "matching" | "gaming" | "accepted";
+  state: "online" | "offline" | "matching" | "gaming" | "recording";
   rankTier: RankTier;
   region?: string;
 }

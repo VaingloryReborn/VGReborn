@@ -271,6 +271,28 @@ async function handleEntry(entry: MitmLogEntry) {
     }
   } else if (action === "joinLobby") {
     await updateUser(user, { state: "matching" });
+  } else if (action === "queryPendingMatch") {
+    const returnValue = body.returnValue as Record<string, unknown> | undefined;
+    if (returnValue && typeof returnValue === "object") {
+      const isValid = returnValue.isValid === true;
+      if (isValid) {
+        await updateUser(user, {
+          query_pending_match: returnValue.response,
+          state: "matching",
+        });
+      } else {
+        await updateUser(user, {
+          query_pending_match: null,
+          state: "online",
+        });
+      }
+    }
+  } else if (action === "friendListAll") {
+    await updateUser(user, { state: "gaming" });
+  } else if (action === "recordMatchExperienceMetrics") {
+    await updateUser(user, { state: "recording" });
+  } else if (action === "getPlayerInfo") {
+    await updateUser(user, { state: "online" });
   } else if (action === "exitLobby") {
     await updateUser(user, { state: "online" });
   } else if (action === "endSession") {
