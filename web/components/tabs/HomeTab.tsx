@@ -30,20 +30,20 @@ const HomeTab: React.FC<HomeTabProps> = ({ onJoinClick }) => {
     const fetchStats = async () => {
       const { data } = await supabase
         .from('profiles')
-        .select('state, region'); // Fetch region if we want to filter by region later
+        .select('state, region')
+        .neq('state', 'offline'); // Filter out offline users at the database level
 
       if (data) {
         const newStats = { ...INITIAL_STATS };
         data.forEach((profile) => {
           const s = profile.state;
-          if (s && s !== 'offline') {
-            newStats.onlineTotal++;
-            // Currently backend only sets "online", so we treat it as idle/generic online
-            if (s === 'online') newStats.idleCount++;
-            else if (s === 'matching') newStats.matching5v5Ranked++; // Example mapping if backend supported it
-            else if (s === 'gaming') newStats.gaming5v5++; // Example mapping
-            // Add more logic here when backend supports detailed states
-          }
+          // No need to check for offline here anymore
+          newStats.onlineTotal++;
+          
+          if (s === 'online') newStats.idleCount++;
+          else if (s === 'matching') newStats.matching5v5Ranked++;
+          else if (s === 'gaming') newStats.gaming5v5++;
+          // Add other mappings as needed
         });
         setStats(newStats);
       }
@@ -60,10 +60,9 @@ const HomeTab: React.FC<HomeTabProps> = ({ onJoinClick }) => {
           event: '*',
           schema: 'public',
           table: 'profiles',
+          filter: 'state=neq.offline', // Only listen for changes involving non-offline users
         },
         () => {
-          // Re-fetch all stats on any change
-          // For a small number of users this is fine. For large scale, we need a better approach (e.g. Edge Functions or materialized views)
           fetchStats();
         }
       )
