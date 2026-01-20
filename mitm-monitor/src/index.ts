@@ -270,7 +270,32 @@ async function handleEntry(entry: MitmLogEntry) {
       return;
     }
   } else if (action === "joinLobby") {
-    await updateUser(user, { state: "matching" });
+    const patch: Record<string, unknown> = { state: "matching" };
+    const reqBody = entry.req_body as Record<string, unknown> | null | undefined;
+
+    if (
+      reqBody &&
+      Array.isArray(reqBody.params) &&
+      reqBody.params.length > 1
+    ) {
+      try {
+        const param1 = reqBody.params[1];
+        if (typeof param1 === "string") {
+          const parsed = JSON.parse(param1);
+          if (parsed && typeof parsed === "object") {
+            if ("lobby" in parsed) {
+              patch.lobby = parsed.lobby;
+            }
+            if ("playerHandle" in parsed) {
+              patch.player_handle = parsed.playerHandle;
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Error parsing joinLobby params", e);
+      }
+    }
+    await updateUser(user, patch);
   } else if (action === "queryPendingMatch") {
     const returnValue = body.returnValue as Record<string, unknown> | undefined;
     if (returnValue && typeof returnValue === "object") {
@@ -340,6 +365,8 @@ rl.on("line", (line) => {
       method: data.method,
       url: data.url,
       status: data.status,
+      req_headers: data.req_headers,
+      req_body: data.req_body,
       res_body: data.res_body,
     };
 

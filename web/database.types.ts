@@ -21,6 +21,8 @@ export interface Database {
           state: string | null
           get_player_info: Json | null
           query_pending_match: Json[] | null
+          lobby: string | null
+          player_handle: string | null
         }
         Insert: {
           id: string
@@ -33,6 +35,8 @@ export interface Database {
           state?: string | null
           get_player_info?: Json | null
           query_pending_match?: Json[] | null
+          lobby?: string | null
+          player_handle?: string | null
         }
         Update: {
           id?: string
@@ -45,6 +49,8 @@ export interface Database {
           state?: string | null
           get_player_info?: Json | null
           query_pending_match?: Json[] | null
+          lobby?: string | null
+          player_handle?: string | null
         }
       }
       // Add other tables here if needed (e.g. wg_peers)
