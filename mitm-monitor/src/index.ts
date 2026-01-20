@@ -243,12 +243,11 @@ async function handleEntry(entry: MitmLogEntry) {
   if (action === "startSessionForPlayer") {
     const returnValue = body.returnValue as Record<string, unknown> | undefined;
     const sessionToken = body.sessionToken as string;
-    const patch: Record<string, unknown> = {};
+    const patch: Record<string, unknown> = {
+      state: "online",
+    };
     patch.session_token = sessionToken;
     if (returnValue && typeof returnValue === "object") {
-      if ("getPlayerInfo" in returnValue) {
-        patch.get_player_info = returnValue.getPlayerInfo;
-      }
       if ("country" in returnValue) {
         patch.country = returnValue.country;
       }

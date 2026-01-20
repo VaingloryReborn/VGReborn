@@ -41,6 +41,18 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
     return { text: status, color: "text-emerald-400", dot: "bg-emerald-500" };
   };
 
+  const getRegionName = (region?: string) => {
+    if (!region) return null;
+    const map: Record<string, string> = {
+      SEA: "东南亚服",
+      NA: "北美服",
+      EU: "欧服",
+      EA: "东亚服",
+      SA: "南美服",
+    };
+    return map[region.toUpperCase()] || region;
+  };
+
   const statusInfo = user
     ? getStatusDisplay(user.state)
     : { text: "", color: "", dot: "" };
@@ -90,9 +102,11 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
               {user.name}
             </h2>
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-[10px] font-bold rounded uppercase">
-                LV.{user.level}
-              </span>
+              {user.region && (
+                <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-[10px] font-bold rounded uppercase">
+                  {getRegionName(user.region)}
+                </span>
+              )}
               <span
                 className={`flex items-center gap-1 text-[10px] ${statusInfo.color}`}
               >

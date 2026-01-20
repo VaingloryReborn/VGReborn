@@ -19,6 +19,7 @@ export interface Player {
   reputation: ReputationLevel;
   state: "online" | "offline" | "matching" | "gaming" | "accepted";
   rankTier: RankTier;
+  region?: string;
 }
 
 export interface MatchStats {

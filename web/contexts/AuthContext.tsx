@@ -35,6 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           id: userId,
           name: data.handle || prev?.name || "指挥官",
           state: data.state,
+          region: data.region,
         }));
       }
     };
@@ -71,6 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                       ...prev,
                       state: newData.state || prev.state,
                       name: newData.handle || prev.name,
+                      region: newData.region || prev.region,
                     }
                   : null,
               );
