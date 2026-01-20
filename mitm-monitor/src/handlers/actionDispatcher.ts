@@ -69,7 +69,7 @@ export async function handleAction(
       const isValid = returnValue.isValid === true;
       if (isValid) {
         await updateUser(user, {
-          query_pending_match: returnValue.response,
+          query_pending_match: returnValue.responses,
           state: "matching",
         });
       } else {

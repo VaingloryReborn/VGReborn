@@ -1,6 +1,6 @@
 # VGReborn
 
-VGReborn is an open-source project dedicated to reviving and enhancing the Vainglory Community Edition (CE) experience. By leveraging accelerator services(VPN) and Man-in-the-Middle(MITM) technology, we bind player IDs to VGReborn account system to provide enhanced features.
+VGReborn is an open-source project dedicated to reviving and enhancing the Vainglory Community Edition (CE) experience. By leveraging accelerator services(VPN) and Man-in-the-Middle(MITM) technology, we automatically bind player states to VGReborn account system to provide enhanced features.
 
 ## Project Introduction
 
