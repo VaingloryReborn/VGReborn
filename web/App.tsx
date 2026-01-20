@@ -11,6 +11,7 @@ import InstallTab from './components/tabs/InstallTab';
 import RoomsTab from './components/tabs/RoomsTab';
 import LeaderboardTab from './components/tabs/LeaderboardTab';
 import ProfileTab from './components/tabs/ProfileTab';
+import DynamicIsland from './components/DynamicIsland';
 
 const AppContent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AppTab>('home');
@@ -34,6 +35,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto min-h-screen relative shadow-2xl overflow-hidden bg-[#0f111a]">
+      <DynamicIsland user={user} />
       <main className="relative z-10">
         {activeTab === 'home' && <HomeTab onJoinClick={() => setActiveTab('install')} />}
         {activeTab === 'install' && <InstallTab />}
