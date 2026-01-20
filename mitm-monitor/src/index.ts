@@ -265,10 +265,14 @@ async function handleEntry(entry: MitmLogEntry) {
     }
   } else if (action === "update") {
     const returnValue = body.returnValue as Record<string, unknown> | undefined;
-    if (returnValue?.state === "menus") {
+    if (returnValue?.state === "menus" && user.state === "offline") {
       await updateUser(user, { state: "online" });
       return;
     }
+  } else if (action === "joinLobby") {
+    await updateUser(user, { state: "matching" });
+  } else if (action === "exitLobby") {
+    await updateUser(user, { state: "online" });
   } else if (action === "endSession") {
     await updateUser(user, { state: "offline" });
   } else if (action === "renamePlayerHandle") {

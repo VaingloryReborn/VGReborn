@@ -156,7 +156,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           <div className="flex items-center gap-3">
             <Zap className="w-5 h-5 text-amber-400" />
             <span className="text-sm font-medium text-slate-200">
-              举报恶意拒绝行为
+              举报恶意行为
             </span>
           </div>
           <ChevronRight className="w-4 h-4 text-slate-500" />
