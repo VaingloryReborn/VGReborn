@@ -244,10 +244,10 @@ async function handleEntry(entry: MitmLogEntry) {
     const returnValue = body.returnValue as Record<string, unknown> | undefined;
     const sessionToken = body.sessionToken as string;
     const patch: Record<string, unknown> = {};
-    patch.sessionToken = sessionToken;
+    patch.session_token = sessionToken;
     if (returnValue && typeof returnValue === "object") {
       if ("getPlayerInfo" in returnValue) {
-        patch.getPlayerInfo = returnValue.getPlayerInfo;
+        patch.get_player_info = returnValue.getPlayerInfo;
       }
       if ("country" in returnValue) {
         patch.country = returnValue.country;
@@ -256,7 +256,7 @@ async function handleEntry(entry: MitmLogEntry) {
         patch.region = returnValue.region;
       }
       if ("playerUUID" in returnValue) {
-        patch.playerUUID = returnValue.playerUUID;
+        patch.player_uuid = returnValue.playerUUID;
       }
 
       await updateUser(user, patch);
