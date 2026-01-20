@@ -32,4 +32,5 @@ export const MOCK_LEADERBOARD: Player[] = [];
 export const MOCK_ROOMS: Room[] = [];
 
 // Using the provided Reddit source URL for the Vainglory CE banner background
-export const VG_BACKGROUND = "/assets/images/vgce.webp";
+import vgBackground from './assets/images/vgce.webp';
+export const VG_BACKGROUND = vgBackground;
