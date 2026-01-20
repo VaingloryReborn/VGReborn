@@ -44,13 +44,13 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
   const getRegionName = (region?: string) => {
     if (!region) return null;
     const map: Record<string, string> = {
-      SEA: "东南亚服",
-      NA: "北美服",
-      EU: "欧服",
-      EA: "东亚服",
-      SA: "南美服",
+      sea: "东南亚",
+      na: "北美",
+      eu: "欧",
+      ea: "东亚",
+      sa: "南美",
     };
-    return map[region.toUpperCase()] || region;
+    return map[region] || region;
   };
 
   const statusInfo = user
@@ -102,11 +102,6 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
               {user.name}
             </h2>
             <div className="flex items-center gap-2">
-              {user.region && (
-                <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-[10px] font-bold rounded uppercase">
-                  {getRegionName(user.region)}
-                </span>
-              )}
               <span
                 className={`flex items-center gap-1 text-[10px] ${statusInfo.color}`}
               >
@@ -125,7 +120,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
               信誉等级
             </p>
             <p
-              className={`text-xl font-black ${getReputationColor(user.reputation)}`}
+              className={`text-base font-black ${getReputationColor(user.reputation)}`}
             >
               {user.reputation}
             </p>
@@ -134,15 +129,15 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
             <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-widest font-bold">
               排位段位
             </p>
-            <p className="text-[13px] font-black text-red-500 mt-1">
+            <p className="text-base font-black text-red-500 mt-1">
               {user.rankTier}
             </p>
           </div>
           <div className="text-center">
             <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-widest font-bold">
-              行为记录
+              服务器
             </p>
-            <p className="text-xl font-black text-slate-100">良好</p>
+            <p className="text-base font-black text-slate-100">{getRegionName(user.region)}</p>
           </div>
         </div>
       </div>

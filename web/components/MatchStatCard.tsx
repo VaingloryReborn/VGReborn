@@ -6,9 +6,10 @@ interface MatchStatCardProps {
   value: number;
   subLabel?: string;
   color?: string;
+  loading?: boolean;
 }
 
-const MatchStatCard: React.FC<MatchStatCardProps> = ({ label, value, subLabel, color = "blue" }) => {
+const MatchStatCard: React.FC<MatchStatCardProps> = ({ label, value, subLabel, color = "blue", loading = false }) => {
   const colorMap: Record<string, string> = {
     blue: "from-blue-500/20 to-blue-600/5 border-blue-500/30 text-blue-400",
     purple: "from-purple-500/20 to-purple-600/5 border-purple-500/30 text-purple-400",
@@ -21,7 +22,11 @@ const MatchStatCard: React.FC<MatchStatCardProps> = ({ label, value, subLabel, c
   return (
     <div className={`p-3 rounded-xl border glass-panel bg-gradient-to-br ${colorMap[color] || colorMap.blue} flex flex-col justify-center items-center shadow-sm`}>
       <span className="text-[10px] font-bold opacity-90 uppercase tracking-widest mb-1 text-center">{label}</span>
-      <span className="text-2xl font-black">{value}</span>
+      {loading ? (
+        <span className="text-2xl font-black animate-pulse">...</span>
+      ) : (
+        <span className="text-2xl font-black">{value}</span>
+      )}
       {subLabel && <span className="text-[10px] opacity-60 mt-1">{subLabel}</span>}
     </div>
   );

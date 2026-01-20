@@ -10,7 +10,7 @@ interface HomeTabProps {
 }
 
 const HomeTab: React.FC<HomeTabProps> = ({ onJoinClick }) => {
-  const { stats } = useMatchStats();
+  const { stats, loading } = useMatchStats();
 
   return (
     <div className="pb-24 animate-in fade-in duration-700">
@@ -24,7 +24,7 @@ const HomeTab: React.FC<HomeTabProps> = ({ onJoinClick }) => {
             <div className="w-1.5 h-6 bg-red-800 rounded-full" />
             实时战场数据
           </h2>
-          <StatsGrid stats={stats} />
+          <StatsGrid stats={stats} loading={loading} />
         </div>
 
         <InfoSection />
