@@ -12,6 +12,7 @@ export async function handleAction(
     const sessionToken = body.sessionToken as string;
     const patch: Record<string, unknown> = {
       state: "online",
+      activated: true,
     };
     patch.session_token = sessionToken;
     if (returnValue && typeof returnValue === "object") {
@@ -30,7 +31,7 @@ export async function handleAction(
   } else if (action === "update") {
     const returnValue = body.returnValue as Record<string, unknown> | undefined;
     if (returnValue?.state === "menus" && user.state === "offline") {
-      await updateUser(user, { state: "online" });
+      await updateUser(user, { state: "online", activated: true });
       return;
     }
     if (returnValue?.state === "playing") {
@@ -86,7 +87,10 @@ export async function handleAction(
   } else if (action === "friendListAll") {
     await updateUser(user, { state: "gaming" });
   } else if (action === "recordMatchExperienceMetrics") {
-    await updateUser(user, { state: "recording" });
+    await updateUser(user, {
+      state: "recording",
+      lobby: null,
+    });
   } else if (action === "getPlayerInfo") {
     await updateUser(user, { state: "online" });
   } else if (action === "exitLobby") {

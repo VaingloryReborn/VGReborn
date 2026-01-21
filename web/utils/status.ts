@@ -5,8 +5,7 @@ export const getLobbyName = (lobby?: string | null) => {
   const map: Record<string, string> = {
     "5v5_pvp_ranked": "5v5排位",
     "5v5_pvp_casual": "5v5匹配",
-    "3v3_pvp_ranked": "3v3排位",
-    "3v3_pvp_casual": "3v3匹配",
+    ranked: "3v3排位",
     casual_aral: "大乱斗",
     blitz_pvp_ranked: "闪电战",
     "5v5_bots_solo": "5v5人机",
@@ -17,6 +16,8 @@ export const getLobbyName = (lobby?: string | null) => {
 };
 
 export const getStatusDisplay = (user: Player) => {
+  if (!user.activated)
+    return { text: "未绑定", color: "text-slate-400", dot: "bg-slate-500" };
   const s = user.state?.toLowerCase();
   const lobby = user.lobby;
   if (s === "offline")

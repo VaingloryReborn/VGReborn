@@ -1,5 +1,4 @@
-
-import { MatchStats, Player, Room } from './types';
+import { MatchStats, Player, Room } from "./types";
 
 export const MOCK_STATS: MatchStats = {
   onlineTotal: 0,
@@ -15,12 +14,13 @@ export const MOCK_STATS: MatchStats = {
 };
 
 export const MOCK_USER: Player = {
-  id: 'vg-player-000',
-  handle: 'NewPlayer',
+  id: "vg-player-000",
+  handle: "NewPlayer",
   level: 1,
-  reputation: '优',
-  state: 'offline',
-  rankTier: '初出茅庐',
+  reputation: "优",
+  state: "offline",
+  rankTier: "初出茅庐",
+  activated: true,
 };
 
 export const MOCK_LEADERBOARD_3V3: Player[] = [];
@@ -32,5 +32,5 @@ export const MOCK_LEADERBOARD: Player[] = [];
 export const MOCK_ROOMS: Room[] = [];
 
 // Using the provided Reddit source URL for the Vainglory CE banner background
-import vgBackground from './assets/images/vgce.webp';
+import vgBackground from "./assets/images/vgce.webp";
 export const VG_BACKGROUND = vgBackground;

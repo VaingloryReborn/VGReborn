@@ -38,6 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           region: data.region,
           lobby: data.lobby,
           player_handle: data.player_handle,
+          activated: data.activated,
         }));
       }
     };
@@ -77,6 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                       region: newData.region || prev.region,
                       lobby: newData.lobby || prev.lobby,
                       player_handle: newData.player_handle || prev.player_handle,
+                      activated: newData.activated || prev.activated,
                     }
                   : null,
               );
@@ -125,6 +127,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                         handle: newData.handle || prev.handle,
                         lobby: newData.lobby || prev.lobby,
                         player_handle: newData.player_handle || prev.player_handle,
+                        activated: newData.activated || prev.activated,
                       }
                     : null,
                 );

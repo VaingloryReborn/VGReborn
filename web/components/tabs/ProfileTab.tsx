@@ -114,7 +114,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
               服务器
             </p>
             <p className="text-base font-black text-slate-100">
-              {getRegionName(user.region)}
+              {getRegionName(user.region) || "未绑定"}
             </p>
           </div>
         </div>

@@ -87,7 +87,7 @@ const CreateRoomGuideModal: React.FC<CreateRoomGuideModalProps> = ({
                   <span className="text-slate-500">代码 &gt; 3000</span>
                 </div>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  只有相同代码的玩家才能匹配到一起。必须集齐所有玩家（3v3需6人，5v5需10人）才能开始游戏。
+                  只有相同代码的玩家才能匹配到一起。必须集齐所有玩家才能开始游戏。
                 </p>
               </div>
             </div>

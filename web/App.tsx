@@ -39,7 +39,7 @@ const AppContent: React.FC = () => {
       <DynamicIsland user={user} />
       <main className="relative z-10">
         {activeTab === 'home' && <HomeTab onJoinClick={() => setActiveTab('install')} />}
-        {activeTab === 'install' && <InstallTab />}
+        {activeTab === 'install' && <InstallTab onOpenLogin={() => setLoginModalOpen(true)} />}
         {activeTab === 'rooms' && (
           <RoomsTab 
             rooms={rooms} 

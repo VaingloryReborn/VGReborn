@@ -2,10 +2,24 @@ import React, { useState } from "react";
 import { Apple, Chrome } from "lucide-react";
 import mitmCert from '../../assets/certificates/mitmproxy-ca-cert.pem?url';
 
-const InstallTab: React.FC = () => {
+import { useAuth } from "../../contexts/AuthContext";
+
+interface InstallTabProps {
+  onOpenLogin: () => void;
+}
+
+const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
+  const { user } = useAuth();
   const [installPlatform, setInstallPlatform] = useState<"ios" | "android">(
     "ios",
   );
+
+  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!user) {
+      e.preventDefault();
+      onOpenLogin();
+    }
+  };
   const stepCircleStyle =
     "w-10 h-10 rounded-xl bg-red-800/10 flex items-center justify-center shrink-0 border border-red-800/20 text-red-500 font-black";
 
@@ -91,9 +105,10 @@ const InstallTab: React.FC = () => {
                     <li>
                       这是你的账号进入加速隧道的通行证：
                       <a
-                        href="https://vgreborn.github.io/vgreborn/assets/configs/vgreborn-wireguard.conf"
-                        download
-                        className="underline text-red-500 mx-1"
+                        // href="https://vgreborn.github.io/vgreborn/assets/configs/vgreborn-wireguard.conf"
+                        // download
+                        onClick={handleDownload}
+                        className="underline text-red-500 mx-1 cursor-pointer"
                       >
                         下载WireGuard配置文件
                       </a>
@@ -137,7 +152,7 @@ const InstallTab: React.FC = () => {
                       <a
                         href="https://vgreborn.oss-cn-shenzhen.aliyuncs.com/output_patched.xapk"
                         download
-                        className="underline text-red-500 mx-1"
+                        className="underline text-red-500 mx-1 cursor-pointer"
                       >
                         虚荣游戏安装包(xapk)
                       </a>
@@ -165,8 +180,9 @@ const InstallTab: React.FC = () => {
                     <li>
                       这是你的账号进入加速隧道的通行证：
                       <a
-                        href="https://vgreborn.github.io/vgreborn/assets/configs/vgreborn-wireguard.conf"
-                        download
+                        // href="https://vgreborn.github.io/vgreborn/assets/configs/vgreborn-wireguard.conf"
+                        // download
+                        onClick={handleDownload}
                         className="underline text-red-500 mx-1"
                       >
                         下载WireGuard配置文件

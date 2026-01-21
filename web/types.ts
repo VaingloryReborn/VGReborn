@@ -4,7 +4,6 @@ export type Lobby =
   | "5v5_pvp_ranked"
   | "5v5_pvp_casual"
   | "ranked"
-  | "3v3_pvp_casual"
   | "casual_aral"
   | "blitz_pvp_ranked"
   | "5v5_bots_solo"
@@ -34,6 +33,7 @@ export interface Player {
   region?: string;
   lobby?: Lobby;
   player_handle?: string | null;
+  activated: boolean;
 }
 
 export interface MatchStats {

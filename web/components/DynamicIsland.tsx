@@ -13,7 +13,7 @@ const DynamicIsland: React.FC<DynamicIslandProps> = ({
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (!["online", "offline"].includes(user?.state || "")) {
+    if (user?.activated && !["online", "offline"].includes(user?.state || "")) {
       setShow(true);
     } else {
       setShow(false);

@@ -66,45 +66,54 @@ export const useRooms = () => {
       const handleToParse = p.handle || "";
       const parsed = parseHandle(handleToParse);
 
+      let code = "1200";
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      let team = null;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      let name = handleToParse;
+
       if (parsed) {
-        const { code, team, name } = parsed;
-        const mode = p.lobby;
-        const roomId = `room-${code}-${mode}`;
-
-        if (!roomsMap.has(roomId)) {
-          roomsMap.set(roomId, {
-            id: roomId,
-            codePrefix: code,
-            name: `房间 ${code}`,
-            ownerId: "", // Will be set to the first member found
-            members: [],
-            mode: mode,
-            createdAt: Date.now(), // Just for sorting/display
-          });
-        }
-
-        const room = roomsMap.get(roomId)!;
-
-        // If no owner yet, set this player as owner (arbitrary, usually first one)
-        if (!room.ownerId) {
-          room.ownerId = p.id;
-        }
-
-        const player: Player = {
-          ...MOCK_USER, // Defaults
-          id: p.id,
-          handle: p.handle || "Unknown",
-          state: p.state as Player["state"],
-          region: p.region,
-          lobby: p.lobby,
-          player_handle: p.player_handle,
-          // Override derived props if needed
-          // Team could be stored in a transient property if needed, but Room doesn't strictly track teams in the array
-          // The prompt says "code same users distributed in one room"
-        };
-
-        room.members.push(player);
+        code = parsed.code;
+        team = parsed.team;
+        name = parsed.name;
       }
+
+      const mode = p.lobby;
+      const roomId = `room-${code}-${mode}`;
+
+      if (!roomsMap.has(roomId)) {
+        roomsMap.set(roomId, {
+          id: roomId,
+          codePrefix: code,
+          name: `房间 ${code}`,
+          ownerId: "", // Will be set to the first member found
+          members: [],
+          mode: mode,
+          createdAt: Date.now(), // Just for sorting/display
+        });
+      }
+
+      const room = roomsMap.get(roomId)!;
+
+      // If no owner yet, set this player as owner (arbitrary, usually first one)
+      if (!room.ownerId) {
+        room.ownerId = p.id;
+      }
+
+      const player: Player = {
+        ...MOCK_USER, // Defaults
+        id: p.id,
+        handle: p.handle || "Unknown",
+        state: p.state as Player["state"],
+        region: p.region,
+        lobby: p.lobby,
+        player_handle: p.player_handle,
+        // Override derived props if needed
+        // Team could be stored in a transient property if needed, but Room doesn't strictly track teams in the array
+        // The prompt says "code same users distributed in one room"
+      };
+
+      room.members.push(player);
     });
 
     // Convert map to array and sort
