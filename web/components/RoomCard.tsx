@@ -83,7 +83,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room, onClick }) => {
           </h3>
 
           <span className={`text-xs font-medium px-2 py-0.5 rounded border ${getModeStyle(room.mode)}`}>
-            {getLobbyName(room.mode) || "未开始"}
+            {getLobbyName(room.mode) || "空闲"}
           </span>
         </div>
 

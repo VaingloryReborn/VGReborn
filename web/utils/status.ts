@@ -1,7 +1,7 @@
 import { Player } from "../types";
 
 export const getLobbyName = (lobby?: string | null) => {
-  if (!lobby) return "未知模式";
+  if (!lobby) return "";
   const map: Record<string, string> = {
     "5v5_pvp_ranked": "5v5排位",
     "5v5_pvp_casual": "5v5匹配",
@@ -13,11 +13,11 @@ export const getLobbyName = (lobby?: string | null) => {
     blitz_bots_solo: "闪电战人机",
     solo_bots: "3v3人机",
   };
-  return map[lobby] || '';
+  return map[lobby] || "";
 };
 
 export const getStatusDisplay = (user: Player) => {
-  const s = user.state.toLowerCase();
+  const s = user.state?.toLowerCase();
   const lobby = user.lobby;
   if (s === "offline")
     return { text: "游戏离线", color: "text-slate-400", dot: "bg-slate-500" };
