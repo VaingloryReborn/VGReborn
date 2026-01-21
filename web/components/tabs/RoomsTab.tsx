@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Plus,
   Users,
@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Room, Player } from "../../types";
 import RoomCard from "../RoomCard";
+import CreateRoomGuideModal from "../CreateRoomGuideModal";
 
 interface RoomsTabProps {
   rooms: Room[];
@@ -25,6 +26,8 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
   user,
   onOpenLogin,
 }: RoomsTabProps) => {
+  const [isGuideOpen, setGuideOpen] = useState(false);
+
   const getReputationColor = (rep: string) => {
     if (rep === "优") return "text-emerald-400";
     if (rep === "一般") return "text-amber-400";
@@ -65,7 +68,7 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
             </div>
             <div className="text-right">
               <span className="text-2xl font-black text-white">
-                {selectedRoom.members.length}/{selectedRoom.maxMembers}
+                {selectedRoom.members.length}
               </span>
             </div>
           </div>
@@ -131,7 +134,10 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
     <div className="p-5 pb-24 relative z-10 animate-in fade-in duration-500">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gradient italic">房间大厅</h2>
-        <button className="p-2 bg-red-800 rounded-lg shadow-lg active:scale-90 transition-all text-white">
+        <button 
+          onClick={() => setGuideOpen(true)}
+          className="p-2 bg-red-800 rounded-lg shadow-lg active:scale-90 transition-all text-white"
+        >
           <Plus className="w-6 h-6" />
         </button>
       </div>
@@ -139,7 +145,7 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
       {rooms.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-slate-500 opacity-60">
           <Users className="w-12 h-12 mb-4" />
-          <p className="text-sm font-medium">当前没有公开房间</p>
+          <p className="text-sm font-medium">当前没有房间</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -148,6 +154,8 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
           ))}
         </div>
       )}
+
+      <CreateRoomGuideModal isOpen={isGuideOpen} onClose={() => setGuideOpen(false)} />
     </div>
   );
 };

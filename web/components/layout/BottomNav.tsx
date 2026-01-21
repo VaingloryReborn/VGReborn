@@ -18,7 +18,7 @@ const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) => {
   const inactiveTabClass = "text-slate-500";
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto h-20 glass-panel border-t border-white/10 flex items-center justify-around px-1 z-50 rounded-t-3xl shadow-[0_-15px_50px_rgba(0,0,0,0.9)]">
+    <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto h-20 glass-panel border-t border-white/10 flex items-center justify-around px-1 z-20 rounded-t-3xl shadow-[0_-15px_50px_rgba(0,0,0,0.9)]">
       <button 
         onClick={() => onTabChange('home')}
         className={`flex flex-col items-center gap-1 transition-all duration-300 ${activeTab === 'home' ? activeTabClass : inactiveTabClass}`}

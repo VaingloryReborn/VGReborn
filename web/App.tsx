@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { AppTab, Room } from './types';
-import { MOCK_ROOMS } from './constants';
 import LoginModal from './components/LoginModal';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import BottomNav from './components/layout/BottomNav';
@@ -13,11 +12,13 @@ import LeaderboardTab from './components/tabs/LeaderboardTab';
 import ProfileTab from './components/tabs/ProfileTab';
 import DynamicIsland from './components/DynamicIsland';
 
+import { useRooms } from './hooks/useRooms';
+
 const AppContent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AppTab>('home');
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
-  const [rooms, setRooms] = useState<Room[]>(MOCK_ROOMS);
+  const rooms = useRooms();
   
   const { user, isAuthLoading, logout } = useAuth();
 

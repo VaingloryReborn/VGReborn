@@ -3,7 +3,7 @@ export type ReputationLevel = "优" | "一般" | "差";
 export type Lobby =
   | "5v5_pvp_ranked"
   | "5v5_pvp_casual"
-  | "3v3_pvp_ranked"
+  | "ranked"
   | "3v3_pvp_casual"
   | "casual_aral"
   | "blitz_pvp_ranked"
@@ -25,6 +25,7 @@ export type RankTier =
 
 export interface Player {
   id: string;
+  /** the name in game */
   handle: string;
   level: number;
   reputation: ReputationLevel;
@@ -54,8 +55,7 @@ export interface Room {
   name: string;
   ownerId: string;
   members: Player[];
-  maxMembers: number;
-  mode: "3v3" | "5v5 Ranked" | "Brawl" | "Blitz";
+  mode: Lobby;
   createdAt: number;
 }
 

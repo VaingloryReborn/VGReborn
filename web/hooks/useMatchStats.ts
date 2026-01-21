@@ -40,14 +40,12 @@ export const useMatchStats = () => {
               newStats.idleCount++;
             } else if (s === "matching") {
               if (lobby === "5v5_pvp_ranked") newStats.matching5v5Ranked++;
-              else if (lobby === "3v3_pvp_ranked") newStats.matching3v3++;
-              else if (lobby === "3v3_pvp_casual") newStats.matchingAral++;
+              else if (lobby === "ranked") newStats.matching3v3++;
               else if (lobby === "casual_aral") newStats.matchingAral++;
               else if (lobby === "blitz_pvp_ranked") newStats.matchingBlitz++;
             } else if (s === "gaming") {
               if (lobby?.startsWith("5v5")) newStats.gaming5v5++;
-              else if (lobby?.startsWith("3v3")) newStats.gaming3v3++;
-              else if (lobby === "3v3_pvp_casual") newStats.gamingAral++;
+              else if (lobby === 'ranked') newStats.gaming3v3++;
               else if (lobby === "casual_aral") newStats.gamingAral++;
               else if (lobby === "blitz_pvp_ranked") newStats.gamingBlitz++;
             }

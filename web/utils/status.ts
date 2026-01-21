@@ -13,7 +13,7 @@ export const getLobbyName = (lobby?: string | null) => {
     blitz_bots_solo: "闪电战人机",
     solo_bots: "3v3人机",
   };
-  return map[lobby] || lobby;
+  return map[lobby] || '';
 };
 
 export const getStatusDisplay = (user: Player) => {

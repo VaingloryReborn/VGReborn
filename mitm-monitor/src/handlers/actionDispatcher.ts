@@ -51,6 +51,10 @@ export async function handleAction(
           const parsed = JSON.parse(param1);
           if (parsed && typeof parsed === "object") {
             if ("lobby" in parsed) {
+              if (parsed.lobby === "5v5_pvp_casual") {
+                // 5v5 casual is not support
+                return;
+              }
               patch.lobby = parsed.lobby;
             }
             if ("playerHandle" in parsed) {
@@ -86,7 +90,11 @@ export async function handleAction(
   } else if (action === "getPlayerInfo") {
     await updateUser(user, { state: "online" });
   } else if (action === "exitLobby") {
-    await updateUser(user, { state: "online" });
+    await updateUser(user, {
+      state: "online",
+      lobby: null,
+      player_handle: null,
+    });
   } else if (action === "endSession") {
     await updateUser(user, { state: "offline" });
   } else if (action === "renamePlayerHandle") {

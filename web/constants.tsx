@@ -8,15 +8,15 @@ export const MOCK_STATS: MatchStats = {
   matching3v3: 0,
   matching5v5Ranked: 0,
   gaming5v5: 0,
-  matchingBrawl: 0,
-  gamingBrawl: 0,
+  matchingAral: 0,
+  gamingAral: 0,
   matchingBlitz: 0,
   gamingBlitz: 0,
 };
 
 export const MOCK_USER: Player = {
   id: 'vg-player-000',
-  name: 'NewPlayer',
+  handle: 'NewPlayer',
   level: 1,
   reputation: '优',
   state: 'offline',
