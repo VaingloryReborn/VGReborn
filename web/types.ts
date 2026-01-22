@@ -34,6 +34,8 @@ export interface Player {
   lobby?: Lobby;
   player_handle?: string | null;
   activated: boolean;
+  /** the name in platform */
+  nickname?: string | null;
 }
 
 export interface MatchStats {
@@ -52,7 +54,6 @@ export interface MatchStats {
 export interface Room {
   id: string;
   codePrefix: string;
-  name: string;
   ownerId: string;
   members: Player[];
   mode: Lobby;

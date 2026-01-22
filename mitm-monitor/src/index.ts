@@ -1,5 +1,6 @@
 import readline from "node:readline";
 import { spawn } from "node:child_process";
+import http from "node:http";
 import { MitmLogEntry } from "./types";
 import {
   getUserByClientIp,
@@ -121,3 +122,17 @@ rl.on("close", () => {
 
 // Start the offline monitor
 startOfflineMonitor();
+
+// Start HTTP server on port 80
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("OK");
+});
+
+server.on("error", (err) => {
+  console.error("Failed to start HTTP server on port 80:", err);
+});
+
+server.listen(80, () => {
+  console.log("HTTP server listening on port 80");
+});

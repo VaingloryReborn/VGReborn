@@ -55,6 +55,29 @@ export interface Database {
           player_handle?: string | null;
         };
       };
+      feedbacks: {
+        Row: {
+          id: number;
+          created_at: string;
+          user_id: string;
+          content: string;
+          contact: string | null;
+        };
+        Insert: {
+          id?: number;
+          created_at?: string;
+          user_id: string;
+          content: string;
+          contact?: string | null;
+        };
+        Update: {
+          id?: number;
+          created_at?: string;
+          user_id?: string;
+          content?: string;
+          contact?: string | null;
+        };
+      };
       // Add other tables here if needed (e.g. wg_peers)
     };
     Views: {

@@ -63,7 +63,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
 
   return (
     <div
-      onClick={() => onClick(room)}
+      // onClick={() => onClick(room)}
       className={`p-4 mb-3 rounded-xl border glass-panel active:scale-[0.98] transition-all cursor-pointer group relative overflow-hidden ${styleConfig.borderColor} ${styleConfig.hoverBorder} ${styleConfig.glow}`}
     >
       {/* Background decoration */}
@@ -76,18 +76,21 @@ const RoomCard: React.FC<RoomCardProps> = ({
       <div className="relative z-10">
         {/* Row 1: Room Code & Mode */}
         <div className="flex justify-between items-center mb-2">
-          <h3 className={`font-bold text-base ${styleConfig.titleColor}`}>
-            房间代码:{" "}
-            <span
-              className={`px-2 py-1 rounded font-mono border ${styleConfig.borderColor} ${styleConfig.titleColor}`}
-            >
-              {room.codePrefix}
+          <h3
+            className={`text-base whitespace-nowrap ${styleConfig.titleColor}`}
+          >
+            <span className="font-normal">房间代码: </span>
+            <span className={`px-2 py-1 rounded font-mono font-bold`}>
+              {isPrivate ? "****" : room.codePrefix}
               {room.codePrefix === "1200" ? "（默认）" : ""}
             </span>
           </h3>
+        </div>
 
+        {/* Row 2: Member Count */}
+        <div className="mb-3 flex justify-start items-center gap-1.5">
           <span
-            className={`text-xs font-medium px-2 py-0.5 rounded border ${getModeStyle(room.mode)}`}
+            className={`text-xs font-medium px-2 py-1 rounded border flex items-center ${getModeStyle(room.mode)}`}
           >
             {getLobbyName(room.mode) || "空闲"}
             {room.members?.[0]?.state === "gaming"
@@ -98,10 +101,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   ? "(匹配中)"
                   : ""}
           </span>
-        </div>
-
-        {/* Row 2: Member Count */}
-        <div className="mb-3 flex justify-start">
+          <div className="flex-grow"></div>
           <div className="flex items-center gap-1.5 bg-black/20 px-2 py-1 rounded-lg border border-white/5">
             <Users className="w-3 h-3 text-slate-400" />
             <span className="text-xs font-bold text-slate-200">
@@ -115,22 +115,28 @@ const RoomCard: React.FC<RoomCardProps> = ({
 
         {/* Row 3: Member List */}
         <div className="grid grid-cols-2 gap-y-1 gap-x-2">
-          {room.members.map((member) => (
-            <div
-              key={member.id}
-              className="flex items-center gap-2 overflow-hidden"
-            >
+          {room.members.map((member) => {
+            // Remove code and team prefix (e.g. "1200-A_Name" -> "Name", "1200_Name" -> "Name")
+            const displayName = member.handle.replace(/^\d+(?:-[ABab])?_/, "");
+            const nickname = member.nickname ? `(${member.nickname})` : "";
+            return (
               <div
-                className={`w-1.5 h-1.5 rounded-full ${getStatusDisplay(member).dot}`}
-              ></div>
-              <span
-                className="text-xs text-slate-400 truncate"
-                title={member.handle}
+                key={member.id}
+                className="flex items-center gap-2 overflow-hidden"
               >
-                {member.handle}
-              </span>
-            </div>
-          ))}
+                <div
+                  className={`w-1.5 h-1.5 rounded-full ${getStatusDisplay(member).dot}`}
+                ></div>
+                <span
+                  className="text-xs text-slate-400 truncate"
+                  title={member.handle}
+                >
+                  {displayName}
+                  {nickname}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

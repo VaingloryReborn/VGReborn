@@ -6,9 +6,14 @@ import {
   ChevronRight,
   LogOut,
   Loader2,
+  MessageSquareText,
+  Github,
+  Edit2,
 } from "lucide-react";
 import { Player } from "../../types";
 import { getRegionName, getStatusDisplay } from "../../utils/status";
+import FeedbackModal from "../FeedbackModal";
+import UpdateHandleModal from "../UpdateHandleModal";
 
 interface ProfileTabProps {
   user: Player | null;
@@ -23,6 +28,8 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
   onOpenLogin,
   onLogout,
 }: ProfileTabProps) => {
+  const [isFeedbackOpen, setIsFeedbackOpen] = React.useState(false);
+  const [isUpdateHandleOpen, setIsUpdateHandleOpen] = React.useState(false);
   const getReputationColor = (rep: string) => {
     if (rep === "优") return "text-emerald-400";
     if (rep === "一般") return "text-amber-400";
@@ -74,9 +81,17 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
             {user.handle?.charAt(0)}
           </div>
           <div>
-            <h2 className="text-2xl font-black text-white mb-1 tracking-tight">
-              {user.handle}
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl font-black text-white mb-1 tracking-tight">
+                {user.nickname || user.handle}
+              </h2>
+              <button
+                onClick={() => setIsUpdateHandleOpen(true)}
+                className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+              >
+                <Edit2 className="w-3 h-3" />
+              </button>
+            </div>
             <div className="flex items-center gap-2">
               <span
                 className={`flex items-center gap-1 text-[10px] ${statusInfo.color}`}
@@ -125,7 +140,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           <div className="flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-blue-400" />
             <span className="text-sm font-medium text-slate-200">
-              MITM 绑定设置
+              下载WireGuard配置文件
             </span>
           </div>
           <ChevronRight className="w-4 h-4 text-slate-500" />
@@ -139,6 +154,28 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           </div>
           <ChevronRight className="w-4 h-4 text-slate-500" />
         </div>
+        <div
+          onClick={() => setIsFeedbackOpen(true)}
+          className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer"
+        >
+          <div className="flex items-center gap-3">
+            <MessageSquareText className="w-5 h-5 text-purple-400" />
+            <span className="text-sm font-medium text-slate-200">反馈</span>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-500" />
+        </div>
+        <div
+          onClick={() => open('https://github.com/VaingloryReborn/VGReborn/blob/main/LICENSE')}
+          className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer"
+        >
+          <div className="flex items-center gap-3">
+            <Github className="w-5 h-5 text-white" />
+            <span className="text-sm font-medium text-slate-200">
+              开源&协议
+            </span>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-500" />
+        </div>
         <button
           onClick={onLogout}
           className="w-full mt-8 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center justify-center gap-2 text-rose-400 font-bold active:bg-rose-500/20 transition-all"
@@ -147,6 +184,16 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           退出登录
         </button>
       </div>
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        onClose={() => setIsFeedbackOpen(false)}
+        user={user}
+      />
+      <UpdateHandleModal
+        isOpen={isUpdateHandleOpen}
+        onClose={() => setIsUpdateHandleOpen(false)}
+        user={user}
+      />
     </div>
   );
 };

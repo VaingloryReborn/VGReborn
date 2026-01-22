@@ -33,12 +33,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           ...prev!,
           ...MOCK_USER, // keep defaults
           id: userId,
-          handle: data.handle || prev?.handle || "指挥官",
+          handle: data.handle || prev?.handle,
           state: data.state,
           region: data.region,
           lobby: data.lobby,
           player_handle: data.player_handle,
           activated: data.activated,
+          nickname: data.nickname || prev?.nickname,
         }));
       }
     };
@@ -49,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setUser({
           ...MOCK_USER,
           id: session.user.id,
-          name: session.user.email?.split("@")[0] || "指挥官",
+          name: session.user.email?.split("@")[0],
         });
 
         // Fetch real profile
@@ -77,8 +78,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                       handle: newData.handle || prev.handle,
                       region: newData.region || prev.region,
                       lobby: newData.lobby || prev.lobby,
-                      player_handle: newData.player_handle || prev.player_handle,
+                      player_handle:
+                        newData.player_handle || prev.player_handle,
                       activated: newData.activated || prev.activated,
+                      nickname: newData.nickname || prev.nickname,
                     }
                   : null,
               );
@@ -99,7 +102,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           return {
             ...MOCK_USER,
             id: session.user.id,
-            name: session.user.email?.split("@")[0] || "指挥官",
+            name: session.user.email?.split("@")[0],
           };
         });
 
@@ -126,8 +129,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
                         state: newData.state || prev.state,
                         handle: newData.handle || prev.handle,
                         lobby: newData.lobby || prev.lobby,
-                        player_handle: newData.player_handle || prev.player_handle,
+                        player_handle:
+                          newData.player_handle || prev.player_handle,
                         activated: newData.activated || prev.activated,
+                        nickname: newData.nickname || prev.nickname,
                       }
                     : null,
                 );

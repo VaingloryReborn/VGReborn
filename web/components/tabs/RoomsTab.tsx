@@ -61,7 +61,7 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
                   {selectedRoom.mode}
                 </span>
                 <h2 className="text-xl font-bold text-white">
-                  {selectedRoom.name}
+                  {selectedRoom.codePrefix}
                 </h2>
               </div>
               <p className="text-xs text-slate-500">ID: {selectedRoom.id}</p>

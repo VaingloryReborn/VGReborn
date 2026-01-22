@@ -72,7 +72,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                   </h3>
                   <ol className="list-decimal list-outside pl-4 space-y-1.5 text-xs text-slate-400 marker:text-slate-500">
                     <li>
-                      使用iPhone浏览器
+                      使用Safari浏览器
                       <a
                         href={mitmCert}
                         download
@@ -82,10 +82,10 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                       </a>
                     </li>
                     <li>
-                      进入iPhone设置，搜索"描述文件"进入配置管理，安装刚才下载的mitmproxy证书
+                      进入系统设置，搜索"描述文件"进入配置管理，安装刚才下载的mitmproxy证书
                     </li>
                     <li>
-                      进入iPhone设置-通用-关于本机-证书信任设置，开启mitmproxy证书的信任
+                      进入系统设置-通用-关于本机-证书信任设置，开启mitmproxy证书的信任
                     </li>
                   </ol>
                 </div>
@@ -131,7 +131,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                     开始游戏
                   </h3>
                   <p className="text-xs text-slate-400">
-                    你已成功加入VGReborn，进入游戏后VGReborn的其他玩家也能发现你。
+                    你已成功加入VGReborn，进入游戏VGReborn将自动同步你的游戏状态。
                   </p>
                 </div>
               </div>
@@ -206,7 +206,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                     开始游戏
                   </h3>
                   <p className="text-xs text-slate-400">
-                    你已成功加入VGReborn，进入游戏后VGReborn的其他玩家也能发现你。
+                    你已成功加入VGReborn，进入游戏VGReborn将自动同步你的游戏状态。
                   </p>
                 </div>
               </div>

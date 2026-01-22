@@ -59,7 +59,7 @@ const CreateRoomGuideModal: React.FC<CreateRoomGuideModalProps> = ({
                   <span className="bg-black/40 px-2 py-1 rounded text-emerald-300 font-mono border border-emerald-500/20">
                     1_你的名字
                   </span>
-                  <span className="text-slate-500">代码 &lt; 3000</span>
+                  <span className="text-emerald-300">代码 &lt; 3000</span>
                 </div>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   代码表示你的段位，虚荣会优先匹配段位相近的玩家。不保证一定在同一局，适合路人匹配。
@@ -77,14 +77,14 @@ const CreateRoomGuideModal: React.FC<CreateRoomGuideModalProps> = ({
             <div className="relative z-10">
               <h3 className="font-bold text-purple-400 mb-2 flex items-center gap-2 text-sm">
                 <Lock className="w-4 h-4" />
-                私人房间
+                私密房间
               </h3>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-xs">
                   <span className="bg-black/40 px-2 py-1 rounded text-purple-300 font-mono border border-purple-500/20">
                     3001_你的名字
                   </span>
-                  <span className="text-slate-500">代码 &gt; 3000</span>
+                  <span className="text-purple-300">代码 &gt; 3000</span>
                 </div>
                 <p className="text-xs text-slate-400 leading-relaxed">
                   只有相同代码的玩家才能匹配到一起。必须集齐所有玩家才能开始游戏。
@@ -108,13 +108,13 @@ const CreateRoomGuideModal: React.FC<CreateRoomGuideModalProps> = ({
                   <span className="bg-black/40 px-2 py-1 rounded text-blue-300 font-mono border border-blue-500/20">
                     3001-1_名字
                   </span>
-                  <span className="text-slate-500">指定分到 A 队</span>
+                  <span className="text-blue-300">指定分到 A 队</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
                   <span className="bg-black/40 px-2 py-1 rounded text-blue-300 font-mono border border-blue-500/20">
                     3001-2_名字
                   </span>
-                  <span className="text-slate-500">指定分到 B 队</span>
+                  <span className="text-blue-300">指定分到 B 队</span>
                 </div>
                 <p className="text-xs text-slate-400 leading-relaxed mt-2">
                   在代码后添加{" "}

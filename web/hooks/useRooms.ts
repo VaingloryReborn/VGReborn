@@ -78,14 +78,14 @@ export const useRooms = () => {
         name = parsed.name;
       }
 
-      const mode = p.lobby;
-      const roomId = `room-${code}-${mode}`;
+      const mode = p.lobby || "";
+      const queryPendingMatch = p.query_pending_match?.length || "";
+      const roomId = `room-${code}-${mode}-${queryPendingMatch}`;
 
       if (!roomsMap.has(roomId)) {
         roomsMap.set(roomId, {
           id: roomId,
           codePrefix: code,
-          name: `房间 ${code}`,
           ownerId: "", // Will be set to the first member found
           members: [],
           mode: mode,
@@ -108,6 +108,7 @@ export const useRooms = () => {
         region: p.region,
         lobby: p.lobby,
         player_handle: p.player_handle,
+        nickname: p.nickname,
         // Override derived props if needed
         // Team could be stored in a transient property if needed, but Room doesn't strictly track teams in the array
         // The prompt says "code same users distributed in one room"

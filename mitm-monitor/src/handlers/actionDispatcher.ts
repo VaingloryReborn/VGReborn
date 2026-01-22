@@ -92,7 +92,9 @@ export async function handleAction(
       lobby: null,
     });
   } else if (action === "getPlayerInfo") {
-    await updateUser(user, { state: "online" });
+    if (user.state !== "matching") {
+      await updateUser(user, { state: "online" });
+    }
   } else if (action === "exitLobby") {
     await updateUser(user, {
       state: "online",
