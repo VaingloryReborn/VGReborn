@@ -15,11 +15,13 @@
   "description": "",
   "devDependencies": {
     "@types/node": "^25.0.9",
+    "@types/ws": "^8.18.1",
     "nodemon": "^3.1.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^1.35.7"
+    "@supabase/supabase-js": "^1.35.7",
+    "ws": "^8.19.0"
   }
 }

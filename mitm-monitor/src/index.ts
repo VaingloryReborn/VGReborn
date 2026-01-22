@@ -1,6 +1,7 @@
 import readline from "node:readline";
 import { spawn } from "node:child_process";
 import http from "node:http";
+import { WebSocketServer } from "ws";
 import { MitmLogEntry } from "./types";
 import {
   getUserByClientIp,
@@ -146,4 +147,14 @@ server.on("error", (err) => {
 
 server.listen(80, () => {
   console.log("HTTP server listening on port 80");
+});
+
+// Create WebSocket server attached to the HTTP server
+const wss = new WebSocketServer({ server });
+
+wss.on("connection", (ws) => {
+  ws.on("message", (message) => {
+    // Echo back the message for latency testing
+    ws.send(message);
+  });
 });

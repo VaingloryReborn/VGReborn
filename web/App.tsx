@@ -1,71 +1,112 @@
-import React, { useState } from 'react';
-import { AppTab, Room } from './types';
-import LoginModal from './components/LoginModal';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import BottomNav from './components/layout/BottomNav';
+import React, { useState, useEffect } from "react";
+import { AppTab, Room } from "./types";
+import LoginModal from "./components/LoginModal";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import BottomNav from "./components/layout/BottomNav";
+import servers from "./assets/ea-servers.json";
+import { AlertCircle } from "lucide-react";
 
 // Separate Tab Components
-import HomeTab from './components/tabs/HomeTab';
-import InstallTab from './components/tabs/InstallTab';
-import RoomsTab from './components/tabs/RoomsTab';
-import LeaderboardTab from './components/tabs/LeaderboardTab';
-import ProfileTab from './components/tabs/ProfileTab';
-import DynamicIsland from './components/DynamicIsland';
+import HomeTab from "./components/tabs/HomeTab";
+import InstallTab from "./components/tabs/InstallTab";
+import RoomsTab from "./components/tabs/RoomsTab";
+import LeaderboardTab from "./components/tabs/LeaderboardTab";
+import ProfileTab from "./components/tabs/ProfileTab";
+import DynamicIsland from "./components/DynamicIsland";
 
-import { useRooms } from './hooks/useRooms';
+import { useRooms } from "./hooks/useRooms";
 
 const AppContent: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<AppTab>('home');
+  const [activeTab, setActiveTab] = useState<AppTab>("home");
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+  const [connectionError, setConnectionError] = useState(false);
   const rooms = useRooms();
-  
+
   const { user, isAuthLoading, logout } = useAuth();
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      if (servers.length === 0) return;
+      const firstServer = servers[0];
+      const { ip } = firstServer;
+      if (!ip) return;
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+        await fetch(`http://${ip}`, {
+          method: "HEAD",
+          signal: controller.signal,
+          mode: "no-cors",
+        });
+        clearTimeout(timeoutId);
+      } catch (error) {
+        console.error("Middle server connection failed:", error);
+        setConnectionError(true);
+      }
+    };
+
+    checkConnection();
+  }, []);
 
   const handleLogout = async () => {
     await logout();
-    setActiveTab('home');
+    setActiveTab("home");
   };
 
   const handleTabChange = (tab: AppTab) => {
     setActiveTab(tab);
-    if (tab !== 'rooms') {
+    if (tab !== "rooms") {
       setSelectedRoom(null);
     }
   };
 
   return (
     <div className="max-w-md mx-auto min-h-screen relative shadow-2xl overflow-hidden bg-[#0f111a]">
+      {connectionError && (
+        <div className="fixed top-0 left-0 right-0 z-[60] bg-red-500/90 backdrop-blur-sm text-white px-4 py-3 flex items-center justify-center gap-2 shadow-lg animate-in slide-in-from-top duration-300">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span className="text-xs font-medium">
+            中间服务器连接失败，请检查网络设置
+          </span>
+        </div>
+      )}
       <DynamicIsland user={user} />
       <main className="relative z-10">
-        {activeTab === 'home' && <HomeTab onJoinClick={() => setActiveTab('install')} />}
-        {activeTab === 'install' && <InstallTab onOpenLogin={() => setLoginModalOpen(true)} />}
-        {activeTab === 'rooms' && (
-          <RoomsTab 
-            rooms={rooms} 
-            selectedRoom={selectedRoom} 
-            setSelectedRoom={setSelectedRoom} 
-            user={user} 
+        {activeTab === "home" && (
+          <HomeTab onJoinClick={() => setActiveTab("install")} />
+        )}
+        {activeTab === "install" && (
+          <InstallTab onOpenLogin={() => setLoginModalOpen(true)} />
+        )}
+        {activeTab === "rooms" && (
+          <RoomsTab
+            rooms={rooms}
+            selectedRoom={selectedRoom}
+            setSelectedRoom={setSelectedRoom}
+            user={user}
             onOpenLogin={() => setLoginModalOpen(true)}
           />
         )}
-        {activeTab === 'leaderboard' && <LeaderboardTab />}
-        {activeTab === 'profile' && (
-          <ProfileTab 
-            user={user} 
-            isAuthLoading={isAuthLoading} 
-            onOpenLogin={() => setLoginModalOpen(true)} 
-            onLogout={handleLogout} 
+        {activeTab === "leaderboard" && <LeaderboardTab />}
+        {activeTab === "profile" && (
+          <ProfileTab
+            user={user}
+            isAuthLoading={isAuthLoading}
+            onOpenLogin={() => setLoginModalOpen(true)}
+            onLogout={handleLogout}
           />
         )}
       </main>
 
       <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
 
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
-        onClose={() => setLoginModalOpen(false)} 
-        onLogin={() => setLoginModalOpen(false)} 
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
+        onLogin={() => setLoginModalOpen(false)}
       />
     </div>
   );

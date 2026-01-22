@@ -30,7 +30,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
     }
   }, [isOpen]);
 
-  const startSpeedTest = async (async = false) => {
+  const startSpeedTest = async (async = true) => {
     setStatus("testing");
 
     const validResults: { ip: string; duration: number }[] = [];
@@ -41,16 +41,30 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
 
       try {
         const start = Date.now();
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
+        // Use WebSocket for speed testing
+        await new Promise<void>((resolve, reject) => {
+          const ws = new WebSocket(`ws://${ip}`);
+          const timeoutId = setTimeout(() => {
+            ws.close();
+            reject(new Error("Timeout"));
+          }, 3000);
 
-        await fetch(`http://${ip}`, {
-          method: "HEAD",
-          signal: controller.signal,
-          mode: "cors", // 确保使用了CORS
+          ws.onopen = () => {
+            ws.send("ping");
+          };
+
+          ws.onmessage = () => {
+            clearTimeout(timeoutId);
+            ws.close();
+            resolve();
+          };
+
+          ws.onerror = (e) => {
+            clearTimeout(timeoutId);
+            reject(e);
+          };
         });
 
-        clearTimeout(timeoutId);
         const duration = Date.now() - start + (server.oversea ? 10000 : 0);
         return { ip, duration };
       } catch (e) {
@@ -144,7 +158,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
         <div className="p-6 space-y-6">
           <div className="space-y-4">
             <div className="flex items-center justify-between text-sm p-4 rounded-xl bg-white/5 border border-white/5">
-              <span className="text-slate-400">状态</span>
+              <span className="text-slate-400">节点</span>
               <span
                 className={
                   status === "completed"
@@ -168,7 +182,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
               下载配置文件
             </button>
             <p className="text-xs text-slate-500 text-center mt-3 px-2">
-              请勿修改配置内容，以免造成无法使用VGReborn
+              请勿修改配置内容，以免造成无法使用
             </p>
           </div>
         </div>
