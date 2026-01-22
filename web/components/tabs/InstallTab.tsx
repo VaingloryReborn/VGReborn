@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Apple, Chrome } from "lucide-react";
-import mitmCert from '../../assets/certificates/mitmproxy-ca-cert.pem?url';
+import mitmCert from "../../assets/certificates/mitmproxy-ca-cert.pem?url";
 
 import { useAuth } from "../../contexts/AuthContext";
 import { DownloadModal } from "../DownloadModal";
@@ -36,14 +36,14 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
         <div className="flex bg-white/5 p-1 rounded-xl border border-white/5 mb-6">
           <button
             onClick={() => setInstallPlatform("ios")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-bold transition-all ${installPlatform === "ios" ? "bg-red-800 text-white shadow-lg" : "text-slate-500 hover:text-slate-300"}`}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-all ${installPlatform === "ios" ? "bg-red-800 text-white shadow-lg" : "text-slate-500 hover:text-slate-300"}`}
           >
             <Apple className="w-4 h-4" />
             iOS
           </button>
           <button
             onClick={() => setInstallPlatform("android")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-bold transition-all ${installPlatform === "android" ? "bg-red-800 text-white shadow-lg" : "text-slate-500 hover:text-slate-300"}`}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-all ${installPlatform === "android" ? "bg-red-800 text-white shadow-lg" : "text-slate-500 hover:text-slate-300"}`}
           >
             <Chrome className="w-4 h-4" />
             安卓
@@ -61,7 +61,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                   <h3 className="font-bold text-white mb-1 text-sm">
                     安装游戏
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-sm text-slate-400">
                     从 App Store 下载安装官方《虚荣》游戏。
                   </p>
                 </div>
@@ -74,7 +74,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                   <h3 className="font-bold text-white mb-1 text-sm">
                     安装并信任证书
                   </h3>
-                  <ol className="list-decimal list-outside pl-4 space-y-1.5 text-xs text-slate-400 marker:text-slate-500">
+                  <ol className="list-decimal list-outside pl-4 space-y-1.5 text-sm text-slate-400 marker:text-slate-500">
                     <li>
                       使用Safari浏览器
                       <a
@@ -102,18 +102,18 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                   <h3 className="font-bold text-white mb-1 text-sm">
                     安装加速器
                   </h3>
-                  <ol className="list-decimal list-outside pl-4 space-y-1.5 text-xs text-slate-400 marker:text-slate-500">
+                  <ol className="list-decimal list-outside pl-4 space-y-1.5 text-sm text-slate-400 marker:text-slate-500">
                     <li>
                       目前没有App版的VGReborn一键加速，只能使用WireGuard进入加速隧道，在AppStore下载WireGuard
                     </li>
                     <li>
-                      这是你的账号进入加速隧道的通行证：
                       <span
                         onClick={handleDownload}
                         className="underline text-red-500 mx-1 cursor-pointer"
                       >
                         下载WireGuard配置文件
                       </span>
+                      (这是你账号进入加速隧道的身份令牌)
                     </li>
                     <li>
                       打开WireGuard，点击右上角添加配置，导入刚才下载的配置文件
@@ -132,7 +132,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                   <h3 className="font-bold text-white mb-1 text-sm">
                     开始游戏
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-sm text-slate-400">
                     你已成功加入VGReborn，进入游戏VGReborn将自动同步你的游戏状态。
                   </p>
                 </div>
@@ -148,7 +148,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                   <h3 className="font-bold text-white mb-1 text-sm">
                     下载游戏
                   </h3>
-                  <ol className="list-decimal list-outside pl-4 space-y-1.5 text-xs text-slate-400 marker:text-slate-500">
+                  <ol className="list-decimal list-outside pl-4 space-y-1.5 text-sm text-slate-400 marker:text-slate-500">
                     <li>
                       下载支持MITM的
                       <a
@@ -175,19 +175,19 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                   <h3 className="font-bold text-white mb-1 text-sm">
                     安装加速器
                   </h3>
-                  <ol className="list-decimal list-outside pl-4 space-y-1.5 text-xs text-slate-400 marker:text-slate-500">
+                  <ol className="list-decimal list-outside pl-4 space-y-1.5 text-sm text-slate-400 marker:text-slate-500">
                     <li>
                       目前没有App版的VGReborn一键加速，只能使用WireGuard进入加速隧道，在Google
                       Play或APKPure等平台下载WireGuard
                     </li>
                     <li>
-                      这是你的账号进入加速隧道的通行证：
                       <span
                         onClick={handleDownload}
                         className="underline text-red-500 mx-1 cursor-pointer"
                       >
                         下载WireGuard配置文件
                       </span>
+                      (这是你账号进入加速隧道的身份令牌)
                     </li>
                     <li>
                       打开WireGuard，点击右上角添加配置，导入刚才下载的配置文件
@@ -207,7 +207,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                   <h3 className="font-bold text-white mb-1 text-sm">
                     开始游戏
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-sm text-slate-400">
                     你已成功加入VGReborn，进入游戏VGReborn将自动同步你的游戏状态。
                   </p>
                 </div>
@@ -217,9 +217,9 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
         )}
       </div>
 
-      <DownloadModal 
-        isOpen={isDownloadModalOpen} 
-        onClose={() => setIsDownloadModalOpen(false)} 
+      <DownloadModal
+        isOpen={isDownloadModalOpen}
+        onClose={() => setIsDownloadModalOpen(false)}
       />
     </div>
   );

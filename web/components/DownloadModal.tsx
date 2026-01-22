@@ -30,7 +30,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
     }
   }, [isOpen]);
 
-  const startSpeedTest = async (async = true) => {
+  const startSpeedTest = async (async = false) => {
     setStatus("testing");
 
     const validResults: { ip: string; duration: number }[] = [];
@@ -65,7 +65,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
           };
         });
 
-        const duration = Date.now() - start + (server.oversea ? 10000 : 0);
+        const duration = (Date.now() - start) / 2;
         return { ip, duration };
       } catch (e) {
         return null;
@@ -74,14 +74,14 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
 
     if (async) {
       // 并发测试
-      const promises = servers.map(testServer);
+      const promises = servers.filter((s) => !s.oversea).map(testServer);
       const settled = await Promise.all(promises);
       settled.forEach((r) => {
         if (r) validResults.push(r);
       });
     } else {
       // 串行测试
-      for (const server of servers) {
+      for (const server of servers.filter((s) => !s.oversea)) {
         const result = await testServer(server);
         if (result) {
           validResults.push(result);

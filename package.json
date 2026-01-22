@@ -12,7 +12,8 @@
     "dev:all": "concurrently \"npm run dev:web\" \"npm run dev:monitor\"",
     "build": "npm run build --workspaces",
     "install:all": "npm install",
-    "deploy:monitor": "pm2 deploy mitm-monitor/ecosystem.config.js production update"
+    "deploy:monitor": "pm2 deploy mitm-monitor/ecosystem.config.js production update",
+    "deploy:supabase": "npm run deploy --workspace=supabase"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
