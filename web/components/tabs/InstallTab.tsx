@@ -3,6 +3,7 @@ import { Apple, Chrome } from "lucide-react";
 import mitmCert from '../../assets/certificates/mitmproxy-ca-cert.pem?url';
 
 import { useAuth } from "../../contexts/AuthContext";
+import { DownloadModal } from "../DownloadModal";
 
 interface InstallTabProps {
   onOpenLogin: () => void;
@@ -13,11 +14,14 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
   const [installPlatform, setInstallPlatform] = useState<"ios" | "android">(
     "ios",
   );
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
 
   const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     if (!user) {
-      e.preventDefault();
       onOpenLogin();
+    } else {
+      setIsDownloadModalOpen(true);
     }
   };
   const stepCircleStyle =
@@ -104,14 +108,12 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                     </li>
                     <li>
                       这是你的账号进入加速隧道的通行证：
-                      <a
-                        // href="https://vgreborn.github.io/vgreborn/assets/configs/vgreborn-wireguard.conf"
-                        // download
+                      <span
                         onClick={handleDownload}
                         className="underline text-red-500 mx-1 cursor-pointer"
                       >
                         下载WireGuard配置文件
-                      </a>
+                      </span>
                     </li>
                     <li>
                       打开WireGuard，点击右上角添加配置，导入刚才下载的配置文件
@@ -165,6 +167,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                 </div>
               </div>
             </div>
+
             <div className="glass-panel p-5 rounded-2xl border-white/5">
               <div className="flex items-start gap-4">
                 <div className={stepCircleStyle}>2</div>
@@ -179,14 +182,12 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                     </li>
                     <li>
                       这是你的账号进入加速隧道的通行证：
-                      <a
-                        // href="https://vgreborn.github.io/vgreborn/assets/configs/vgreborn-wireguard.conf"
-                        // download
+                      <span
                         onClick={handleDownload}
-                        className="underline text-red-500 mx-1"
+                        className="underline text-red-500 mx-1 cursor-pointer"
                       >
                         下载WireGuard配置文件
-                      </a>
+                      </span>
                     </li>
                     <li>
                       打开WireGuard，点击右上角添加配置，导入刚才下载的配置文件
@@ -198,6 +199,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                 </div>
               </div>
             </div>
+
             <div className="glass-panel p-5 rounded-2xl border-white/5">
               <div className="flex items-start gap-4">
                 <div className={stepCircleStyle}>3</div>
@@ -214,6 +216,11 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
           </>
         )}
       </div>
+
+      <DownloadModal 
+        isOpen={isDownloadModalOpen} 
+        onClose={() => setIsDownloadModalOpen(false)} 
+      />
     </div>
   );
 };

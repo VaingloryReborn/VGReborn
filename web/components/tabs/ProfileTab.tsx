@@ -14,6 +14,7 @@ import { Player } from "../../types";
 import { getRegionName, getStatusDisplay } from "../../utils/status";
 import FeedbackModal from "../FeedbackModal";
 import UpdateHandleModal from "../UpdateHandleModal";
+import { DownloadModal } from "../DownloadModal";
 
 interface ProfileTabProps {
   user: Player | null;
@@ -30,6 +31,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
 }: ProfileTabProps) => {
   const [isFeedbackOpen, setIsFeedbackOpen] = React.useState(false);
   const [isUpdateHandleOpen, setIsUpdateHandleOpen] = React.useState(false);
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = React.useState(false);
   const getReputationColor = (rep: string) => {
     if (rep === "优") return "text-emerald-400";
     if (rep === "一般") return "text-amber-400";
@@ -136,7 +138,10 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
       </div>
 
       <div className="space-y-3">
-        <div className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer">
+        <div 
+          onClick={() => setIsDownloadModalOpen(true)}
+          className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer"
+        >
           <div className="flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-blue-400" />
             <span className="text-sm font-medium text-slate-200">
@@ -193,6 +198,10 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         isOpen={isUpdateHandleOpen}
         onClose={() => setIsUpdateHandleOpen(false)}
         user={user}
+      />
+      <DownloadModal
+        isOpen={isDownloadModalOpen}
+        onClose={() => setIsDownloadModalOpen(false)}
       />
     </div>
   );
