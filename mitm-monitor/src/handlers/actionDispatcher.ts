@@ -13,6 +13,7 @@ export async function handleAction(
     const patch: Record<string, unknown> = {
       state: "online",
       activated: true,
+      query_pending_match: null,
     };
     patch.session_token = sessionToken;
     if (returnValue && typeof returnValue === "object") {
@@ -100,9 +101,10 @@ export async function handleAction(
       state: "online",
       lobby: null,
       player_handle: null,
+      query_pending_match: null,
     });
   } else if (action === "endSession") {
-    await updateUser(user, { state: "offline" });
+    await updateUser(user, { state: "offline", query_pending_match: null });
   } else if (action === "renamePlayerHandle") {
     const returnValue = body.returnValue as Record<string, unknown> | undefined;
     let newHandle: string | undefined;

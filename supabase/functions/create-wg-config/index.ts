@@ -42,7 +42,8 @@ serve(async (req) => {
   }
 
   if (!userId) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+    console.log("Auth failed. Auth Header present:", !!authHeader);
+    return new Response(JSON.stringify({ error: "Unauthorized", debug: "Auth failed", hasAuthHeader: !!authHeader }), {
       status: 401,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

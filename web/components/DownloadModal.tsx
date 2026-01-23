@@ -105,6 +105,14 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
     if (!bestIp) return;
     setIsDownloading(true);
     try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      console.log("Current session:", session ? "Active" : "None");
+      if (!session) {
+        throw new Error("请先登录");
+      }
+
       console.log("Requesting config for IP:", bestIp);
       const { data, error } = await supabase.functions.invoke<{
         userId: string;
@@ -128,7 +136,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "vgreborn-wireguard.conf";
+      a.download = `vgreborn_${Date.now()}.conf`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

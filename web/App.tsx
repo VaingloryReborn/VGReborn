@@ -4,7 +4,7 @@ import LoginModal from "./components/LoginModal";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import BottomNav from "./components/layout/BottomNav";
 import servers from "./assets/ea-servers.json";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, X } from "lucide-react";
 import { supabase } from "./supabase";
 
 // Separate Tab Components
@@ -22,6 +22,7 @@ const AppContent: React.FC = () => {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [connectionError, setConnectionError] = useState(false);
+  const [showErrorBanner, setShowErrorBanner] = useState(false);
   const rooms = useRooms();
 
   const { user, isAuthLoading, logout } = useAuth();
@@ -30,26 +31,36 @@ const AppContent: React.FC = () => {
     const checkConnection = async () => {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-        const response = await fetch("https://health.vgreborn.com/", {
+        await fetch("https://health.vgreborn.com/", {
           method: "HEAD",
           signal: controller.signal,
           mode: "no-cors",
         });
-        
+
         clearTimeout(timeoutId);
-        
-        // Since mode is 'no-cors', we can't check response.ok or status
-        // If fetch succeeds without throwing, we assume connectivity is fine
+        setConnectionError(false);
+        setShowErrorBanner(false);
       } catch (error) {
         console.error("Middle server connection failed:", error);
         setConnectionError(true);
+        setShowErrorBanner(true);
+        const interval = setTimeout(() => {
+          checkConnection();
+        }, 10000);
       }
     };
 
     checkConnection();
   }, []);
+
+  useEffect(() => {
+    if (showErrorBanner) {
+      const timer = setTimeout(() => setShowErrorBanner(false), 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [showErrorBanner]);
 
   const handleLogout = async () => {
     await logout();
@@ -65,12 +76,20 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto min-h-screen relative shadow-2xl overflow-hidden bg-[#0f111a]">
-      {connectionError && (
-        <div className="absolute top-0 left-0 right-0 z-[60] bg-red-500 bg-opacity-70 text-white px-4 py-3 flex items-center justify-center gap-2 shadow-lg animate-in slide-in-from-top duration-300">
-          <AlertCircle className="w-4 h-4 shrink-0" />
-          <span className="text-xs font-medium">
-            中间服务器连接失败，请检查网络
-          </span>
+      {showErrorBanner && (
+        <div className="absolute top-0 left-0 right-0 z-[60] bg-red-500 bg-opacity-70 text-white px-4 py-3 flex items-center justify-between shadow-lg animate-in slide-in-from-top duration-300">
+          <div className="flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span className="text-xs font-medium">
+              中间服务器连接失败，请检查网络
+            </span>
+          </div>
+          <button
+            onClick={() => setShowErrorBanner(false)}
+            className="p-1 hover:bg-white/20 rounded-full transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
         </div>
       )}
       <DynamicIsland user={user} />

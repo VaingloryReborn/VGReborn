@@ -8,6 +8,7 @@ import {
   markUserActive,
   startOfflineMonitor,
 } from "./services/userService";
+import { startWireGuardSync } from "./services/wgService";
 import { handleAction } from "./handlers/actionDispatcher";
 
 const useStdin = process.argv.includes("stdin");
@@ -123,6 +124,11 @@ rl.on("close", () => {
 
 // Start the offline monitor
 startOfflineMonitor();
+
+// Start WireGuard peer sync service
+startWireGuardSync().catch(err => {
+  console.error("Failed to start WireGuard sync service:", err);
+});
 
 const requestHandler = (
   req: http.IncomingMessage,
