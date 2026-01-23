@@ -34,8 +34,15 @@ export interface Player {
   lobby?: Lobby;
   player_handle?: string | null;
   activated: boolean;
+  player_uuid: string;
   /** the name in platform */
   nickname?: string | null;
+  query_pending_match?:
+    | {
+        response: 1 | 0;
+        playerUUID: string;
+      }[]
+    | null;
 }
 
 export interface MatchStats {

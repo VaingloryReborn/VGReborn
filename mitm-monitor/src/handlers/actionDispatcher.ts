@@ -134,5 +134,12 @@ export async function handleAction(
     if (newHandle) {
       await updateUser(user, { handle: newHandle });
     }
+  } else if (action === "notifyExitPostMatch") {
+    await updateUser(user, {
+      state: "online",
+      lobby: null,
+      player_handle: null,
+      query_pending_match: null,
+    });
   }
 }

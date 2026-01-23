@@ -102,13 +102,7 @@ export const useRooms = () => {
 
       const player: Player = {
         ...MOCK_USER, // Defaults
-        id: p.id,
-        handle: p.handle || "Unknown",
-        state: p.state as Player["state"],
-        region: p.region,
-        lobby: p.lobby,
-        player_handle: p.player_handle,
-        nickname: p.nickname,
+        ...p,
         // Override derived props if needed
         // Team could be stored in a transient property if needed, but Room doesn't strictly track teams in the array
         // The prompt says "code same users distributed in one room"

@@ -1,6 +1,6 @@
 import React from "react";
 import { Room } from "../types";
-import { Users, Lock, Globe } from "lucide-react";
+import { Users, Lock, Globe, User } from "lucide-react";
 import { getLobbyName, getStatusDisplay } from "../utils/status";
 
 interface RoomCardProps {
@@ -54,7 +54,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
       return "text-yellow-400 bg-yellow-500/10 border-yellow-500/20";
     }
     // 3v3 -> Purple
-    if (mode.includes("3v3")) {
+    if (mode === "ranked") {
       return "text-purple-400 bg-purple-500/10 border-purple-500/20";
     }
 
@@ -120,6 +120,22 @@ const RoomCard: React.FC<RoomCardProps> = ({
             const displayName = member.handle.replace(/^\d+(?:-[ABab])?_/, "");
             const nickname = member.nickname ? `(${member.nickname})` : "";
             const statusDisplay = getStatusDisplay(member);
+            const accepted = !!room.members?.find((player) => {
+              return player.query_pending_match?.find((item) => {
+                return (
+                  item.playerUUID === player.player_uuid &&
+                  item.response === 1 &&
+                  player.state === "matching"
+                );
+              });
+            }) ? (
+              <User
+                className="w-3 h-3 text-white ml-1 inline-block animate-soft-bounce opacity-70"
+                fill="currentColor"
+              />
+            ) : (
+              ""
+            );
             return (
               <div
                 key={member.id}
@@ -134,11 +150,12 @@ const RoomCard: React.FC<RoomCardProps> = ({
                   ></div>
                 </div>
                 <span
-                  className="text-xs text-slate-400 truncate flex-1"
+                  className="text-xs text-slate-400 truncate flex-1 flex items-center"
                   title={member.handle}
                 >
                   {displayName}
                   {nickname}
+                  {accepted}
                 </span>
               </div>
             );

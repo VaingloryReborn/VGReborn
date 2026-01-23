@@ -44,10 +44,10 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
         const start = Date.now();
         // Use WebSocket for speed testing
         await new Promise<void>((resolve, reject) => {
-          const ws = new WebSocket(`wss://${ip}`);
+          const ws = new WebSocket(`ws://${ip}`);
           const timeoutId = setTimeout(() => {
-            ws.close();
             reject(new Error("Timeout"));
+            ws.close();
           }, 3000);
 
           ws.onopen = () => {
@@ -55,9 +55,9 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
           };
 
           ws.onmessage = () => {
+            resolve();
             clearTimeout(timeoutId);
             ws.close();
-            resolve();
           };
 
           ws.onerror = (e) => {
@@ -65,6 +65,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
             reject(e);
           };
         });
+        // await fetch(`http://${ip}`);
 
         const duration = (Date.now() - start) / 2;
         return { ip, duration };
@@ -111,7 +112,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
         address: string;
         clientConf: string;
       }>("create-wg-config", {
-        body: { ip: bestIp },
+        body: { ip: bestIp.ip },
       });
 
       console.log("create-wg-config response:", data);
@@ -123,7 +124,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
       // 假设返回的是配置文件内容文本
       // 如果是JSON包装的，请根据实际情况调整
       const content = data.clientConf;
-      const blob = new Blob([content], { type: "text/plain" });
+      const blob = new Blob([content], { type: "application/octet-stream" });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -145,7 +146,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
   const getLatencyColor = (latency: number) => {
     if (latency < 50) return "text-green-400";
     if (latency < 120) return "text-slate-300";
-    if (latency < 200) return "text-slate-300";
+    if (latency < 250) return "text-slate-300";
     return "text-yellow-400";
   };
 
@@ -181,33 +182,25 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
                   <div className="font-medium text-green-400 mb-1">
                     极佳体验（0-50ms）
                   </div>
-                  <div className="text-slate-300 text-xs leading-relaxed">
-                    操作近乎实时，理想状态
-                  </div>
+                  <div className="text-slate-300 text-xs leading-relaxed"></div>
                 </div>
                 <div className="p-3 rounded-lg bg-slate-500/10 border border-slate-500/20">
                   <div className="font-medium text-slate-300 mb-1">
                     正常水平（50-120ms）
                   </div>
-                  <div className="text-slate-300 text-xs leading-relaxed">
-                    多数玩家的常态
-                  </div>
+                  <div className="text-slate-300 text-xs leading-relaxed"></div>
                 </div>
                 <div className="p-3 rounded-lg bg-slate-500/10 border border-slate-500/20">
                   <div className="font-medium text-slate-300 mb-1">
-                    轻微延迟（120-200ms）
+                    轻微延迟（120-250ms）
                   </div>
-                  <div className="text-slate-300 text-xs leading-relaxed">
-                    轻微延迟感，但通过预判仍可正常对线和参与团战
-                  </div>
+                  <div className="text-slate-300 text-xs leading-relaxed"></div>
                 </div>
                 <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
                   <div className="font-medium text-yellow-400 mb-1">
-                    无法忍受（200ms以上）
+                    体验很差（250ms以上）
                   </div>
-                  <div className="text-slate-300 text-xs leading-relaxed">
-                    无法进行有效对局
-                  </div>
+                  <div className="text-slate-300 text-xs leading-relaxed"></div>
                 </div>
               </div>
             </div>
@@ -219,7 +212,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
                   <div className="flex items-center gap-2">
                     <span
                       className={
-                        status === "completed"
+                        status === "completed" && bestIp
                           ? `${getLatencyColor(
                               bestIp?.duration || 0,
                             )} font-medium`
@@ -228,7 +221,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
                     >
                       {status === "testing"
                         ? "正在匹配低延迟节点..."
-                        : `匹配成功(≈${bestIp?.duration}ms)`}
+                        : `最快节点(${bestIp ? "≈" + bestIp?.duration + "ms" : " 匹配失败 "})`}
                     </span>
                     {status === "completed" && (
                       <button
