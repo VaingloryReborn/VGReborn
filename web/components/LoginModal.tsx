@@ -261,7 +261,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 </h4>
                 <p>
                   VGReborn 是针对《虚荣社区版 (Vainglory
-                  CE)》开发的第三方公益匹配增强平台。本平台旨在通过技术手段提升玩家的联机匹配体验。
+                  CE)》开发的第三方匹配增强平台。本平台旨在通过技术手段提升玩家的联机匹配体验。
                 </p>
               </section>
               <section>

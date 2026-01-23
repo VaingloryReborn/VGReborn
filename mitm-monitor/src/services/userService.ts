@@ -41,7 +41,7 @@ export async function getUserByClientIp(clientIp: string) {
   const { data: peers, error } = await supabase
     .from(wgPeersTable)
     .select("user_id")
-    .eq("ip_address", clientIp)
+    .or(`ip_address.eq.${clientIp},ip_address.eq.${clientIp}/32`)
     .limit(1);
 
   if (error) {

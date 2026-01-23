@@ -251,6 +251,9 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
                   下载配置文件
                 </button>
                 <p className="text-xs text-slate-500 text-center mt-3 px-2">
+                  目前仅支持东亚服
+                </p>
+                <p className="text-xs text-slate-500 text-center mt-3 px-2">
                   请勿修改配置内容，以免造成无法使用
                 </p>
               </div>
