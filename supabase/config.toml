@@ -4,3 +4,6 @@ project_id = "create-wg-config"
 [functions.create-wg-config]
 verify_jwt = false
 
+[functions.check-server-status]
+verify_jwt = false
+

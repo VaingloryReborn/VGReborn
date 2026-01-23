@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import BottomNav from "./components/layout/BottomNav";
 import servers from "./assets/ea-servers.json";
 import { AlertCircle } from "lucide-react";
+import { supabase } from "./supabase";
 
 // Separate Tab Components
 import HomeTab from "./components/tabs/HomeTab";
@@ -27,21 +28,20 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     const checkConnection = async () => {
-      if (servers.length === 0) return;
-      const firstServer = servers[0];
-      const { ip } = firstServer;
-      if (!ip) return;
-
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
-        await fetch(`http://${ip}`, {
+        const response = await fetch("https://health.vgreborn.com/", {
           method: "HEAD",
           signal: controller.signal,
           mode: "no-cors",
         });
+        
         clearTimeout(timeoutId);
+        
+        // Since mode is 'no-cors', we can't check response.ok or status
+        // If fetch succeeds without throwing, we assume connectivity is fine
       } catch (error) {
         console.error("Middle server connection failed:", error);
         setConnectionError(true);
@@ -66,10 +66,10 @@ const AppContent: React.FC = () => {
   return (
     <div className="max-w-md mx-auto min-h-screen relative shadow-2xl overflow-hidden bg-[#0f111a]">
       {connectionError && (
-        <div className="fixed top-0 left-0 right-0 z-[60] bg-red-500/90 backdrop-blur-sm text-white px-4 py-3 flex items-center justify-center gap-2 shadow-lg animate-in slide-in-from-top duration-300">
+        <div className="absolute top-0 left-0 right-0 z-[60] bg-red-500 bg-opacity-70 text-white px-4 py-3 flex items-center justify-center gap-2 shadow-lg animate-in slide-in-from-top duration-300">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span className="text-xs font-medium">
-            中间服务器连接失败，请检查网络设置
+            中间服务器连接失败，请检查网络
           </span>
         </div>
       )}

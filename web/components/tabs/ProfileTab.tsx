@@ -9,6 +9,7 @@ import {
   MessageSquareText,
   Github,
   Edit2,
+  Users,
 } from "lucide-react";
 import { Player } from "../../types";
 import { getRegionName, getStatusDisplay } from "../../utils/status";
@@ -59,9 +60,9 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-6 border border-white/10">
           <User className="w-12 h-12 text-slate-600" />
         </div>
-        <h2 className="text-xl font-bold mb-2 text-white">欢迎来到海希安</h2>
+        <h2 className="text-xl font-bold mb-2 text-white">欢迎回到海希安</h2>
         <p className="text-sm text-slate-400 mb-8 max-w-xs leading-relaxed">
-          登录 VGReborn 以同步您的玩家数据，查看排位等级和比赛记录。
+          登录 VGReborn 以同步您的游戏数据
         </p>
         <button
           onClick={onOpenLogin}
@@ -131,14 +132,16 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
               服务器
             </p>
             <p className="text-base font-black text-slate-100">
-              {getRegionName(user.region) || "未绑定"}
+              {getRegionName(user.region) || (
+                <span onClick={() => setIsDownloadModalOpen(true)}>未绑定</span>
+              )}
             </p>
           </div>
         </div>
       </div>
 
       <div className="space-y-3">
-        <div 
+        <div
           onClick={() => setIsDownloadModalOpen(true)}
           className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer"
         >
@@ -152,9 +155,16 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         </div>
         <div className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer">
           <div className="flex items-center gap-3">
+            <Users className="w-5 h-5 text-indigo-400" />
+            <span className="text-sm font-medium text-slate-200">好友</span>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-500" />
+        </div>
+        <div className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer">
+          <div className="flex items-center gap-3">
             <Zap className="w-5 h-5 text-amber-400" />
             <span className="text-sm font-medium text-slate-200">
-              举报恶意行为
+              举报
             </span>
           </div>
           <ChevronRight className="w-4 h-4 text-slate-500" />
@@ -170,7 +180,11 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           <ChevronRight className="w-4 h-4 text-slate-500" />
         </div>
         <div
-          onClick={() => open('https://github.com/VaingloryReborn/VGReborn/blob/main/LICENSE')}
+          onClick={() =>
+            open(
+              "https://github.com/VaingloryReborn/VGReborn/blob/main/LICENSE",
+            )
+          }
           className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer"
         >
           <div className="flex items-center gap-3">

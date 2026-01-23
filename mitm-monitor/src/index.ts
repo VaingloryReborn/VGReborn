@@ -124,8 +124,10 @@ rl.on("close", () => {
 // Start the offline monitor
 startOfflineMonitor();
 
-// Start HTTP server on port 80
-const server = http.createServer((req, res) => {
+const requestHandler = (
+  req: http.IncomingMessage,
+  res: http.ServerResponse
+) => {
   // Set CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -139,14 +141,19 @@ const server = http.createServer((req, res) => {
 
   res.writeHead(200, { "Content-Type": "text/plain" });
   res.end("OK");
-});
+};
+
+const port = parseInt(process.env.PORT || "80", 10);
+
+console.log(`Starting HTTP server on port ${port}...`);
+const server = http.createServer(requestHandler);
 
 server.on("error", (err) => {
-  console.error("Failed to start HTTP server on port 80:", err);
+  console.error(`Failed to start server on port ${port}:`, err);
 });
 
-server.listen(80, () => {
-  console.log("HTTP server listening on port 80");
+server.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });
 
 // Create WebSocket server attached to the HTTP server
