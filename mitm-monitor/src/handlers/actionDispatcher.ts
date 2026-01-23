@@ -105,12 +105,34 @@ export async function handleAction(
     await updateUser(user, { state: "offline" });
   } else if (action === "renamePlayerHandle") {
     const returnValue = body.returnValue as Record<string, unknown> | undefined;
+    let newHandle: string | undefined;
+
     if (
       returnValue &&
       typeof returnValue === "object" &&
-      "handle" in returnValue
+      "handle" in returnValue &&
+      typeof returnValue.handle === "string"
     ) {
-      await updateUser(user, { handle: returnValue.handle });
+      newHandle = returnValue.handle;
+    }
+
+    if (!newHandle) {
+      const reqBody = entry.req_body as
+        | Record<string, unknown>
+        | null
+        | undefined;
+      if (
+        reqBody &&
+        Array.isArray(reqBody.params) &&
+        reqBody.params.length > 2 &&
+        typeof reqBody.params[2] === "string"
+      ) {
+        newHandle = reqBody.params[2];
+      }
+    }
+
+    if (newHandle) {
+      await updateUser(user, { handle: newHandle });
     }
   }
 }
