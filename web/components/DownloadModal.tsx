@@ -44,7 +44,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
         const start = Date.now();
         // Use WebSocket for speed testing
         await new Promise<void>((resolve, reject) => {
-          const ws = new WebSocket(`ws://${ip}`);
+          const ws = new WebSocket(`wss://${ip}`);
           const timeoutId = setTimeout(() => {
             ws.close();
             reject(new Error("Timeout"));

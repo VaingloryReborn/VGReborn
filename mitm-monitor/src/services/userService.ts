@@ -138,26 +138,39 @@ export function markUserActive(userId: string, user: Record<string, any>) {
   activeUserRefs.set(userId, user);
 }
 
+/**
+ * 启动离线监控服务
+ * 定期检查用户的活跃状态，将超时不活跃的用户标记为离线
+ */
 export function startOfflineMonitor() {
-  setInterval(async () => {
-    const now = Date.now();
-    const TIMEOUT_MS = 2 * 60 * 1000;
+  // 每10分钟执行一次检查
+  setInterval(
+    async () => {
+      const now = Date.now();
+      const MINUTES_2 = 2 * 60 * 1000; // 超时阈值：2分钟
+      const MINUTES_10 = 30 * 60 * 1000;
 
-    for (const [userId, lastSeen] of lastActiveMap) {
-      if (now - lastSeen > TIMEOUT_MS) {
-        const user = activeUserRefs.get(userId);
-        if (user && user.state !== "offline" && user.state !== "playing") {
-          console.log(
-            `[Timeout] User ${userId} inactive for >1min. Setting offline.`,
-          );
-          await updateUser(user, { state: "offline" });
-        }
+      for (const [userId, lastSeen] of lastActiveMap) {
+        // 如果用户超过2分钟没有活动
+        if (now - lastSeen > MINUTES_2) {
+          const user = activeUserRefs.get(userId);
+          // 如果用户存在，且当前不是离线状态，也不是游戏中状态（游戏中可能不发送心跳）
+          if (user && user.state !== "offline" && user.state !== "playing") {
+            console.log(
+              `[Timeout] User ${userId} inactive for >1min. Setting offline.`,
+            );
+            await updateUser(user, { state: "offline" });
+          }
 
-        if (now - lastSeen > 3600 * 1000) {
-          lastActiveMap.delete(userId);
-          activeUserRefs.delete(userId);
+          // 如果用户超过30分钟没有活动，从内存中清除记录，防止内存泄漏
+          if (now - lastSeen > 30 * 60 * 1000) {
+            if (user) await updateUser(user, { state: "offline" });
+            lastActiveMap.delete(userId);
+            activeUserRefs.delete(userId);
+          }
         }
       }
-    }
-  }, 10000);
+    },
+    10 * 60 * 1000,
+  );
 }

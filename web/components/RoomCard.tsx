@@ -119,16 +119,22 @@ const RoomCard: React.FC<RoomCardProps> = ({
             // Remove code and team prefix (e.g. "1200-A_Name" -> "Name", "1200_Name" -> "Name")
             const displayName = member.handle.replace(/^\d+(?:-[ABab])?_/, "");
             const nickname = member.nickname ? `(${member.nickname})` : "";
+            const statusDisplay = getStatusDisplay(member);
             return (
               <div
                 key={member.id}
                 className="flex items-center gap-2 overflow-hidden"
               >
-                <div
-                  className={`w-1.5 h-1.5 rounded-full ${getStatusDisplay(member).dot}`}
-                ></div>
+                <div className="relative">
+                  <div className="w-5 h-5 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-[10px] font-bold text-white border border-white/10 shadow-sm">
+                    {displayName.charAt(0).toUpperCase()}
+                  </div>
+                  <div
+                    className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-[#1a1b26] ${statusDisplay.dot}`}
+                  ></div>
+                </div>
                 <span
-                  className="text-xs text-slate-400 truncate"
+                  className="text-xs text-slate-400 truncate flex-1"
                   title={member.handle}
                 >
                   {displayName}
