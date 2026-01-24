@@ -1,7 +1,8 @@
 import React from "react";
-import { Room } from "../types";
+import { Player, Room } from "../types";
 import { Users, Lock, Globe, User } from "lucide-react";
 import { getLobbyName, getStatusDisplay } from "../utils/status";
+import { useToast } from "../contexts/ToastContext";
 
 interface RoomCardProps {
   room: Room;
@@ -12,11 +13,37 @@ const RoomCard: React.FC<RoomCardProps> = ({
   room,
   onClick,
 }: RoomCardProps) => {
+  const { toast } = useToast();
   const codeNum = parseInt(room.codePrefix);
-  const isPrivate = codeNum >= 3000;
+  const query_pending_match = room.members
+    ?.filter((member) => member.query_pending_match?.length)
+    .map((member) => {
+      return member.query_pending_match;
+    })?.[0];
 
+  const roomMembers = query_pending_match
+    ? query_pending_match?.map((item) => {
+        return (
+          room.members.find((player) => {
+            return player.player_uuid === item.playerUUID;
+          }) ||
+          ({
+            unknown: true,
+            handle: "未知",
+            player_uuid: item.playerUUID,
+            id: item.playerUUID,
+            level: -1,
+            rankTier: undefined,
+            activated: true,
+            get state() {
+              return room.members.find((m) => m.query_pending_match)?.state;
+            },
+          } as Player)
+        );
+      })
+    : room.members;
   // Style config based on room type (Public vs Private)
-  const styleConfig = isPrivate
+  const styleConfig = room.isPrivate
     ? {
         // Private Room Style (Purple)
         borderColor: "border-purple-500/20",
@@ -64,9 +91,8 @@ const RoomCard: React.FC<RoomCardProps> = ({
   return (
     <div
       // onClick={() => onClick(room)}
-      className={`p-4 mb-3 rounded-xl border glass-panel active:scale-[0.98] transition-all cursor-pointer group relative overflow-hidden ${styleConfig.borderColor} ${styleConfig.hoverBorder} ${styleConfig.glow}`}
+      className={`p-4 mb-3 rounded-xl border glass-panel transition-all cursor-pointer group relative overflow-hidden ${styleConfig.borderColor} ${styleConfig.hoverBorder} ${styleConfig.glow}`}
     >
-      {/* Background decoration */}
       <div
         className={`absolute top-0 right-0 p-3 opacity-5 group-hover:opacity-10 transition-opacity`}
       >
@@ -74,20 +100,18 @@ const RoomCard: React.FC<RoomCardProps> = ({
       </div>
 
       <div className="relative z-10">
-        {/* Row 1: Room Code & Mode */}
         <div className="flex justify-between items-center mb-2">
           <h3
             className={`text-base whitespace-nowrap ${styleConfig.titleColor}`}
           >
             <span className="font-normal">房间代码: </span>
             <span className={`px-2 py-1 rounded font-mono font-bold`}>
-              {isPrivate ? "****" : room.codePrefix}
+              {room.isPrivate ? "****" : room.codePrefix}
               {room.codePrefix === "1200" ? "（默认）" : ""}
             </span>
           </h3>
         </div>
 
-        {/* Row 2: Member Count */}
         <div className="mb-3 flex justify-start items-center gap-1.5">
           <span
             className={`text-xs font-medium px-2 py-1 rounded border flex items-center ${getModeStyle(room.mode)}`}
@@ -110,24 +134,22 @@ const RoomCard: React.FC<RoomCardProps> = ({
           </div>
         </div>
 
-        {/* Divider */}
         <div className="border-t border-white/5 my-3"></div>
 
-        {/* Row 3: Member List */}
         <div className="grid grid-cols-2 gap-y-1 gap-x-2">
-          {room.members.map((member) => {
+          {roomMembers.map((member: Player) => {
             // Remove code and team prefix (e.g. "1200-A_Name" -> "Name", "1200_Name" -> "Name")
-            const displayName = member.handle.replace(/^\d+(?:-[ABab])?_/, "");
-            const nickname = member.nickname ? `(${member.nickname})` : "";
+            const displayName = member
+              ? member?.handle?.replace(/^\d+(?:-[12])?_/, "")
+              : "未知";
+            const nickname = member?.nickname ? `(${member.nickname})` : "";
             const statusDisplay = getStatusDisplay(member);
-            const accepted = !!room.members?.find((player) => {
-              return player.query_pending_match?.find((item) => {
-                return (
-                  item.playerUUID === player.player_uuid &&
-                  item.response === 1 &&
-                  player.state === "matching"
-                );
-              });
+            const accepted = !!query_pending_match?.find((item) => {
+              return (
+                item.playerUUID === member.player_uuid &&
+                item.response === 1 &&
+                member.state === "matching"
+              );
             }) ? (
               <User
                 className="w-3 h-3 text-white ml-1 inline-block animate-soft-bounce opacity-70"
@@ -138,8 +160,8 @@ const RoomCard: React.FC<RoomCardProps> = ({
             );
             return (
               <div
-                key={member.id}
-                className="flex items-center gap-2 overflow-hidden"
+                key={member?.id}
+                className="flex items-center gap-2 overflow-visible"
               >
                 <div className="relative">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-[10px] font-bold text-white border border-white/10 shadow-sm">
@@ -149,10 +171,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
                     className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-[#1a1b26] ${statusDisplay.dot}`}
                   ></div>
                 </div>
-                <span
-                  className="text-xs text-slate-400 truncate flex-1 flex items-center"
-                  title={member.handle}
-                >
+                <span className="text-xs text-slate-400 truncate flex-1 flex items-center">
                   {displayName}
                   {nickname}
                   {accepted}
@@ -160,6 +179,32 @@ const RoomCard: React.FC<RoomCardProps> = ({
               </div>
             );
           })}
+        </div>
+
+        <div className="border-t border-white/5 my-3"></div>
+
+        <div className="flex justify-end items-center gap-2">
+          {room.isPrivate && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                toast("功能开发中...", "info");
+              }}
+              className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-white border border-white/10 transition-colors"
+            >
+              申请加入
+            </button>
+          )}
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              toast("功能开发中...", "info");
+            }}
+            className="px-3 py-1.5 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-xs text-blue-400 border border-blue-500/20 transition-colors"
+          >
+            招募
+          </button>
         </div>
       </div>
     </div>

@@ -15,8 +15,10 @@ export const getLobbyName = (lobby?: string | null) => {
   return map[lobby] || "";
 };
 
-export const getStatusDisplay = (user: Player) => {
-  if (!user.activated)
+export const getStatusDisplay = (user?: Player) => {
+  if (!user)
+    return { text: "未知", color: "text-slate-400", dot: "bg-slate-500" };
+  if (!user?.activated)
     return { text: "未绑定", color: "text-slate-400", dot: "bg-slate-500" };
   const s = user.state?.toLowerCase();
   const lobby = user.lobby;

@@ -13,7 +13,6 @@ export async function handleAction(
     const patch: Record<string, unknown> = {
       state: "online",
       activated: true,
-      query_pending_match: null,
     };
     patch.session_token = sessionToken;
     if (returnValue && typeof returnValue === "object") {
@@ -40,7 +39,10 @@ export async function handleAction(
       return;
     }
   } else if (action === "joinLobby") {
-    const patch: Record<string, unknown> = { state: "matching" };
+    const patch: Record<string, unknown> = {
+      state: "matching",
+      query_pending_match: null,
+    };
     const reqBody = entry.req_body as
       | Record<string, unknown>
       | null
@@ -79,8 +81,8 @@ export async function handleAction(
           state: "matching",
         });
       } else {
+        // 匹配失败
         await updateUser(user, {
-          query_pending_match: null,
           state: "online",
         });
       }
@@ -91,6 +93,7 @@ export async function handleAction(
     await updateUser(user, {
       state: "recording",
       lobby: null,
+      query_pending_match: null,
     });
   } else if (action === "getPlayerInfo") {
     if (user.state !== "matching") {

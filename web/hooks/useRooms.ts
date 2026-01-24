@@ -79,8 +79,8 @@ export const useRooms = () => {
       }
 
       const mode = p.lobby || "";
-      const queryPendingMatch = p.query_pending_match?.length || "";
-      const roomId = `room-${code}-${mode}-${queryPendingMatch}`;
+      const queryPendingMatchLength = p.query_pending_match?.length || "";
+      const roomId = `room-${code}-${mode}-${queryPendingMatchLength}`;
 
       if (!roomsMap.has(roomId)) {
         roomsMap.set(roomId, {
@@ -90,6 +90,8 @@ export const useRooms = () => {
           members: [],
           mode: mode,
           createdAt: Date.now(), // Just for sorting/display
+          query_pending_match: p.query_pending_match,
+          isPrivate: +code >= 3000,
         });
       }
 

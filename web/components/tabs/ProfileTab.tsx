@@ -16,6 +16,7 @@ import { getRegionName, getStatusDisplay } from "../../utils/status";
 import FeedbackModal from "../FeedbackModal";
 import UpdateHandleModal from "../UpdateHandleModal";
 import { DownloadModal } from "../DownloadModal";
+import { useToast } from "@/contexts/ToastContext";
 
 interface ProfileTabProps {
   user: Player | null;
@@ -30,9 +31,81 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
   onOpenLogin,
   onLogout,
 }: ProfileTabProps) => {
+  const { toast } = useToast();
   const [isFeedbackOpen, setIsFeedbackOpen] = React.useState(false);
   const [isUpdateHandleOpen, setIsUpdateHandleOpen] = React.useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = React.useState(false);
+  const menuItems = [
+    {
+      icon: ShieldCheck,
+      color: "text-blue-400",
+      label: "下载WireGuard配置文件",
+      onClick: () => setIsDownloadModalOpen(true),
+    },
+    {
+      icon: Users,
+      color: "text-indigo-400",
+      label: "好友",
+      onClick: () => toast("功能开发中..."),
+    },
+    {
+      icon: Zap,
+      color: "text-amber-400",
+      label: "举报",
+      onClick: () => toast("功能开发中..."),
+    },
+    {
+      icon: MessageSquareText,
+      color: "text-purple-400",
+      label: "反馈",
+      onClick: () => setIsFeedbackOpen(true),
+    },
+    {
+      icon: Github,
+      color: "text-white",
+      label: "开源&协议",
+      onClick: () =>
+        open("https://github.com/VaingloryReborn/VGReborn/blob/main/LICENSE"),
+    },
+  ];
+
+  const MenuList = ({ disabled = false }: { disabled?: boolean }) => (
+    <div className={`space-y-3`}>
+      {menuItems.map((item, index) => (
+        <div
+          key={index}
+          onClick={disabled ? onOpenLogin : item.onClick}
+          className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer"
+        >
+          <div className="flex items-center gap-3">
+            <item.icon className={`w-5 h-5 ${item.color}`} />
+            <span className="text-sm font-medium text-slate-200">
+              {item.label}
+            </span>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-500" />
+        </div>
+      ))}
+      {disabled ? (
+        <div className="glass-panel p-4 rounded-xl flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <LogOut className="w-5 h-5 text-rose-400" />
+            <span className="text-sm font-medium text-slate-200">退出登录</span>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-500" />
+        </div>
+      ) : (
+        <button
+          onClick={onLogout}
+          className="w-full mt-8 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center justify-center gap-2 text-rose-400 font-bold active:bg-rose-500/20 transition-all"
+        >
+          <LogOut className="w-5 h-5" />
+          退出登录
+        </button>
+      )}
+    </div>
+  );
+
   const getReputationColor = (rep: string) => {
     if (rep === "优") return "text-emerald-400";
     if (rep === "一般") return "text-amber-400";
@@ -56,20 +129,27 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
 
   if (!user) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[70vh] p-8 text-center relative z-10 animate-in fade-in zoom-in-95 duration-500">
-        <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-6 border border-white/10">
-          <User className="w-12 h-12 text-slate-600" />
+      <div className="p-5 pb-24 relative z-10 animate-in slide-in-from-bottom-4 duration-500">
+        <div className="relative glass-panel p-6 rounded-3xl overflow-hidden mb-6 border-red-800/20 shadow-2xl">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-red-800/10 blur-3xl -z-10" />
+
+          <div className="flex flex-col items-center justify-center py-4 text-center">
+            <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-white/10">
+              <User className="w-8 h-8 text-slate-500" />
+            </div>
+            <p className="text-sm text-slate-400 mb-6 max-w-xs leading-relaxed">
+              欢迎回到海希安
+            </p>
+            <button
+              onClick={onOpenLogin}
+              className="px-8 py-3 bg-red-800 rounded-xl font-bold shadow-lg shadow-red-900/20 active:scale-95 transition-all text-white text-sm"
+            >
+              立即登录
+            </button>
+          </div>
         </div>
-        <h2 className="text-xl font-bold mb-2 text-white">欢迎回到海希安</h2>
-        <p className="text-sm text-slate-400 mb-8 max-w-xs leading-relaxed">
-          登录 VGReborn 以同步您的游戏数据
-        </p>
-        <button
-          onClick={onOpenLogin}
-          className="w-full max-w-xs bg-red-800 py-4 rounded-2xl font-bold shadow-xl shadow-red-900/20 active:scale-95 transition-all text-white"
-        >
-          立即登录
-        </button>
+
+        <MenuList disabled />
       </div>
     );
   }
@@ -109,7 +189,12 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         </div>
 
         <div className="grid grid-cols-3 gap-4 border-t border-white/5 pt-6">
-          <div className="text-center">
+          <div
+            className="text-center"
+            onClick={() => {
+              toast("功能开发中...");
+            }}
+          >
             <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-widest font-bold">
               信誉等级
             </p>
@@ -119,7 +204,12 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
               {user.reputation}
             </p>
           </div>
-          <div className="text-center border-x border-white/5">
+          <div
+            className="text-center border-x border-white/5"
+            onClick={() => {
+              toast("功能开发中...");
+            }}
+          >
             <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-widest font-bold">
               排位段位
             </p>
@@ -140,69 +230,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         </div>
       </div>
 
-      <div className="space-y-3">
-        <div
-          onClick={() => setIsDownloadModalOpen(true)}
-          className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer"
-        >
-          <div className="flex items-center gap-3">
-            <ShieldCheck className="w-5 h-5 text-blue-400" />
-            <span className="text-sm font-medium text-slate-200">
-              下载WireGuard配置文件
-            </span>
-          </div>
-          <ChevronRight className="w-4 h-4 text-slate-500" />
-        </div>
-        <div className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer">
-          <div className="flex items-center gap-3">
-            <Users className="w-5 h-5 text-indigo-400" />
-            <span className="text-sm font-medium text-slate-200">好友</span>
-          </div>
-          <ChevronRight className="w-4 h-4 text-slate-500" />
-        </div>
-        <div className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer">
-          <div className="flex items-center gap-3">
-            <Zap className="w-5 h-5 text-amber-400" />
-            <span className="text-sm font-medium text-slate-200">
-              举报
-            </span>
-          </div>
-          <ChevronRight className="w-4 h-4 text-slate-500" />
-        </div>
-        <div
-          onClick={() => setIsFeedbackOpen(true)}
-          className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer"
-        >
-          <div className="flex items-center gap-3">
-            <MessageSquareText className="w-5 h-5 text-purple-400" />
-            <span className="text-sm font-medium text-slate-200">反馈</span>
-          </div>
-          <ChevronRight className="w-4 h-4 text-slate-500" />
-        </div>
-        <div
-          onClick={() =>
-            open(
-              "https://github.com/VaingloryReborn/VGReborn/blob/main/LICENSE",
-            )
-          }
-          className="glass-panel p-4 rounded-xl flex items-center justify-between active:bg-white/5 transition-all cursor-pointer"
-        >
-          <div className="flex items-center gap-3">
-            <Github className="w-5 h-5 text-white" />
-            <span className="text-sm font-medium text-slate-200">
-              开源&协议
-            </span>
-          </div>
-          <ChevronRight className="w-4 h-4 text-slate-500" />
-        </div>
-        <button
-          onClick={onLogout}
-          className="w-full mt-8 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center justify-center gap-2 text-rose-400 font-bold active:bg-rose-500/20 transition-all"
-        >
-          <LogOut className="w-5 h-5" />
-          退出登录
-        </button>
-      </div>
+      <MenuList />
       <FeedbackModal
         isOpen={isFeedbackOpen}
         onClose={() => setIsFeedbackOpen(false)}

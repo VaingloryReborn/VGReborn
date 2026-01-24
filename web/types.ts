@@ -27,9 +27,9 @@ export interface Player {
   /** the name in game */
   handle: string;
   level: number;
-  reputation: ReputationLevel;
+  reputation?: ReputationLevel;
   state: "online" | "offline" | "matching" | "gaming" | "recording";
-  rankTier: RankTier;
+  rankTier?: RankTier;
   region?: string;
   lobby?: Lobby;
   player_handle?: string | null;
@@ -65,6 +65,9 @@ export interface Room {
   members: Player[];
   mode: Lobby;
   createdAt: number;
+  query_pending_match?: Player["query_pending_match"];
+  unknown?: boolean;
+  isPrivate?: boolean;
 }
 
 export type AppTab = "home" | "install" | "rooms" | "leaderboard" | "profile";

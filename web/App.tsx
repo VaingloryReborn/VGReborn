@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { AppTab, Room } from "./types";
 import LoginModal from "./components/LoginModal";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { ToastProvider } from "./contexts/ToastContext";
 import BottomNav from "./components/layout/BottomNav";
 import servers from "./assets/ea-servers.json";
 import { AlertCircle, X } from "lucide-react";
@@ -134,7 +135,9 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <AppContent />
+      <ToastProvider>
+        <AppContent />
+      </ToastProvider>
     </AuthProvider>
   );
 };
