@@ -1,4 +1,4 @@
-export type ReputationLevel = "优" | "一般" | "差";
+export type ReputationLevel = "excellent" | "good" | "bad";
 
 export type Lobby =
   | "5v5_pvp_ranked"
@@ -11,16 +11,16 @@ export type Lobby =
   | "solo_bots"
   | null;
 export type RankTier =
-  | "初出茅庐"
-  | "逐步成长"
-  | "铜头铁臂"
-  | "值得一战"
-  | "深藏不露"
-  | "名不虚传"
-  | "炉火纯青"
-  | "神乎其技"
-  | "登峰造极"
-  | "至尊荣耀";
+  | "t1"
+  | "t2"
+  | "t3"
+  | "t4"
+  | "t5"
+  | "t6"
+  | "t7"
+  | "t8"
+  | "t9"
+  | "t10";
 
 export interface Player {
   id: string;

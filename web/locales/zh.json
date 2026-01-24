@@ -1,0 +1,277 @@
+{
+  "serverRegions": {
+    "ec1_hangzhou": "华东1（杭州）",
+    "ec2_shanghai": "华东2（上海）",
+    "sc1_shenzhen": "华南1（深圳）",
+    "sc3_guangzhou": "华南3（广州）",
+    "nc1_qingdao": "华北1（青岛）",
+    "nc2_beijing": "华北2（北京）",
+    "nc6_wulanchabu": "华北6（乌兰察布）",
+    "sw1_chengdu": "西南1（成都）",
+    "hongkong": "中国香港",
+    "japan_tokyo": "日本（东京）",
+    "korea_seoul": "韩国（首尔）",
+    "philippines_manila": "菲律宾（马尼拉）"
+  },
+  "common": {
+    "title": "VGReborn - 虚荣社区版匹配平台",
+    "loading": "加载中...",
+    "verifying": "验证身份中...",
+    "welcomeBack": "欢迎回到海希安",
+    "loginNow": "立即登录",
+    "downloadConfig": "下载WireGuard配置文件",
+    "friends": "好友",
+    "report": "举报",
+    "feedback": "反馈",
+    "openSource": "开源&协议",
+    "logout": "退出登录",
+    "reputation": "信誉等级",
+    "rankTier": "排位段位",
+    "server": "服务器",
+    "notBound": "未绑定",
+    "featureInDev": "功能开发中...",
+    "serverConnectionError": "中间服务器连接失败，请检查网络"
+  },
+  "nav": {
+    "home": "首页",
+    "guide": "指南",
+    "rooms": "房间",
+    "leaderboard": "排行",
+    "profile": "我"
+  },
+  "home": {
+    "bannerSubtitle": "虚荣社区版第三方匹配平台（内测中）",
+    "joinDescription": "基于 <1>加速器+MITM</1> 技术自动绑定游戏状态到VGReborn，为游戏带来排位、招募、好友、惩罚等机制。",
+    "joinLink": "立即开始",
+    "liveStats": "实时战场数据",
+    "stats": {
+      "onlineTotal": "总计在线",
+      "idleCount": "空闲人数",
+      "matching3v3": "3v3 排位匹配中",
+      "gaming3v3": "3v3 游戏中",
+      "matching5v5Ranked": "5v5 排位匹配中",
+      "gaming5v5": "5v5 游戏中",
+      "matchingAral": "大乱斗匹配中",
+      "gamingAral": "大乱斗游戏中",
+      "matchingBlitz": "闪电战匹配中",
+      "gamingBlitz": "闪电战游戏中"
+    },
+    "info5v5": "为减少 5v5 模式分流让匹配更困难，VGReborn <1>不支持5v5匹配模式</1>"
+  },
+  "guide": {
+    "title": "使用指南",
+    "ios": "iOS",
+    "android": "安卓",
+    "steps": {
+      "installGame": {
+        "title": "安装游戏",
+        "desc": "从 App Store 下载安装官方《虚荣》游戏。"
+      },
+      "installCert": {
+        "title": "安装并信任证书",
+        "desc1": "使用Safari浏览器<1>下载MITM证书</1>",
+        "desc2": "进入 设置 -> 已下载描述文件，安装mitmproxy证书。",
+        "desc3": "进入系统设置-通用-关于本机-证书信任设置，开启mitmproxy证书的信任"
+      },
+      "installVpn": {
+        "title": "安装加速器",
+        "desc1": "目前没有App版的VGReborn一键加速，只能使用WireGuard进入加速隧道，在AppStore/Google Play下载WireGuard",
+        "desc2": "<0>下载WireGuard配置文件</0> (这是你账号进入加速隧道的身份令牌)",
+        "desc3": "打开WireGuard，点击右上角添加配置，导入刚才下载的配置文件",
+        "desc4": "点击开关即可进入/退出加速隧道。(只有虚荣游戏内的流量才会走加速通道)"
+      },
+      "startGame": {
+        "title": "开始游戏",
+        "desc": "你已成功加入VGReborn，进入游戏VGReborn将自动同步你的游戏状态。"
+      },
+      "downloadGame": {
+        "title": "下载游戏",
+        "desc1": "下载支持MITM的<1>虚荣游戏安装包(xapk)</1>",
+        "desc2": "你可以使用APKPure或XAPKS Installer等应用打开下载的安装包进行安装"
+      }
+    }
+  },
+  "rank": {
+    "title": "排位榜",
+    "3v3": "3v3 排行",
+    "5v5": "5v5 排行",
+    "noData": "{{mode}} 暂无数据"
+  },
+  "createRoom": {
+    "title": "如何创建房间",
+    "desc": "匹配机制基于玩家名称的前缀代码，在游戏中更改名称后VGReborn将自动同步到房间列表。\n代码规则如下：",
+    "public": {
+      "title": "公开房间",
+      "rule": "代码 < 3000",
+      "desc": "代码表示你的段位，虚荣会优先匹配段位相近的玩家。不保证一定在同一局，适合路人匹配。\n1600+为征召模式，如不指定代码，默认为1200。"
+    },
+    "private": {
+      "title": "私密房间",
+      "rule": "代码 > 3000",
+      "desc": "只有相同代码的玩家才能匹配到一起。必须集齐所有玩家才能开始游戏。"
+    },
+    "team": {
+      "title": "代码分队",
+      "teamA": "指定分到 A 队",
+      "teamB": "指定分到 B 队",
+      "desc": "在代码后添加 <1>-1</1> 或 <3>-2</3> 可指定队伍。"
+    }
+  },
+  "room": {
+    "unknown": "未知",
+    "offline": "游戏离线",
+    "online": "游戏在线",
+    "matching": "匹配中 ({{lobby}})",
+    "gaming": "游戏中 ({{lobby}})",
+    "recording": "结算中 ({{lobby}})",
+    "lobby": {
+      "5v5_pvp_ranked": "5v5排位",
+      "5v5_pvp_casual": "5v5匹配",
+      "ranked": "3v3排位",
+      "casual_aral": "大乱斗",
+      "blitz_pvp_ranked": "闪电战",
+      "5v5_bots_solo": "5v5人机",
+      "blitz_bots_solo": "闪电战人机",
+      "solo_bots": "3v3人机"
+    },
+    "region": {
+      "sea": "东南亚",
+      "na": "北美",
+      "eu": "欧",
+      "ea": "东亚",
+      "sa": "南美"
+    },
+    "reputationLevel": {
+      "excellent": "优",
+      "good": "一般",
+      "bad": "差"
+    },
+    "rankTier": {
+      "t1": "初出茅庐",
+      "t2": "逐步成长",
+      "t3": "铜头铁臂",
+      "t4": "值得一战",
+      "t5": "深藏不露",
+      "t6": "名不虚传",
+      "t7": "炉火纯青",
+      "t8": "神乎其技",
+      "t9": "登峰造极",
+      "t10": "至尊荣耀"
+    },
+    "code": "房间代码",
+    "default": "（默认）",
+    "idle": "空闲",
+    "inGameStatus": "(游戏中)",
+    "recordingStatus": "(结算中)",
+    "matchingStatus": "(匹配中)",
+    "players_suffix": "人",
+    "requestJoin": "申请加入",
+    "recruit": "招募",
+    "backToList": "返回列表",
+    "reputation": "信誉:",
+    "reputation_excellent": "优",
+    "reputation_good": "一般",
+    "reputation_poor": "差",
+    "ready": "已准备",
+    "notReady": "未就绪",
+    "setReady": "准备就绪",
+    "leave": "退出",
+    "lobbyTitle": "房间大厅",
+    "noRooms": "当前没有房间"
+  },
+  "profile": {
+    "title": "个人中心",
+    "login": "登录 / 注册",
+    "tapToLogin": "点击登录",
+    "guest": "游客"
+  },
+  "download": {
+    "title": "下载",
+    "latency": {
+      "title": "延迟说明",
+      "back": "返回",
+      "excellent": "极佳体验（0-50ms）",
+      "good": "正常水平（50-120ms）",
+      "fair": "轻微延迟（120-250ms）",
+      "poor": "体验很差（250ms以上）"
+    },
+    "config": "配置",
+    "matching": "正在匹配低延迟节点...",
+    "bestNode": "最快节点",
+    "matchFailed": "匹配失败",
+    "button": "下载配置文件",
+    "note1": "目前仅支持东亚服",
+    "note2": "请勿修改配置内容，以免造成无法使用",
+    "error": {
+      "login": "请先登录",
+      "failed": "下载失败"
+    }
+  },
+  "login": {
+    "title": "VGReborn 登录",
+    "emailPlaceholder": "请输入电子邮箱",
+    "codePlaceholder": "验证码",
+    "getCode": "获取验证码",
+    "agree": "我已阅读并同意",
+    "terms": "VGReborn 服务协议",
+    "authDesc": "授权平台捕获游戏状态数据以实现自动绑定与匹配功能。",
+    "submit": "登录",
+    "verifying": "验证中...",
+    "error": {
+      "agree": "请先阅读并同意服务协议",
+      "email": "请输入有效的电子邮箱",
+      "incomplete": "请完整填写邮箱和验证码",
+      "sendFailed": "发送失败，请稍后重试",
+      "loginFailed": "登录失败，请检查验证码是否正确"
+    }
+  },
+  "terms": {
+    "title": "VGReborn 服务协议",
+    "readAndAgree": "我已阅读并同意",
+    "sections": {
+      "1": {
+        "title": "1. 服务概述",
+        "content": "VGReborn 是针对《虚荣社区版 (Vainglory CE)》开发的第三方匹配增强平台。本平台旨在通过技术手段提升玩家的联机匹配体验。"
+      },
+      "2": {
+        "title": "2. MITM 技术说明与授权",
+        "content": "为实现玩家 ID 自动识别、战绩统计、房间状态实时捕获等核心功能，VGReborn 需使用加速器配合 MITM（中间人攻击）代理技术。用户点击“同意”即表示明确授权平台拦截并读取游戏客户端与服务器之间的特定加密封包。"
+      },
+      "3": {
+        "title": "3. 数据收集与隐私",
+        "content": "平台仅收集与游戏匹配相关的必要数据，包括但不限于：玩家 ID、排位分数、当前游戏状态（匹配中、游戏中、接受/拒绝比赛）。我们承诺不会收集您的设备私有敏感信息或与本服务无关的其他网络流量。"
+      },
+      "4": {
+        "title": "4. 用户行为规范",
+        "content": "用户需遵守公平竞争原则。任何针对平台系统的恶意攻击、数据篡改或在匹配过程中频繁恶意拒绝比赛、不友好的的行为，平台有权对其账号实施封禁或降权处理。"
+      },
+      "5": {
+        "title": "5. 免责声明",
+        "content": "本平台为第三方非官方服务，与 Superevil Megacorp 无关联。因使用本平台技术手段可能导致的任何游戏账号异常、设备安全风险 or 连接不稳定问题，由用户自行承担。"
+      }
+    }
+  },
+  "updateHandle": {
+    "title": "修改昵称",
+    "subtitle": "设置您在 VGReborn 的显示名称",
+    "placeholder": "请输入新的昵称",
+    "submit": "保存修改",
+    "saving": "保存中...",
+    "error": {
+      "failed": "更新失败，请稍后重试"
+    }
+  },
+  "feedback": {
+    "title": "反馈",
+    "subtitle": "一起改进 VGReborn",
+    "success": "感谢您的反馈！",
+    "successDesc": "我们会认真阅读每一条建议。",
+    "placeholder": "请详细描述您遇到的问题或建议...",
+    "contactPlaceholder": "联系方式（可选）",
+    "submit": "提交反馈",
+    "submitting": "提交中...",
+    "error": {
+      "failed": "提交失败，请稍后重试"
+    }
+  }
+}

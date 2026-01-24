@@ -1,0 +1,277 @@
+{
+  "serverRegions": {
+    "ec1_hangzhou": "East China 1 (Hangzhou)",
+    "ec2_shanghai": "East China 2 (Shanghai)",
+    "sc1_shenzhen": "South China 1 (Shenzhen)",
+    "sc3_guangzhou": "South China 3 (Guangzhou)",
+    "nc1_qingdao": "North China 1 (Qingdao)",
+    "nc2_beijing": "North China 2 (Beijing)",
+    "nc6_wulanchabu": "North China 6 (Ulanqab)",
+    "sw1_chengdu": "Southwest 1 (Chengdu)",
+    "hongkong": "Hong Kong",
+    "japan_tokyo": "Japan (Tokyo)",
+    "korea_seoul": "Korea (Seoul)",
+    "philippines_manila": "Philippines (Manila)"
+  },
+  "common": {
+    "title": "VGReborn - Vainglory Community Edition",
+    "loading": "Loading...",
+    "verifying": "Verifying identity...",
+    "welcomeBack": "Welcome back to Halcyon Fold",
+    "loginNow": "Login Now",
+    "downloadConfig": "Download WireGuard Config",
+    "friends": "Friends",
+    "report": "Report",
+    "feedback": "Feedback",
+    "openSource": "Open Source & License",
+    "logout": "Logout",
+    "reputation": "Reputation",
+    "rankTier": "Rank Tier",
+    "server": "Server",
+    "notBound": "Not Bound",
+    "featureInDev": "Feature in development...",
+    "serverConnectionError": "Server connection failed, please check your network"
+  },
+  "nav": {
+    "home": "Home",
+    "guide": "Guide",
+    "rooms": "Rooms",
+    "leaderboard": "Rank",
+    "profile": "Me"
+  },
+  "home": {
+    "bannerSubtitle": "Vainglory Community Edition 3rd Party Matchmaking (Beta)",
+    "joinDescription": "Based on <1>VPN+MITM</1> technology to automatically bind game state to VGReborn, bringing Ranked, Recruiting, Friends, Punishment etc.",
+    "joinLink": "Get Started",
+    "liveStats": "Live Battle Stats",
+    "stats": {
+      "onlineTotal": "Total Online",
+      "idleCount": "Idle",
+      "matching3v3": "3v3 Matching",
+      "gaming3v3": "3v3 In Game",
+      "matching5v5Ranked": "5v5 Ranked Matching",
+      "gaming5v5": "5v5 In Game",
+      "matchingAral": "ARAL Matching",
+      "gamingAral": "ARAL In Game",
+      "matchingBlitz": "Blitz Matching",
+      "gamingBlitz": "Blitz In Game"
+    },
+    "info5v5": "To reduce 5v5 queue splitting, VGReborn <1>does not support 5v5 Casual</1>"
+  },
+  "guide": {
+    "title": "User Guide",
+    "ios": "iOS",
+    "android": "Android",
+    "steps": {
+      "installGame": {
+        "title": "Install Game",
+        "desc": "Download Vainglory from App Store."
+      },
+      "installCert": {
+        "title": "Install & Trust Certificate",
+        "desc1": "Use Safari to <1>Download MITM Certificate</1>",
+        "desc2": "Go to Settings -> Profile Downloaded, install the mitmproxy certificate.",
+        "desc3": "Go to Settings -> General -> About -> Certificate Trust Settings, enable full trust for mitmproxy."
+      },
+      "installVpn": {
+        "title": "Install WireGuard",
+        "desc1": "No App version yet. Please use WireGuard from App Store/Google Play.",
+        "desc2": "<0>Download WireGuard Config</0> (This is your identity token)",
+        "desc3": "Open WireGuard, add tunnel from file.",
+        "desc4": "Toggle switch to connect/disconnect. (Only game traffic is tunneled)"
+      },
+      "startGame": {
+        "title": "Start Game",
+        "desc": "You have joined VGReborn. Game state will sync automatically."
+      },
+      "downloadGame": {
+        "title": "Download Game",
+        "desc1": "Download MITM-patched <1>Vainglory XAPK</1>",
+        "desc2": "Use APKPure or XAPKS Installer to install."
+      }
+    }
+  },
+  "rank": {
+    "title": "Leaderboard",
+    "3v3": "3v3 Rank",
+    "5v5": "5v5 Rank",
+    "noData": "{{mode}} No Data"
+  },
+  "createRoom": {
+    "title": "How to Create Room",
+    "desc": "Matchmaking is based on name prefix. VGReborn syncs automatically.\nCode Rules:",
+    "public": {
+      "title": "Public Room",
+      "rule": "Code < 3000",
+      "desc": "Code represents Elo. Priority matching with similar Elo. 1600+ is Draft. Default is 1200."
+    },
+    "private": {
+      "title": "Private Room",
+      "rule": "Code > 3000",
+      "desc": "Only same code can match. Must have full party to start."
+    },
+    "team": {
+      "title": "Team Assignment",
+      "teamA": "Assign to Team A",
+      "teamB": "Assign to Team B",
+      "desc": "Add <1>-1</1> or <3>-2</3> to specify team."
+    }
+  },
+  "room": {
+    "unknown": "Unknown",
+    "offline": "Offline",
+    "online": "Online",
+    "matching": "Matching ({{lobby}})",
+    "gaming": "In Game ({{lobby}})",
+    "recording": "Recording ({{lobby}})",
+    "lobby": {
+      "5v5_pvp_ranked": "5v5 Ranked",
+      "5v5_pvp_casual": "5v5 Casual",
+      "ranked": "3v3 Ranked",
+      "casual_aral": "ARAL",
+      "blitz_pvp_ranked": "Blitz",
+      "5v5_bots_solo": "5v5 Bots",
+      "blitz_bots_solo": "Blitz Bots",
+      "solo_bots": "3v3 Bots"
+    },
+    "region": {
+      "sea": "SEA",
+      "na": "NA",
+      "eu": "EU",
+      "ea": "EA",
+      "sa": "SA"
+    },
+    "reputationLevel": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "bad": "Bad"
+    },
+    "rankTier": {
+      "t1": "Just Beginning",
+      "t2": "Getting There",
+      "t3": "Rock Solid",
+      "t4": "Worthy Foe",
+      "t5": "Got Swagger",
+      "t6": "Credible Threat",
+      "t7": "The Hotness",
+      "t8": "Simply Amazing",
+      "t9": "Pinnacle of Awesome",
+      "t10": "Vainglorious"
+    },
+    "code": "Room Code",
+    "default": "(Default)",
+    "idle": "Idle",
+    "inGameStatus": "(In Game)",
+    "recordingStatus": "(Recording)",
+    "matchingStatus": "(Matching)",
+    "players_suffix": "",
+    "requestJoin": "Request Join",
+    "recruit": "Recruit",
+    "backToList": "Back to List",
+    "reputation": "Reputation:",
+    "reputation_excellent": "Excellent",
+    "reputation_good": "Normal",
+    "reputation_poor": "Poor",
+    "ready": "Ready",
+    "notReady": "Not Ready",
+    "setReady": "Set Ready",
+    "leave": "Leave",
+    "lobbyTitle": "Room Lobby",
+    "noRooms": "No Rooms Available"
+  },
+  "profile": {
+    "title": "Profile",
+    "login": "Login / Register",
+    "tapToLogin": "Tap to login",
+    "guest": "Guest"
+  },
+  "download": {
+    "title": "Download",
+    "latency": {
+      "title": "Latency Info",
+      "back": "Back",
+      "excellent": "Excellent (0-50ms)",
+      "good": "Good (50-120ms)",
+      "fair": "Fair (120-250ms)",
+      "poor": "Poor (>250ms)"
+    },
+    "config": "Config",
+    "matching": "Finding best node...",
+    "bestNode": "Best Node",
+    "matchFailed": "Failed",
+    "button": "Download Config",
+    "note1": "Currently only supports East Asia server",
+    "note2": "Do not modify the config file",
+    "error": {
+      "login": "Please login first",
+      "failed": "Download failed"
+    }
+  },
+  "login": {
+    "title": "VGReborn Login",
+    "emailPlaceholder": "Enter Email",
+    "codePlaceholder": "Code",
+    "getCode": "Get Code",
+    "agree": "I agree to",
+    "terms": "Terms of Service",
+    "authDesc": "Authorize platform to capture game state for binding and matchmaking.",
+    "submit": "Login",
+    "verifying": "Verifying...",
+    "error": {
+      "agree": "Please agree to Terms of Service",
+      "email": "Invalid email",
+      "incomplete": "Please fill all fields",
+      "sendFailed": "Send failed, try again later",
+      "loginFailed": "Login failed, check code"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "readAndAgree": "I have read and agree",
+    "sections": {
+      "1": {
+        "title": "1. Overview",
+        "content": "VGReborn is a 3rd party matchmaking enhancement platform for Vainglory CE."
+      },
+      "2": {
+        "title": "2. MITM Technology",
+        "content": "To implement auto ID recognition, stats tracking, and room state capture, VGReborn uses VPN + MITM technology. Clicking 'Agree' authorizes the platform to intercept and read specific encrypted packets between the game client and server."
+      },
+      "3": {
+        "title": "3. Data Collection & Privacy",
+        "content": "The platform only collects data necessary for matchmaking, including but not limited to: Player ID, Rank Score, Game State. We promise not to collect private device information or other network traffic unrelated to this service."
+      },
+      "4": {
+        "title": "4. User Conduct",
+        "content": "Users must abide by fair play principles. Any malicious attacks, data tampering, or frequent malicious refusal of matches will result in account ban or penalty."
+      },
+      "5": {
+        "title": "5. Disclaimer",
+        "content": "This platform is a 3rd party unofficial service, unrelated to Superevil Megacorp. Users bear the risk of any account abnormalities, device security risks, or connection instability caused by using this platform."
+      }
+    }
+  },
+  "updateHandle": {
+    "title": "Change Nickname",
+    "subtitle": "Set your display name in VGReborn",
+    "placeholder": "Enter new nickname",
+    "submit": "Save Changes",
+    "saving": "Saving...",
+    "error": {
+      "failed": "Update failed, try again later"
+    }
+  },
+  "feedback": {
+    "title": "Feedback",
+    "subtitle": "Improve VGReborn together",
+    "success": "Thank you for your feedback!",
+    "successDesc": "We will read every suggestion.",
+    "placeholder": "Describe your issue or suggestion...",
+    "contactPlaceholder": "Contact (Optional)",
+    "submit": "Submit Feedback",
+    "submitting": "Submitting...",
+    "error": {
+      "failed": "Submit failed, try again later"
+    }
+  }
+}

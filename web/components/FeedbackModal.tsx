@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { X, Send, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../supabase";
 import { Player } from "../types";
 
@@ -10,6 +11,7 @@ interface FeedbackModalProps {
 }
 
 const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, user }) => {
+  const { t } = useTranslation();
   const [content, setContent] = useState("");
   const [contact, setContact] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,7 +45,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, user }) 
       }, 1500);
     } catch (err) {
       console.error("Feedback error:", err);
-      setError("提交失败，请稍后重试");
+      setError(t("feedback.error.failed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -59,16 +61,16 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, user }) 
           <X className="w-5 h-5" />
         </button>
 
-        <h2 className="text-2xl font-bold text-center mb-2 text-gradient italic">反馈</h2>
-        <p className="text-xs text-slate-400 text-center mb-6">一起改进 VGReborn</p>
+        <h2 className="text-2xl font-bold text-center mb-2 text-gradient italic">{t("feedback.title")}</h2>
+        <p className="text-xs text-slate-400 text-center mb-6">{t("feedback.subtitle")}</p>
 
         {success ? (
           <div className="py-12 flex flex-col items-center text-center animate-in fade-in zoom-in">
             <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-white/10">
               <Send className="w-8 h-8 text-emerald-400" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">感谢您的反馈！</h3>
-            <p className="text-sm text-slate-400">我们会认真阅读每一条建议。</p>
+            <h3 className="text-lg font-bold text-white mb-2">{t("feedback.success")}</h3>
+            <p className="text-sm text-slate-400">{t("feedback.successDesc")}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -76,7 +78,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, user }) 
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="请详细描述您遇到的问题或建议..."
+                placeholder={t("feedback.placeholder")}
                 className="w-full h-32 bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white placeholder:text-slate-500 focus:ring-2 focus:ring-white/20 outline-none resize-none transition-all"
                 disabled={isSubmitting}
               />
@@ -84,7 +86,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, user }) 
                 type="text"
                 value={contact}
                 onChange={(e) => setContact(e.target.value)}
-                placeholder="联系方式（可选）"
+                placeholder={t("feedback.contactPlaceholder")}
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mt-3 text-sm text-white placeholder:text-slate-500 focus:ring-2 focus:ring-white/20 outline-none transition-all"
                 disabled={isSubmitting}
               />
@@ -107,11 +109,11 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, user }) 
               {isSubmitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  提交中...
+                  {t("feedback.submitting")}
                 </>
               ) : (
                 <>
-                  提交反馈
+                  {t("feedback.submit")}
                   <Send className="w-4 h-4" />
                 </>
               )}

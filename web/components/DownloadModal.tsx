@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { X, Download, Loader2, Info } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../supabase";
 import servers from "../assets/ea-servers.json";
 
@@ -12,12 +13,15 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { t, i18n } = useTranslation();
   const [status, setStatus] = useState<"idle" | "testing" | "completed">(
     "idle",
   );
-  const [bestIp, setBestIp] = useState<{ ip: string; duration: number } | null>(
-    null,
-  );
+  const [bestIp, setBestIp] = useState<{
+    ip: string;
+    duration: number;
+    region: string;
+  } | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [showLatencyInfo, setShowLatencyInfo] = useState(false);
 
@@ -34,10 +38,10 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
   const startSpeedTest = async (async = false) => {
     setStatus("testing");
 
-    const validResults: { ip: string; duration: number }[] = [];
+    const validResults: { ip: string; duration: number; region: string }[] = [];
 
     const testServer = async (server: any) => {
-      const { ip } = server;
+      const { ip, region } = server;
       if (!ip) return null;
 
       try {
@@ -68,7 +72,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
         // await fetch(`http://${ip}`);
 
         const duration = (Date.now() - start) / 2;
-        return { ip, duration };
+        return { ip, duration, region };
       } catch (e) {
         return null;
       }
@@ -76,14 +80,26 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
 
     if (async) {
       // 并发测试
-      const promises = servers.filter((s) => !s.oversea).map(testServer);
+      const promises = servers
+        .filter((s) => {
+          if (i18n.language.startsWith("zh")) {
+            return !s.oversea;
+          }
+          return true;
+        })
+        .map(testServer);
       const settled = await Promise.all(promises);
       settled.forEach((r) => {
         if (r) validResults.push(r);
       });
     } else {
       // 串行测试
-      for (const server of servers.filter((s) => !s.oversea)) {
+      for (const server of servers.filter((s) => {
+        if (i18n.language.startsWith("zh")) {
+          return !s.oversea;
+        }
+        return true;
+      })) {
         const result = await testServer(server);
         if (result) {
           validResults.push(result);
@@ -110,7 +126,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
       } = await supabase.auth.getSession();
       console.log("Current session:", session ? "Active" : "None");
       if (!session) {
-        throw new Error("请先登录");
+        throw new Error(t("download.error.login"));
       }
 
       console.log("Requesting config for IP:", bestIp);
@@ -145,7 +161,9 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
       onClose();
     } catch (err: any) {
       console.error("Download error:", err);
-      alert("下载失败: " + (err.message || "未知错误"));
+      alert(
+        t("download.error.failed") + ": " + (err.message || t("room.unknown")),
+      );
     } finally {
       setIsDownloading(false);
     }
@@ -164,7 +182,9 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
       <div className="bg-[#1a1b26] border border-white/10 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between p-4 border-b border-white/5">
-          <h3 className="text-lg font-bold text-white">下载</h3>
+          <h3 className="text-lg font-bold text-white">
+            {t("download.title")}
+          </h3>
           <button
             onClick={onClose}
             className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
@@ -177,36 +197,38 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
           {showLatencyInfo ? (
             <div className="space-y-4 animate-in fade-in slide-in-from-right duration-200">
               <div className="flex items-center justify-between mb-2">
-                <h4 className="font-medium text-white">延迟说明</h4>
+                <h4 className="font-medium text-white">
+                  {t("download.latency.title")}
+                </h4>
                 <button
                   onClick={() => setShowLatencyInfo(false)}
                   className="text-xs text-blue-400 hover:text-blue-300"
                 >
-                  返回
+                  {t("download.latency.back")}
                 </button>
               </div>
               <div className="space-y-3 text-sm">
                 <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20">
                   <div className="font-medium text-green-400 mb-1">
-                    极佳体验（0-50ms）
+                    {t("download.latency.excellent")}
                   </div>
                   <div className="text-slate-300 text-xs leading-relaxed"></div>
                 </div>
                 <div className="p-3 rounded-lg bg-slate-500/10 border border-slate-500/20">
                   <div className="font-medium text-slate-300 mb-1">
-                    正常水平（50-120ms）
+                    {t("download.latency.good")}
                   </div>
                   <div className="text-slate-300 text-xs leading-relaxed"></div>
                 </div>
                 <div className="p-3 rounded-lg bg-slate-500/10 border border-slate-500/20">
                   <div className="font-medium text-slate-300 mb-1">
-                    轻微延迟（120-250ms）
+                    {t("download.latency.fair")}
                   </div>
                   <div className="text-slate-300 text-xs leading-relaxed"></div>
                 </div>
                 <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
                   <div className="font-medium text-yellow-400 mb-1">
-                    体验很差（250ms以上）
+                    {t("download.latency.poor")}
                   </div>
                   <div className="text-slate-300 text-xs leading-relaxed"></div>
                 </div>
@@ -216,7 +238,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
             <>
               <div className="space-y-4">
                 <div className="flex items-center justify-between text-sm p-4 rounded-xl bg-white/5 border border-white/5">
-                  <span className="text-slate-400">配置</span>
+                  <span className="text-slate-400">{t("download.config")}</span>
                   <div className="flex items-center gap-2">
                     <span
                       className={
@@ -228,8 +250,10 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
                       }
                     >
                       {status === "testing"
-                        ? "正在匹配低延迟节点..."
-                        : `最快节点(${bestIp ? "≈" + bestIp?.duration + "ms" : " 匹配失败 "})`}
+                        ? t("download.matching")
+                        : bestIp
+                          ? `${t("download.bestNode")}: ${t(bestIp.region)} (≈${Math.round(bestIp.duration)}ms)`
+                          : `${t("download.bestNode")} (${t("download.matchFailed")})`}
                     </span>
                     {status === "completed" && (
                       <button
@@ -249,13 +273,13 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({
                   disabled={isDownloading || !bestIp}
                   className="w-full py-3 px-4 bg-red-600 hover:bg-red-500 disabled:bg-red-600/50 disabled:cursor-not-allowed text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-900/20 disabled:!opacity-30"
                 >
-                  下载配置文件
+                  {t("download.button")}
                 </button>
                 <p className="text-xs text-slate-500 text-center mt-3 px-2">
-                  目前仅支持东亚服
+                  {t("download.note1")}
                 </p>
                 <p className="text-xs text-slate-500 text-center mt-3 px-2">
-                  请勿修改配置内容，以免造成无法使用
+                  {t("download.note2")}
                 </p>
               </div>
             </>

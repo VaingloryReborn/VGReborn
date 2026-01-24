@@ -12,11 +12,18 @@ import {
   Users,
 } from "lucide-react";
 import { Player } from "../../types";
-import { getRegionName, getStatusDisplay } from "../../utils/status";
+import {
+  getRegionName,
+  getStatusDisplay,
+  getReputationDisplay,
+  getReputationColor,
+  getRankTierDisplay,
+} from "../../utils/status";
 import FeedbackModal from "../FeedbackModal";
 import UpdateHandleModal from "../UpdateHandleModal";
 import { DownloadModal } from "../DownloadModal";
 import { useToast } from "@/contexts/ToastContext";
+import { useTranslation } from "react-i18next";
 
 interface ProfileTabProps {
   user: Player | null;
@@ -31,6 +38,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
   onOpenLogin,
   onLogout,
 }: ProfileTabProps) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [isFeedbackOpen, setIsFeedbackOpen] = React.useState(false);
   const [isUpdateHandleOpen, setIsUpdateHandleOpen] = React.useState(false);
@@ -39,38 +47,38 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
     {
       icon: ShieldCheck,
       color: "text-blue-400",
-      label: "下载WireGuard配置文件",
+      label: t("common.downloadConfig"),
       onClick: () => setIsDownloadModalOpen(true),
     },
     {
       icon: Users,
       color: "text-indigo-400",
-      label: "好友",
-      onClick: () => toast("功能开发中..."),
+      label: t("common.friends"),
+      onClick: () => toast(t("common.featureInDev")),
     },
     {
       icon: Zap,
       color: "text-amber-400",
-      label: "举报",
-      onClick: () => toast("功能开发中..."),
+      label: t("common.report"),
+      onClick: () => toast(t("common.featureInDev")),
     },
     {
       icon: MessageSquareText,
       color: "text-purple-400",
-      label: "反馈",
+      label: t("common.feedback"),
       onClick: () => setIsFeedbackOpen(true),
     },
     {
       icon: Github,
       color: "text-white",
-      label: "开源&协议",
+      label: t("common.openSource"),
       onClick: () =>
         open("https://github.com/VaingloryReborn/VGReborn/blob/main/LICENSE"),
     },
   ];
 
   const MenuList = ({ disabled = false }: { disabled?: boolean }) => (
-    <div className={`space-y-3`}>
+    <div className="space-y-3">
       {menuItems.map((item, index) => (
         <div
           key={index}
@@ -90,7 +98,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
         <div className="glass-panel p-4 rounded-xl flex items-center justify-between">
           <div className="flex items-center gap-3">
             <LogOut className="w-5 h-5 text-rose-400" />
-            <span className="text-sm font-medium text-slate-200">退出登录</span>
+            <span className="text-sm font-medium text-slate-200">{t("common.logout")}</span>
           </div>
           <ChevronRight className="w-4 h-4 text-slate-500" />
         </div>
@@ -100,17 +108,11 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           className="w-full mt-8 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center justify-center gap-2 text-rose-400 font-bold active:bg-rose-500/20 transition-all"
         >
           <LogOut className="w-5 h-5" />
-          退出登录
+          {t("common.logout")}
         </button>
       )}
     </div>
   );
-
-  const getReputationColor = (rep: string) => {
-    if (rep === "优") return "text-emerald-400";
-    if (rep === "一般") return "text-amber-400";
-    return "text-rose-400";
-  };
 
   const statusInfo = user
     ? getStatusDisplay(user)
@@ -121,7 +123,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
       <div className="flex flex-col items-center justify-center min-h-[70vh] text-slate-500">
         <Loader2 className="w-8 h-8 animate-spin mb-4" />
         <p className="text-xs font-bold uppercase tracking-widest">
-          验证身份中...
+          {t("common.verifying")}
         </p>
       </div>
     );
@@ -138,13 +140,13 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
               <User className="w-8 h-8 text-slate-500" />
             </div>
             <p className="text-sm text-slate-400 mb-6 max-w-xs leading-relaxed">
-              欢迎回到海希安
+              {t("common.welcomeBack")}
             </p>
             <button
               onClick={onOpenLogin}
               className="px-8 py-3 bg-red-800 rounded-xl font-bold shadow-lg shadow-red-900/20 active:scale-95 transition-all text-white text-sm"
             >
-              立即登录
+              {t("common.loginNow")}
             </button>
           </div>
         </div>
@@ -192,38 +194,38 @@ const ProfileTab: React.FC<ProfileTabProps> = ({
           <div
             className="text-center"
             onClick={() => {
-              toast("功能开发中...");
+              toast(t("common.featureInDev"));
             }}
           >
             <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-widest font-bold">
-              信誉等级
+              {t("common.reputation")}
             </p>
             <p
               className={`text-base font-black ${getReputationColor(user.reputation)}`}
             >
-              {user.reputation}
+              {getReputationDisplay(user.reputation)}
             </p>
           </div>
           <div
             className="text-center border-x border-white/5"
             onClick={() => {
-              toast("功能开发中...");
+              toast(t("common.featureInDev"));
             }}
           >
             <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-widest font-bold">
-              排位段位
+              {t("common.rankTier")}
             </p>
             <p className="text-base font-black text-red-500 mt-1">
-              {user.rankTier}
+              {getRankTierDisplay(user.rankTier)}
             </p>
           </div>
           <div className="text-center">
             <p className="text-[10px] text-slate-500 mb-1 uppercase tracking-widest font-bold">
-              服务器
+              {t("common.server")}
             </p>
             <p className="text-base font-black text-slate-100">
               {getRegionName(user.region) || (
-                <span onClick={() => setIsDownloadModalOpen(true)}>未绑定</span>
+                <span onClick={() => setIsDownloadModalOpen(true)}>{t("common.notBound")}</span>
               )}
             </p>
           </div>

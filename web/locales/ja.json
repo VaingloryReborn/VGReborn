@@ -1,0 +1,277 @@
+{
+  "serverRegions": {
+    "ec1_hangzhou": "中国東部1（杭州）",
+    "ec2_shanghai": "中国東部2（上海）",
+    "sc1_shenzhen": "中国南部1（深セン）",
+    "sc3_guangzhou": "中国南部3（広州）",
+    "nc1_qingdao": "中国北部1（青島）",
+    "nc2_beijing": "中国北部2（北京）",
+    "nc6_wulanchabu": "中国北部6（ウランチャブ）",
+    "sw1_chengdu": "中国南西部1（成都）",
+    "hongkong": "香港",
+    "japan_tokyo": "日本（東京）",
+    "korea_seoul": "韓国（ソウル）",
+    "philippines_manila": "フィリピン（マニラ）"
+  },
+  "common": {
+    "title": "VGReborn - ベイングローリー コミュニティエディション",
+    "loading": "読み込み中...",
+    "verifying": "本人確認中...",
+    "welcomeBack": "ハルシオンフォルドへお帰りなさい",
+    "loginNow": "今すぐログイン",
+    "downloadConfig": "WireGuard設定をダウンロード",
+    "friends": "フレンド",
+    "report": "報告",
+    "feedback": "フィードバック",
+    "openSource": "オープンソースとライセンス",
+    "logout": "ログアウト",
+    "reputation": "評判",
+    "rankTier": "ランク階層",
+    "server": "サーバー",
+    "notBound": "未連携",
+    "featureInDev": "機能開発中...",
+    "serverConnectionError": "サーバー接続に失敗しました。ネットワークを確認してください"
+  },
+  "nav": {
+    "home": "ホーム",
+    "guide": "ガイド",
+    "rooms": "ルーム",
+    "leaderboard": "ランク",
+    "profile": "マイページ"
+  },
+  "home": {
+    "bannerSubtitle": "Vainglory CE サードパーティマッチメイキング (ベータ)",
+    "joinDescription": "<1>VPN+MITM</1>技術に基づき、ゲーム状態をVGRebornに自動的に紐付け、ランク戦、募集、フレンド、処罰などを実現します。",
+    "joinLink": "始める",
+    "liveStats": "リアルタイム対戦統計",
+    "stats": {
+      "onlineTotal": "オンライン総数",
+      "idleCount": "待機中",
+      "matching3v3": "3v3 マッチング中",
+      "gaming3v3": "3v3 対戦中",
+      "matching5v5Ranked": "5v5 ランクマッチング中",
+      "gaming5v5": "5v5 対戦中",
+      "matchingAral": "ARAL マッチング中",
+      "gamingAral": "ARAL 対戦中",
+      "matchingBlitz": "電撃モード マッチング中",
+      "gamingBlitz": "電撃モード 対戦中"
+    },
+    "info5v5": "5v5のキュー分散を減らすため、VGRebornは<1>5v5カジュアルをサポートしていません</1>"
+  },
+  "guide": {
+    "title": "ユーザーガイド",
+    "ios": "iOS",
+    "android": "Android",
+    "steps": {
+      "installGame": {
+        "title": "ゲームをインストール",
+        "desc": "App StoreからVaingloryをダウンロードしてください。"
+      },
+      "installCert": {
+        "title": "証明書のインストールと信頼",
+        "desc1": "Safariを使用して<1>MITM証明書をダウンロード</1>してください",
+        "desc2": "設定 -> プロファイルがダウンロード済み に移動し、mitmproxy証明書をインストールしてください。",
+        "desc3": "設定 -> 一般 -> 情報 -> 証明書信頼設定 に移動し、mitmproxyの完全な信頼を有効にしてください。"
+      },
+      "installVpn": {
+        "title": "WireGuardをインストール",
+        "desc1": "アプリ版はまだありません。App Store/Google PlayからWireGuardを使用してください。",
+        "desc2": "<0>WireGuard設定をダウンロード</0> (これがあなたの身分証明トークンです)",
+        "desc3": "WireGuardを開き、ファイルからトンネルを追加してください。",
+        "desc4": "スイッチを切り替えて接続/切断します。(ゲームのトラフィックのみがトンネルされます)"
+      },
+      "startGame": {
+        "title": "ゲーム開始",
+        "desc": "VGRebornに参加しました。ゲームの状態は自動的に同期されます。"
+      },
+      "downloadGame": {
+        "title": "ゲームをダウンロード",
+        "desc1": "MITMパッチ適用済みの<1>Vainglory XAPK</1>をダウンロード",
+        "desc2": "APKPureまたはXAPKS Installerを使用してインストールしてください。"
+      }
+    }
+  },
+  "rank": {
+    "title": "ランキング",
+    "3v3": "3v3 ランク",
+    "5v5": "5v5 ランク",
+    "noData": "{{mode}} データなし"
+  },
+  "createRoom": {
+    "title": "ルームの作成方法",
+    "desc": "マッチメイキングは名前のプレフィックスコードに基づいています。VGRebornは自動的に同期します。\nコードルール：",
+    "public": {
+      "title": "公開ルーム",
+      "rule": "コード < 3000",
+      "desc": "コードはレートを表します。近いレートとの優先マッチング。1600+はドラフトモード。デフォルトは1200。"
+    },
+    "private": {
+      "title": "プライベートルーム",
+      "rule": "コード > 3000",
+      "desc": "同じコードのプレイヤーのみがマッチングされます。ゲームを開始するには全員揃う必要があります。"
+    },
+    "team": {
+      "title": "チーム分け",
+      "teamA": "チームAに指定",
+      "teamB": "チームBに指定",
+      "desc": "コードの後ろに <1>-1</1> または <3>-2</3> を追加してチームを指定します。"
+    }
+  },
+  "room": {
+    "unknown": "不明",
+    "offline": "オフライン",
+    "online": "オンライン",
+    "matching": "マッチング中 ({{lobby}})",
+    "gaming": "対戦中 ({{lobby}})",
+    "recording": "記録中 ({{lobby}})",
+    "lobby": {
+      "5v5_pvp_ranked": "5v5 ランク",
+      "5v5_pvp_casual": "5v5 カジュアル",
+      "ranked": "3v3 ランク",
+      "casual_aral": "ARAL",
+      "blitz_pvp_ranked": "電撃モード",
+      "5v5_bots_solo": "5v5 ボット",
+      "blitz_bots_solo": "電撃ボット",
+      "solo_bots": "3v3 ボット"
+    },
+    "region": {
+      "sea": "東南アジア",
+      "na": "北米",
+      "eu": "欧州",
+      "ea": "東アジア",
+      "sa": "南米"
+    },
+    "reputationLevel": {
+      "excellent": "優良",
+      "good": "普通",
+      "bad": "悪質"
+    },
+    "rankTier": {
+      "t1": "駆け出し",
+      "t2": "発展途上",
+      "t3": "不動の守護者",
+      "t4": "好敵手",
+      "t5": "実力者",
+      "t6": "脅威",
+      "t7": "注目の的",
+      "t8": "素晴らしき英雄",
+      "t9": "最高傑作",
+      "t10": "ベイングローリアス"
+    },
+    "code": "ルームコード",
+    "default": "（デフォルト）",
+    "idle": "待機中",
+    "inGameStatus": "(対戦中)",
+    "recordingStatus": "(記録中)",
+    "matchingStatus": "(マッチング中)",
+    "players_suffix": "人",
+    "requestJoin": "参加リクエスト",
+    "recruit": "募集",
+    "backToList": "リストに戻る",
+    "reputation": "評判:",
+    "reputation_excellent": "優良",
+    "reputation_good": "普通",
+    "reputation_poor": "悪い",
+    "ready": "準備完了",
+    "notReady": "準備未完了",
+    "setReady": "準備完了にする",
+    "leave": "退出",
+    "lobbyTitle": "ルームロビー",
+    "noRooms": "利用可能なルームはありません"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "login": "ログイン / 登録",
+    "tapToLogin": "タップしてログイン",
+    "guest": "ゲスト"
+  },
+  "download": {
+    "title": "ダウンロード",
+    "latency": {
+      "title": "遅延情報",
+      "back": "戻る",
+      "excellent": "優良 (0-50ms)",
+      "good": "良好 (50-120ms)",
+      "fair": "普通 (120-250ms)",
+      "poor": "不良 (>250ms)"
+    },
+    "config": "設定",
+    "matching": "最適なノードを探しています...",
+    "bestNode": "最適ノード",
+    "matchFailed": "失敗",
+    "button": "設定をダウンロード",
+    "note1": "現在、東アジアサーバーのみサポートしています",
+    "note2": "設定ファイルを変更しないでください",
+    "error": {
+      "login": "先にログインしてください",
+      "failed": "ダウンロード失敗"
+    }
+  },
+  "login": {
+    "title": "VGReborn ログイン",
+    "emailPlaceholder": "メールアドレスを入力",
+    "codePlaceholder": "認証コード",
+    "getCode": "コードを取得",
+    "agree": "同意する",
+    "terms": "利用規約",
+    "authDesc": "プラットフォームがゲーム状態を取得し、バインディングとマッチメイキングを行うことを許可します。",
+    "submit": "ログイン",
+    "verifying": "確認中...",
+    "error": {
+      "agree": "利用規約に同意してください",
+      "email": "無効なメールアドレス",
+      "incomplete": "すべての項目を入力してください",
+      "sendFailed": "送信失敗、後で再試行してください",
+      "loginFailed": "ログイン失敗、コードを確認してください"
+    }
+  },
+  "terms": {
+    "title": "利用規約",
+    "readAndAgree": "読みました、同意します",
+    "sections": {
+      "1": {
+        "title": "1. 概要",
+        "content": "VGRebornは、Vainglory CE向けのサードパーティマッチメイキング強化プラットフォームです。"
+      },
+      "2": {
+        "title": "2. MITM技術",
+        "content": "自動ID認識、統計追跡、ルーム状態の取得を実装するため、VGRebornはVPN + MITM技術を使用します。「同意する」をクリックすると、ゲームクライアントとサーバー間の特定の暗号化パケットを傍受して読み取ることをプラットフォームに許可したことになります。"
+      },
+      "3": {
+        "title": "3. データ収集とプライバシー",
+        "content": "プラットフォームは、プレイヤーID、ランクスコア、ゲーム状態など、マッチメイキングに必要なデータのみを収集します。このサービスに関係のない個人のデバイス情報やその他のネットワークトラフィックを収集しないことを約束します。"
+      },
+      "4": {
+        "title": "4. ユーザー行動",
+        "content": "ユーザーはフェアプレイの原則を遵守する必要があります。悪意のある攻撃、データの改ざん、または頻繁な悪意のあるマッチング拒否は、アカウントの停止または処罰の対象となります。"
+      },
+      "5": {
+        "title": "5. 免責事項",
+        "content": "このプラットフォームはサードパーティの非公式サービスであり、Superevil Megacorpとは関係ありません。ユーザーは、このプラットフォームの使用によって生じるアカウントの異常、デバイスのセキュリティリスク、または接続の不安定性についてのリスクを負うものとします。"
+      }
+    }
+  },
+  "updateHandle": {
+    "title": "ニックネーム変更",
+    "subtitle": "VGRebornでの表示名を設定",
+    "placeholder": "新しいニックネームを入力",
+    "submit": "変更を保存",
+    "saving": "保存中...",
+    "error": {
+      "failed": "更新失敗、後で再試行してください"
+    }
+  },
+  "feedback": {
+    "title": "フィードバック",
+    "subtitle": "VGRebornを一緒に改善しましょう",
+    "success": "フィードバックありがとうございます！",
+    "successDesc": "すべての提案に目を通します。",
+    "placeholder": "問題や提案を記述してください...",
+    "contactPlaceholder": "連絡先（任意）",
+    "submit": "フィードバックを送信",
+    "submitting": "送信中...",
+    "error": {
+      "failed": "送信失敗、後で再試行してください"
+    }
+  }
+}

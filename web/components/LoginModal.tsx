@@ -8,6 +8,7 @@ import {
   Circle,
   Loader2,
 } from "lucide-react";
+import { useTranslation, Trans } from "react-i18next";
 import { supabase } from "../supabase";
 
 interface LoginModalProps {
@@ -21,6 +22,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
   onClose,
   onLogin,
 }) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [isAgreed, setIsAgreed] = useState(false);
@@ -70,11 +72,11 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
   const handleSendCode = async () => {
     if (!isAgreed) {
-      setError("请先阅读并同意服务协议");
+      setError(t("login.error.agree"));
       return;
     }
     if (!email || !email.includes("@")) {
-      setError("请输入有效的电子邮箱");
+      setError(t("login.error.email"));
       return;
     }
     setError(null);
@@ -93,7 +95,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
       setCooldown(60);
       console.log("Verification code sent to:", email);
     } catch (err: any) {
-      setError(err.message || "发送失败，请稍后重试");
+      setError(err.message || t("login.error.sendFailed"));
     } finally {
       setLoadingCode(false);
     }
@@ -101,11 +103,11 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
   const handleLoginSubmit = async () => {
     if (!isAgreed) {
-      setError("请先阅读并同意服务协议");
+      setError(t("login.error.agree"));
       return;
     }
     if (!email || !code) {
-      setError("请完整填写邮箱和验证码");
+      setError(t("login.error.incomplete"));
       return;
     }
 
@@ -123,7 +125,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
       onLogin(email);
     } catch (err: any) {
-      setError(err.message || "登录失败，请检查验证码是否正确");
+      setError(err.message || t("login.error.loginFailed"));
     } finally {
       setLoadingLogin(false);
     }
@@ -143,7 +145,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
           </button>
 
           <h2 className="text-2xl font-bold text-center mb-6 text-gradient italic">
-            VGReborn 登录
+            {t("login.title")}
           </h2>
 
           <div className="space-y-4">
@@ -157,7 +159,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
               <Mail className="absolute left-3 top-3.5 w-5 h-5 text-slate-500" />
               <input
                 type="email"
-                placeholder="请输入电子邮箱"
+                placeholder={t("login.emailPlaceholder")}
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:ring-2 focus:ring-red-900 outline-none transition-all text-white text-sm"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -169,7 +171,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
               <div className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="验证码"
+                  placeholder={t("login.codePlaceholder")}
                   className="flex-1 bg-white/5 border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:ring-2 focus:ring-red-900 outline-none transition-all text-white text-sm"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
@@ -188,7 +190,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
                   ) : cooldown > 0 ? (
                     `${cooldown}s`
                   ) : (
-                    "获取验证码"
+                    t("login.getCode")
                   )}
                 </button>
               </div>
@@ -207,14 +209,14 @@ const LoginModal: React.FC<LoginModalProps> = ({
                   )}
                 </div>
                 <div className="text-[10px] text-slate-400 leading-relaxed select-none">
-                  我已阅读并同意
+                  {t("login.agree")}
                   <button
                     onClick={openAgreement}
                     className="text-slate-200 underline decoration-red-900 underline-offset-4 mx-1 hover:text-white transition-colors cursor-pointer"
                   >
-                    VGReborn 服务协议
+                    {t("login.terms")}
                   </button>
-                  。授权平台捕获游戏状态数据以实现自动绑定与匹配功能。
+                  。{t("login.authDesc")}
                 </div>
               </div>
             </div>
@@ -229,7 +231,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
               }`}
             >
               {loadingLogin && <Loader2 className="w-4 h-4 animate-spin" />}
-              {loadingLogin ? "验证中..." : "登录"}
+              {loadingLogin ? t("login.verifying") : t("login.submit")}
             </button>
           </div>
         </div>
@@ -243,7 +245,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
               <div className="flex items-center gap-2">
                 <Info className="w-5 h-5 text-red-600" />
                 <h3 className="text-xl font-bold text-white">
-                  VGReborn 服务协议
+                  {t("terms.title")}
                 </h3>
               </div>
               <button
@@ -255,53 +257,14 @@ const LoginModal: React.FC<LoginModalProps> = ({
             </div>
 
             <div className="flex-1 overflow-y-auto pr-2 text-[13px] text-slate-400 space-y-4 leading-relaxed custom-scrollbar">
-              <section>
-                <h4 className="font-bold text-slate-200 mb-2 uppercase tracking-widest">
-                  1. 服务概述
-                </h4>
-                <p>
-                  VGReborn 是针对《虚荣社区版 (Vainglory
-                  CE)》开发的第三方匹配增强平台。本平台旨在通过技术手段提升玩家的联机匹配体验。
-                </p>
-              </section>
-              <section>
-                <h4 className="font-bold text-slate-200 mb-2 uppercase tracking-widest">
-                  2. MITM 技术说明与授权
-                </h4>
-                <p>
-                  为实现玩家 ID
-                  自动识别、战绩统计、房间状态实时捕获等核心功能，VGReborn
-                  需使用加速器配合
-                  MITM（中间人攻击）代理技术。用户点击“同意”即表示明确授权平台拦截并读取游戏客户端与服务器之间的特定加密封包。
-                </p>
-              </section>
-              <section>
-                <h4 className="font-bold text-slate-200 mb-2 uppercase tracking-widest">
-                  3. 数据收集与隐私
-                </h4>
-                <p>
-                  平台仅收集与游戏匹配相关的必要数据，包括但不限于：玩家
-                  ID、排位分数、当前游戏状态（匹配中、游戏中、接受/拒绝比赛）。我们承诺不会收集您的设备私有敏感信息或与本服务无关的其他网络流量。
-                </p>
-              </section>
-              <section>
-                <h4 className="font-bold text-slate-200 mb-2 uppercase tracking-widest">
-                  4. 用户行为规范
-                </h4>
-                <p>
-                  用户需遵守公平竞争原则。任何针对平台系统的恶意攻击、数据篡改或在匹配过程中频繁恶意拒绝比赛、不友好的的行为，平台有权对其账号实施封禁或降权处理。
-                </p>
-              </section>
-              <section>
-                <h4 className="font-bold text-slate-200 mb-2 uppercase tracking-widest">
-                  5. 免责声明
-                </h4>
-                <p>
-                  本平台为第三方非官方服务，与 Superevil Megacorp
-                  无关联。因使用本平台技术手段可能导致的任何游戏账号异常、设备安全风险
-                  or 连接不稳定问题，由用户自行承担。
-                </p>
-              </section>
+              {[1, 2, 3, 4, 5].map((i) => (
+                <section key={i}>
+                  <h4 className="font-bold text-slate-200 mb-2 uppercase tracking-widest">
+                    {t(`terms.sections.${i}.title`)}
+                  </h4>
+                  <p>{t(`terms.sections.${i}.content`)}</p>
+                </section>
+              ))}
             </div>
 
             <button
@@ -311,7 +274,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
               }}
               className="w-full mt-6 py-4 bg-red-800 rounded-2xl font-black text-white hover:bg-red-700 transition-colors shadow-lg shadow-red-900/20"
             >
-              我已阅读并同意
+              {t("terms.readAndAgree")}
             </button>
           </div>
         </div>

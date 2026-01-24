@@ -15,11 +15,12 @@ export const MOCK_STATS: MatchStats = {
 
 export const MOCK_USER: Player = {
   id: "vg-player-000",
+  player_uuid: "uuid-000",
   handle: "NewPlayer",
   level: 1,
-  reputation: "优",
+  reputation: "excellent",
   state: "offline",
-  rankTier: "初出茅庐",
+  rankTier: "t1",
   activated: true,
 };
 

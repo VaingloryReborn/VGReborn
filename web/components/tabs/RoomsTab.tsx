@@ -10,6 +10,8 @@ import {
 import { Room, Player } from "../../types";
 import RoomCard from "../RoomCard";
 import CreateRoomGuideModal from "../CreateRoomGuideModal";
+import { useTranslation } from "react-i18next";
+import { getReputationColor, getReputationDisplay } from "../../utils/status";
 
 interface RoomsTabProps {
   rooms: Room[];
@@ -26,13 +28,8 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
   user,
   onOpenLogin,
 }: RoomsTabProps) => {
+  const { t } = useTranslation();
   const [isGuideOpen, setGuideOpen] = useState(false);
-
-  const getReputationColor = (rep: string) => {
-    if (rep === "优") return "text-emerald-400";
-    if (rep === "一般") return "text-amber-400";
-    return "text-rose-400";
-  };
 
   const handleJoinRoom = (room: Room) => {
     if (!user) {
@@ -50,7 +47,7 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
           className="flex items-center gap-1 text-slate-400 mb-6 active:text-white"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>返回列表</span>
+          <span>{t("room.backToList")}</span>
         </button>
 
         <div className="glass-panel p-6 rounded-2xl mb-6 border-white/5">
@@ -91,9 +88,9 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
                       )}
                     </div>
                     <div className="text-[10px] text-slate-500">
-                      信誉:{" "}
+                      {t("room.reputation")}{" "}
                       <span className={getReputationColor(member.reputation)}>
-                        {member.reputation}
+                        {getReputationDisplay(member.reputation)}
                       </span>
                     </div>
                   </div>
@@ -101,12 +98,12 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
                 <div className="flex items-center gap-2">
                   {member.state === "matching" && (
                     <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
-                      已准备
+                      {t("room.ready")}
                     </span>
                   )}
                   {member.state === "matching" && (
                     <span className="px-2 py-0.5 rounded bg-white/5 text-slate-500 text-[10px] font-bold">
-                      未就绪
+                      {t("room.notReady")}
                     </span>
                   )}
                 </div>
@@ -116,13 +113,13 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
 
           <div className="mt-8 flex gap-3">
             <button className="flex-1 py-4 bg-emerald-600 rounded-xl font-bold shadow-lg shadow-emerald-500/20 active:scale-95 transition-all text-white">
-              准备就绪
+              {t("room.setReady")}
             </button>
             <button
               onClick={() => setSelectedRoom(null)}
               className="px-6 py-4 bg-white/5 rounded-xl text-slate-400 font-bold active:bg-rose-500/20 transition-all"
             >
-              退出
+              {t("room.leave")}
             </button>
           </div>
         </div>
@@ -133,7 +130,7 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
   return (
     <div className="p-5 pb-24 relative z-10 animate-in fade-in duration-500">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gradient italic">房间大厅</h2>
+        <h2 className="text-2xl font-bold text-gradient italic">{t("room.lobbyTitle")}</h2>
         <button 
           onClick={() => setGuideOpen(true)}
           className="p-2 bg-red-800 rounded-lg shadow-lg active:scale-90 transition-all text-white"
@@ -145,7 +142,7 @@ const RoomsTab: React.FC<RoomsTabProps> = ({
       {rooms.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-slate-500 opacity-60">
           <Users className="w-12 h-12 mb-4" />
-          <p className="text-sm font-medium">当前没有房间</p>
+          <p className="text-sm font-medium">{t("room.noRooms")}</p>
         </div>
       ) : (
         <div className="space-y-4">

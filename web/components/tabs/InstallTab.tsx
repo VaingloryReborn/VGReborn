@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Apple, Chrome } from "lucide-react";
 import mitmCert from "../../assets/certificates/mitmproxy-ca-cert.pem?url";
+import { useTranslation, Trans } from "react-i18next";
 
 import { useAuth } from "../../contexts/AuthContext";
 import { DownloadModal } from "../DownloadModal";
@@ -10,13 +11,14 @@ interface InstallTabProps {
 }
 
 const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [installPlatform, setInstallPlatform] = useState<"ios" | "android">(
     "ios",
   );
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
 
-  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleDownload = (e: React.MouseEvent<HTMLAnchorElement | HTMLSpanElement>) => {
     e.preventDefault();
     if (!user) {
       onOpenLogin();
@@ -31,7 +33,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
     <div className="p-5 pb-24 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gradient italic mb-2">
-          使用指南
+          {t("guide.title")}
         </h2>
         <div className="flex bg-white/5 p-1 rounded-xl border border-white/5 mb-6">
           <button
@@ -39,14 +41,14 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-all ${installPlatform === "ios" ? "bg-red-800 text-white shadow-lg" : "text-slate-500 hover:text-slate-300"}`}
           >
             <Apple className="w-4 h-4" />
-            iOS
+            {t("guide.ios")}
           </button>
           <button
             onClick={() => setInstallPlatform("android")}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-bold transition-all ${installPlatform === "android" ? "bg-red-800 text-white shadow-lg" : "text-slate-500 hover:text-slate-300"}`}
           >
             <Chrome className="w-4 h-4" />
-            安卓
+            {t("guide.android")}
           </button>
         </div>
       </div>
@@ -59,10 +61,10 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                 <div className={stepCircleStyle}>1</div>
                 <div>
                   <h3 className="font-bold text-white mb-1 text-sm">
-                    安装游戏
+                    {t("guide.steps.installGame.title")}
                   </h3>
                   <p className="text-sm text-slate-400">
-                    从 App Store 下载安装官方《虚荣》游戏。
+                    {t("guide.steps.installGame.desc")}
                   </p>
                 </div>
               </div>
@@ -72,24 +74,26 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                 <div className={stepCircleStyle}>2</div>
                 <div>
                   <h3 className="font-bold text-white mb-1 text-sm">
-                    安装并信任证书
+                    {t("guide.steps.installCert.title")}
                   </h3>
                   <ol className="list-decimal list-outside pl-4 space-y-1.5 text-sm text-slate-400 marker:text-slate-500">
                     <li>
-                      使用Safari浏览器
-                      <a
-                        href={mitmCert}
-                        download
-                        className="underline text-red-500 mx-1"
-                      >
-                        下载MITM证书
-                      </a>
+                      <Trans i18nKey="guide.steps.installCert.desc1">
+                        Use Safari to
+                        <a
+                          href={mitmCert}
+                          download
+                          className="underline text-red-500 mx-1"
+                        >
+                          Download MITM Certificate
+                        </a>
+                      </Trans>
                     </li>
                     <li>
-                      进入系统设置，搜索"描述文件"进入配置管理，安装刚才下载的mitmproxy证书
+                      {t("guide.steps.installCert.desc2")}
                     </li>
                     <li>
-                      进入系统设置-通用-关于本机-证书信任设置，开启mitmproxy证书的信任
+                      {t("guide.steps.installCert.desc3")}
                     </li>
                   </ol>
                 </div>
@@ -100,26 +104,28 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                 <div className={stepCircleStyle}>3</div>
                 <div>
                   <h3 className="font-bold text-white mb-1 text-sm">
-                    安装加速器
+                    {t("guide.steps.installVpn.title")}
                   </h3>
                   <ol className="list-decimal list-outside pl-4 space-y-1.5 text-sm text-slate-400 marker:text-slate-500">
                     <li>
-                      目前没有App版的VGReborn一键加速，只能使用WireGuard进入加速隧道，在AppStore下载WireGuard
+                      {t("guide.steps.installVpn.desc1")}
                     </li>
                     <li>
-                      <span
-                        onClick={handleDownload}
-                        className="underline text-red-500 mx-1 cursor-pointer"
-                      >
-                        下载WireGuard配置文件
-                      </span>
-                      (这是你账号进入加速隧道的身份令牌)
+                      <Trans i18nKey="guide.steps.installVpn.desc2">
+                        <span
+                          onClick={handleDownload}
+                          className="underline text-red-500 mx-1 cursor-pointer"
+                        >
+                          Download WireGuard Config
+                        </span>
+                        (This is your identity token)
+                      </Trans>
                     </li>
                     <li>
-                      打开WireGuard，点击右上角添加配置，导入刚才下载的配置文件
+                      {t("guide.steps.installVpn.desc3")}
                     </li>
                     <li>
-                      点击开关即可进入/退出加速隧道。(只有虚荣游戏内的流量才会走加速通道)
+                      {t("guide.steps.installVpn.desc4")}
                     </li>
                   </ol>
                 </div>
@@ -130,10 +136,10 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                 <div className={stepCircleStyle}>4</div>
                 <div>
                   <h3 className="font-bold text-white mb-1 text-sm">
-                    开始游戏
+                    {t("guide.steps.startGame.title")}
                   </h3>
                   <p className="text-sm text-slate-400">
-                    你已成功加入VGReborn，进入游戏VGReborn将自动同步你的游戏状态。
+                    {t("guide.steps.startGame.desc")}
                   </p>
                 </div>
               </div>
@@ -146,22 +152,23 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                 <div className={stepCircleStyle}>1</div>
                 <div>
                   <h3 className="font-bold text-white mb-1 text-sm">
-                    下载游戏
+                    {t("guide.steps.downloadGame.title")}
                   </h3>
                   <ol className="list-decimal list-outside pl-4 space-y-1.5 text-sm text-slate-400 marker:text-slate-500">
                     <li>
-                      下载支持MITM的
-                      <a
-                        href="https://vgreborn.oss-cn-shenzhen.aliyuncs.com/output_patched.xapk"
-                        download
-                        className="underline text-red-500 mx-1 cursor-pointer"
-                      >
-                        虚荣游戏安装包(xapk)
-                      </a>
+                      <Trans i18nKey="guide.steps.downloadGame.desc1">
+                        Download MITM-patched
+                        <a
+                          href="https://vgreborn.oss-cn-shenzhen.aliyuncs.com/output_patched.xapk"
+                          download
+                          className="underline text-red-500 mx-1 cursor-pointer"
+                        >
+                          Vainglory XAPK
+                        </a>
+                      </Trans>
                     </li>
                     <li>
-                      你可以使用APKPure或XAPKS
-                      Installer等应用打开下载的安装包进行安装
+                      {t("guide.steps.downloadGame.desc2")}
                     </li>
                   </ol>
                 </div>
@@ -173,27 +180,28 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                 <div className={stepCircleStyle}>2</div>
                 <div>
                   <h3 className="font-bold text-white mb-1 text-sm">
-                    安装加速器
+                    {t("guide.steps.installVpn.title")}
                   </h3>
                   <ol className="list-decimal list-outside pl-4 space-y-1.5 text-sm text-slate-400 marker:text-slate-500">
                     <li>
-                      目前没有App版的VGReborn一键加速，只能使用WireGuard进入加速隧道，在Google
-                      Play或APKPure等平台下载WireGuard
+                      {t("guide.steps.installVpn.desc1")}
                     </li>
                     <li>
-                      <span
-                        onClick={handleDownload}
-                        className="underline text-red-500 mx-1 cursor-pointer"
-                      >
-                        下载WireGuard配置文件
-                      </span>
-                      (这是你账号进入加速隧道的身份令牌)
+                      <Trans i18nKey="guide.steps.installVpn.desc2">
+                        <span
+                          onClick={handleDownload}
+                          className="underline text-red-500 mx-1 cursor-pointer"
+                        >
+                          Download WireGuard Config
+                        </span>
+                        (This is your identity token)
+                      </Trans>
                     </li>
                     <li>
-                      打开WireGuard，点击右上角添加配置，导入刚才下载的配置文件
+                      {t("guide.steps.installVpn.desc3")}
                     </li>
                     <li>
-                      点击开关即可进入/退出加速隧道。(只有虚荣游戏内的流量才会走加速通道)
+                      {t("guide.steps.installVpn.desc4")}
                     </li>
                   </ol>
                 </div>
@@ -205,10 +213,10 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                 <div className={stepCircleStyle}>3</div>
                 <div>
                   <h3 className="font-bold text-white mb-1 text-sm">
-                    开始游戏
+                    {t("guide.steps.startGame.title")}
                   </h3>
                   <p className="text-sm text-slate-400">
-                    你已成功加入VGReborn，进入游戏VGReborn将自动同步你的游戏状态。
+                    {t("guide.steps.startGame.desc")}
                   </p>
                 </div>
               </div>

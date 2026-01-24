@@ -1,5 +1,6 @@
 import React from "react";
 import { Info } from "lucide-react";
+import { Trans } from "react-i18next";
 
 const InfoSection: React.FC = () => {
   return (
@@ -8,8 +9,9 @@ const InfoSection: React.FC = () => {
         <Info className="w-3 h-3 " />
       </span>
       <p className="text-[11px] text-slate-300 leading-relaxed">
-        为减少 5v5 模式分流让匹配更困难，VGReborn{" "}
-        <span className=" font-bold">不支持5v5匹配模式</span>
+        <Trans i18nKey="home.info5v5">
+          To reduce 5v5 queue splitting, VGReborn <span className=" font-bold">does not support 5v5 Casual</span>
+        </Trans>
       </p>
     </div>
   );

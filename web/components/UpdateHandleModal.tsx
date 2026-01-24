@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { X, Save, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../supabase";
 import { Player } from "../types";
 
@@ -14,6 +15,7 @@ const UpdateHandleModal: React.FC<UpdateHandleModalProps> = ({
   onClose,
   user,
 }) => {
+  const { t } = useTranslation();
   const [handle, setHandle] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +47,7 @@ const UpdateHandleModal: React.FC<UpdateHandleModalProps> = ({
       onClose();
     } catch (err: any) {
       console.error("Update handle error:", err);
-      setError(err.message || "更新失败，请稍后重试");
+      setError(err.message || t("updateHandle.error.failed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -62,10 +64,10 @@ const UpdateHandleModal: React.FC<UpdateHandleModalProps> = ({
         </button>
 
         <h2 className="text-2xl font-bold text-center mb-2 text-gradient italic">
-          修改昵称
+          {t("updateHandle.title")}
         </h2>
         <p className="text-xs text-slate-400 text-center mb-6">
-          {/* 设置您在 VGReborn 的显示名称 */}
+          {t("updateHandle.subtitle")}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -74,7 +76,7 @@ const UpdateHandleModal: React.FC<UpdateHandleModalProps> = ({
               type="text"
               value={handle}
               onChange={(e) => setHandle(e.target.value)}
-              placeholder="请输入新的昵称"
+              placeholder={t("updateHandle.placeholder")}
               className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:ring-2 focus:ring-white/20 outline-none transition-all"
               disabled={isSubmitting}
               maxLength={20}
@@ -98,11 +100,11 @@ const UpdateHandleModal: React.FC<UpdateHandleModalProps> = ({
             {isSubmitting ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                保存中...
+                {t("updateHandle.saving")}
               </>
             ) : (
               <>
-                保存修改
+                {t("updateHandle.submit")}
               </>
             )}
           </button>

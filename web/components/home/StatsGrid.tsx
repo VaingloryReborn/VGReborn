@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { MatchStats } from "../../types";
 import MatchStatCard from "../MatchStatCard";
 
@@ -11,64 +12,65 @@ const StatsGrid: React.FC<StatsGridProps> = ({
   stats,
   loading,
 }: StatsGridProps) => {
+  const { t } = useTranslation();
   return (
     <div className="grid grid-cols-2 gap-3">
       <MatchStatCard
-        label="总计在线"
+        label={t("home.stats.onlineTotal")}
         value={stats.onlineTotal}
         color="cyan"
         loading={loading}
       />
       <MatchStatCard
-        label="空闲人数"
+        label={t("home.stats.idleCount")}
         value={stats.idleCount}
         color="green"
         loading={loading}
       />
       <MatchStatCard
-        label="3v3 排位匹配中"
+        label={t("home.stats.matching3v3")}
         value={stats.matching3v3}
         color="orange"
         loading={loading}
       />
       <MatchStatCard
-        label="3v3 游戏中"
+        label={t("home.stats.gaming3v3")}
         value={stats.gaming3v3}
         color="red"
         loading={loading}
       />
       <MatchStatCard
-        label="5v5 排位匹配中"
+        label={t("home.stats.matching5v5Ranked")}
         value={stats.matching5v5Ranked}
         color="orange"
         loading={loading}
       />
       <MatchStatCard
-        label="5v5 游戏中"
+        label={t("home.stats.gaming5v5")}
         value={stats.gaming5v5}
         color="red"
         loading={loading}
       />
       <MatchStatCard
-        label="大乱斗匹配中"
+        label={t("home.stats.matchingAral")}
         value={stats.matchingAral}
         color="orange"
         loading={loading}
       />
       <MatchStatCard
-        label="大乱斗游戏中"
+        label={t("home.stats.gamingAral")}
         value={stats.gamingAral}
         color="red"
         loading={loading}
       />
       <MatchStatCard
-        label="闪电战匹配中"
+        label={t("home.stats.matchingBlitz")}
         value={stats.matchingBlitz}
         color="orange"
         loading={loading}
       />
       <MatchStatCard
-        label="闪电战游戏中"
+        label={t("home.stats.gamingBlitz")}
         value={stats.gamingBlitz}
         color="red"
         loading={loading}

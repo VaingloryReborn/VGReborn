@@ -3,6 +3,7 @@ import { Player, Room } from "../types";
 import { Users, Lock, Globe, User } from "lucide-react";
 import { getLobbyName, getStatusDisplay } from "../utils/status";
 import { useToast } from "../contexts/ToastContext";
+import { useTranslation } from "react-i18next";
 
 interface RoomCardProps {
   room: Room;
@@ -13,6 +14,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
   room,
   onClick,
 }: RoomCardProps) => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const codeNum = parseInt(room.codePrefix);
   const query_pending_match = room.members
@@ -29,7 +31,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
           }) ||
           ({
             unknown: true,
-            handle: "未知",
+            handle: t("room.unknown"),
             player_uuid: item.playerUUID,
             id: item.playerUUID,
             level: -1,
@@ -104,10 +106,10 @@ const RoomCard: React.FC<RoomCardProps> = ({
           <h3
             className={`text-base whitespace-nowrap ${styleConfig.titleColor}`}
           >
-            <span className="font-normal">房间代码: </span>
+            <span className="font-normal">{t("room.code")}: </span>
             <span className={`px-2 py-1 rounded font-mono font-bold`}>
               {room.isPrivate ? "****" : room.codePrefix}
-              {room.codePrefix === "1200" ? "（默认）" : ""}
+              {room.codePrefix === "1200" ? t("room.default") : ""}
             </span>
           </h3>
         </div>
@@ -116,20 +118,21 @@ const RoomCard: React.FC<RoomCardProps> = ({
           <span
             className={`text-xs font-medium px-2 py-1 rounded border flex items-center ${getModeStyle(room.mode)}`}
           >
-            {getLobbyName(room.mode) || "空闲"}
+            {getLobbyName(room.mode) || t("room.idle")}
             {room.members?.[0]?.state === "gaming"
-              ? "(游戏中)"
+              ? " " + t("room.inGameStatus")
               : room.members?.[0]?.state === "recording"
-                ? "(结算中)"
+                ? " " + t("room.recordingStatus")
                 : room.members?.[0]?.state === "matching"
-                  ? "(匹配中)"
+                  ? " " + t("room.matchingStatus")
                   : ""}
           </span>
           <div className="flex-grow"></div>
           <div className="flex items-center gap-1.5 bg-black/20 px-2 py-1 rounded-lg border border-white/5">
             <Users className="w-3 h-3 text-slate-400" />
             <span className="text-xs font-bold text-slate-200">
-              {room.members.length}人
+              {room.members.length}
+              {t("room.players_suffix")}
             </span>
           </div>
         </div>
@@ -141,7 +144,7 @@ const RoomCard: React.FC<RoomCardProps> = ({
             // Remove code and team prefix (e.g. "1200-A_Name" -> "Name", "1200_Name" -> "Name")
             const displayName = member
               ? member?.handle?.replace(/^\d+(?:-[12])?_/, "")
-              : "未知";
+              : t("room.unknown");
             const nickname = member?.nickname ? `(${member.nickname})` : "";
             const statusDisplay = getStatusDisplay(member);
             const accepted = !!query_pending_match?.find((item) => {
@@ -188,22 +191,22 @@ const RoomCard: React.FC<RoomCardProps> = ({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                toast("功能开发中...", "info");
+                toast(t("common.featureInDev"), "info");
               }}
               className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-white border border-white/10 transition-colors"
             >
-              申请加入
+              {t("room.requestJoin")}
             </button>
           )}
 
           <button
             onClick={(e) => {
               e.stopPropagation();
-              toast("功能开发中...", "info");
+              toast(t("common.featureInDev"), "info");
             }}
             className="px-3 py-1.5 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-xs text-blue-400 border border-blue-500/20 transition-colors"
           >
-            招募
+            {t("room.recruit")}
           </button>
         </div>
       </div>

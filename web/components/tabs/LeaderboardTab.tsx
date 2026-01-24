@@ -1,16 +1,19 @@
 
 import React from 'react';
+import { useTranslation } from "react-i18next";
 import { Trophy, Medal, Swords, Shield } from 'lucide-react';
 import { Player } from '../../types';
 import { MOCK_LEADERBOARD_3V3, MOCK_LEADERBOARD_5V5 } from '../../constants';
 
 const LeaderboardTab: React.FC = () => {
+  const { t } = useTranslation();
+
   const renderLeaderboardList = (list: Player[], mode: string) => {
     if (list.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center py-10 text-slate-600 opacity-60 bg-white/[0.02] border border-dashed border-white/5 rounded-2xl">
           <Medal className="w-8 h-8 mb-2" />
-          <p className="text-[10px] font-bold uppercase tracking-wider">{mode} 暂无数据</p>
+          <p className="text-[10px] font-bold uppercase tracking-wider">{t("rank.noData", { mode })}</p>
         </div>
       );
     }
@@ -46,14 +49,14 @@ const LeaderboardTab: React.FC = () => {
   return (
     <div className="p-5 pb-24 relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gradient italic">排位榜</h2>
+        <h2 className="text-2xl font-bold text-gradient italic">{t("rank.title")}</h2>
       </div>
 
       <div className="grid grid-cols-2 gap-4 items-start">
         <div>
           <h3 className="text-xs font-black text-slate-400 mb-3 flex items-center gap-1.5 uppercase tracking-widest px-1">
             <Swords className="w-3.5 h-3.5 text-blue-500" />
-            3v3 排行
+            {t("rank.3v3")}
           </h3>
           {renderLeaderboardList(MOCK_LEADERBOARD_3V3, '3v3')}
         </div>
@@ -61,7 +64,7 @@ const LeaderboardTab: React.FC = () => {
         <div>
           <h3 className="text-xs font-black text-slate-400 mb-3 flex items-center gap-1.5 uppercase tracking-widest px-1">
             <Shield className="w-3.5 h-3.5 text-red-700" />
-            5v5 排行
+            {t("rank.5v5")}
           </h3>
           {renderLeaderboardList(MOCK_LEADERBOARD_5V5, '5v5')}
         </div>

@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setUser({
           ...MOCK_USER,
           id: session.user.id,
-          name: session.user.email?.split("@")[0],
+          nickname: session.user.email?.split("@")[0],
         });
 
         // Fetch real profile

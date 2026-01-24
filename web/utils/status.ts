@@ -1,50 +1,53 @@
 import { Player } from "../types";
+import i18n from "../i18n";
 
 export const getLobbyName = (lobby?: string | null) => {
   if (!lobby) return "";
-  const map: Record<string, string> = {
-    "5v5_pvp_ranked": "5v5排位",
-    "5v5_pvp_casual": "5v5匹配",
-    ranked: "3v3排位",
-    casual_aral: "大乱斗",
-    blitz_pvp_ranked: "闪电战",
-    "5v5_bots_solo": "5v5人机",
-    blitz_bots_solo: "闪电战人机",
-    solo_bots: "3v3人机",
-  };
-  return map[lobby] || "";
+  return i18n.t(`room.lobby.${lobby}`, { defaultValue: lobby });
 };
 
 export const getStatusDisplay = (user?: Player) => {
   if (!user)
-    return { text: "未知", color: "text-slate-400", dot: "bg-slate-500" };
+    return {
+      text: i18n.t("room.unknown"),
+      color: "text-slate-400",
+      dot: "bg-slate-500",
+    };
   if (!user?.activated)
-    return { text: "未绑定", color: "text-slate-400", dot: "bg-slate-500" };
+    return {
+      text: i18n.t("common.notBound"),
+      color: "text-slate-400",
+      dot: "bg-slate-500",
+    };
   const s = user.state?.toLowerCase();
   const lobby = user.lobby;
   if (s === "offline")
-    return { text: "游戏离线", color: "text-slate-400", dot: "bg-slate-500" };
+    return {
+      text: i18n.t("room.offline"),
+      color: "text-slate-400",
+      dot: "bg-slate-500",
+    };
   if (s === "online")
     return {
-      text: "游戏在线",
+      text: i18n.t("room.online"),
       color: "text-emerald-400",
       dot: "bg-emerald-500",
     };
   if (s === "matching")
     return {
-      text: `匹配中 (${getLobbyName(lobby)})`,
+      text: i18n.t("room.matching", { lobby: getLobbyName(lobby) }),
       color: "text-amber-400",
       dot: "bg-amber-500",
     };
   if (s === "gaming")
     return {
-      text: `游戏中 (${getLobbyName(lobby)})`,
+      text: i18n.t("room.gaming", { lobby: getLobbyName(lobby) }),
       color: "text-white",
       dot: "bg-red-600",
     };
   if (s === "recording")
     return {
-      text: `结算中 (${getLobbyName(lobby)})`,
+      text: i18n.t("room.recording", { lobby: getLobbyName(lobby) }),
       color: "text-white",
       dot: "bg-red-600",
     };
@@ -53,12 +56,60 @@ export const getStatusDisplay = (user?: Player) => {
 
 export const getRegionName = (region?: string) => {
   if (!region) return null;
+  return i18n.t(`room.region.${region}`, { defaultValue: region });
+};
+
+export const getReputationDisplay = (rep?: string) => {
+  if (!rep) return "";
   const map: Record<string, string> = {
-    sea: "东南亚",
-    na: "北美",
-    eu: "欧",
-    ea: "东亚",
-    sa: "南美",
+    "优": "excellent",
+    "excellent": "excellent",
+    "一般": "good",
+    "good": "good",
+    "差": "bad",
+    "bad": "bad",
   };
-  return map[region] || region;
+  const key = map[rep];
+  return key ? i18n.t(`room.reputationLevel.${key}`) : rep;
+};
+
+export const getReputationColor = (rep?: string) => {
+  if (!rep) return "text-slate-400";
+  const map: Record<string, string> = {
+    "优": "text-emerald-400",
+    "excellent": "text-emerald-400",
+    "一般": "text-amber-400",
+    "good": "text-amber-400",
+    "差": "text-red-400",
+    "bad": "text-red-400",
+  };
+  return map[rep] || "text-slate-400";
+};
+
+export const getRankTierDisplay = (tier?: string) => {
+  if (!tier) return "";
+  const map: Record<string, string> = {
+    "初出茅庐": "t1",
+    "t1": "t1",
+    "逐步成长": "t2",
+    "t2": "t2",
+    "铜头铁臂": "t3",
+    "t3": "t3",
+    "值得一战": "t4",
+    "t4": "t4",
+    "深藏不露": "t5",
+    "t5": "t5",
+    "名不虚传": "t6",
+    "t6": "t6",
+    "炉火纯青": "t7",
+    "t7": "t7",
+    "神乎其技": "t8",
+    "t8": "t8",
+    "登峰造极": "t9",
+    "t9": "t9",
+    "至尊荣耀": "t10",
+    "t10": "t10",
+  };
+  const key = map[tier];
+  return key ? i18n.t(`room.rankTier.${key}`) : tier;
 };

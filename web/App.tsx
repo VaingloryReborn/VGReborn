@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { AppTab, Room } from "./types";
 import LoginModal from "./components/LoginModal";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { ToastProvider } from "./contexts/ToastContext";
 import BottomNav from "./components/layout/BottomNav";
-import servers from "./assets/ea-servers.json";
 import { AlertCircle, X } from "lucide-react";
 import { supabase } from "./supabase";
 
@@ -19,6 +19,7 @@ import DynamicIsland from "./components/DynamicIsland";
 import { useRooms } from "./hooks/useRooms";
 
 const AppContent: React.FC = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<AppTab>("home");
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
@@ -27,6 +28,10 @@ const AppContent: React.FC = () => {
   const rooms = useRooms();
 
   const { user, isAuthLoading, logout } = useAuth();
+
+  useEffect(() => {
+    document.title = t("common.title");
+  }, [t]);
 
   useEffect(() => {
     const checkConnection = async () => {
@@ -82,7 +87,7 @@ const AppContent: React.FC = () => {
           <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span className="text-xs font-medium">
-              中间服务器连接失败，请检查网络
+              {t("common.serverConnectionError")}
             </span>
           </div>
           <button
