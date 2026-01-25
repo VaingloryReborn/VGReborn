@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Apple, Chrome } from "lucide-react";
-import mitmCert from "../../assets/certificates/mitmproxy-ca-cert.pem?url";
 import { useTranslation, Trans } from "react-i18next";
 
 import { useAuth } from "../../contexts/AuthContext";
@@ -81,7 +80,7 @@ const InstallTab: React.FC<InstallTabProps> = ({ onOpenLogin }) => {
                       <Trans i18nKey="guide.steps.installCert.desc1">
                         Use Safari to
                         <a
-                          href={mitmCert}
+                          href='/certificates/mitmproxy-ca-cert.pem'
                           download
                           className="underline text-red-500 mx-1"
                         >
