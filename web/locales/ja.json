@@ -14,7 +14,7 @@
     "philippines_manila": "フィリピン（マニラ）"
   },
   "common": {
-    "title": "VGReborn - ベイングローリー コミュニティエディション",
+    "title": "VGReborn - ベイングローリーをダウンロードして一緒にプレイ",
     "loading": "読み込み中...",
     "verifying": "本人確認中...",
     "welcomeBack": "ハルシオンフォルドへお帰りなさい",
@@ -41,6 +41,7 @@
   },
   "home": {
     "bannerSubtitle": "Vainglory CE サードパーティマッチメイキング (ベータ)",
+    "watchDemo": "デモを見る",
     "joinDescription": "<1>VPN+MITM</1>技術に基づき、ゲーム状態をVGRebornに自動的に紐付け、ランク戦、募集、フレンド、処罰などを実現します。",
     "joinLink": "始める",
     "liveStats": "リアルタイム対戦統計",

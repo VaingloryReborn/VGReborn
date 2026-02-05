@@ -4,6 +4,7 @@ import { VG_BACKGROUND } from '../../constants';
 
 const HomeBanner: React.FC = () => {
   const { t } = useTranslation();
+
   return (
     <div className="relative h-[240px] w-full flex flex-col items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0 bg-banner-mask banner-fade-in">

@@ -14,7 +14,7 @@
     "philippines_manila": "菲律宾（马尼拉）"
   },
   "common": {
-    "title": "VGReborn - 虚荣社区版匹配平台",
+    "title": "VGReborn - 下载和一起玩虚荣游戏",
     "loading": "加载中...",
     "verifying": "验证身份中...",
     "welcomeBack": "欢迎回到海希安",
@@ -41,6 +41,7 @@
   },
   "home": {
     "bannerSubtitle": "虚荣社区版第三方匹配平台（内测中）",
+    "watchDemo": "观看演示",
     "joinDescription": "基于 <1>加速器+MITM</1> 技术自动绑定游戏状态到VGReborn，为游戏带来排位、招募、好友、惩罚等机制。",
     "joinLink": "立即开始",
     "liveStats": "实时战场数据",

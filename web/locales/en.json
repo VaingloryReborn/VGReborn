@@ -14,7 +14,7 @@
     "philippines_manila": "Philippines (Manila)"
   },
   "common": {
-    "title": "VGReborn - Vainglory Community Edition",
+    "title": "VGReborn - Download and Play Vainglory Together",
     "loading": "Loading...",
     "verifying": "Verifying identity...",
     "welcomeBack": "Welcome back to Halcyon Fold",
@@ -41,6 +41,7 @@
   },
   "home": {
     "bannerSubtitle": "Vainglory Community Edition 3rd Party Matchmaking (Beta)",
+    "watchDemo": "Watch Demo",
     "joinDescription": "Based on <1>VPN+MITM</1> technology to automatically bind game state to VGReborn, bringing Ranked, Recruiting, Friends, Punishment etc.",
     "joinLink": "Get Started",
     "liveStats": "Live Battle Stats",
